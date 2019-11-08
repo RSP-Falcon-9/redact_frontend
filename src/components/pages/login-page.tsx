@@ -5,6 +5,7 @@ import { Redirect } from "react-router-dom";
 import { authRequest } from "store/auth/actions";
 import { ApplicationState } from "store/root";
 import { TITLE_BASE } from "utils/constants";
+import style from "components/pages/login-page-style.module.scss";
 
 interface PropsFromState {
     loading: boolean;
@@ -39,7 +40,7 @@ class LoginPage extends React.Component<AllProps, LoginPageState> {
 
         return <div className="login-box">
             <div className="login-box-inner">
-                <h1 className="text-center">Redact</h1>
+                <h1 className={style.test}>Redact</h1>
                 <LoginForm loading={loading} errors={errors} login={(username, password) => {
                     this.props.authRequest({username, password});
                 }} />

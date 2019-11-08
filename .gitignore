@@ -11,4 +11,4 @@
 .idea
 .eslintcache
 package-lock.json
-/dist
+/build

@@ -5,14 +5,11 @@ import configureStore from "configure-store";
 import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
 import * as React from "react";
-import * as ReactDOM from "react-dom";
-import { hot } from "react-hot-loader/root";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
-import PrivateRoute from "utils/components/private-route";
-
-require("../style/main.scss");
+//import PrivateRoute from "utils/components/private-route";
+import { AUTH_URL } from "utils/constants";
 
 interface ReduxWindow extends Window {
     initialReduxState: any;
@@ -25,16 +22,19 @@ library.add(faEdit, faSync, faTrash, faCheck, faDoorOpen, faPrint, faTimes, faPl
 const history = History.createBrowserHistory();
 const initialState = (window as unknown as ReduxWindow).initialReduxState;
 const storePersistor = configureStore(history, initialState);
-const entryCode = () => (
-    <Provider store={storePersistor.store}>
-        <PersistGate loading={null} persistor={storePersistor.persistor}>
-            <ConnectedRouter history={history}>
-                <Switch>
-                    <Route exact path={AUTH_URL} component={LoginPage} />
-                </Switch>
-            </ConnectedRouter>
-        </PersistGate>
-    </Provider>);
-const App = hot(entryCode);
 
-ReactDOM.render(<App />, document.getElementById("main-entry"));
+function App() {
+    return (
+        <Provider store={storePersistor.store}>
+            <PersistGate loading={null} persistor={storePersistor.persistor}>
+                <ConnectedRouter history={history}>
+                    <Switch>
+                        <Route exact path={AUTH_URL} component={LoginPage} />
+                    </Switch>
+                </ConnectedRouter>
+            </PersistGate>
+        </Provider>
+    );
+}
+
+export default App;
