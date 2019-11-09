@@ -23,7 +23,7 @@ class PrivateRoute extends Route<AllProps> {
 
  }
 
- const mapStateToProps = ({ auth }: ApplicationState) => ({
+const mapStateToProps = ({ auth }: ApplicationState) => ({
     authenticated: auth.authToken.length > 0,
 });
 

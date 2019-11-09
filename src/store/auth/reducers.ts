@@ -6,7 +6,8 @@ const initialState: AuthState = {
     loading: false,
     authToken: "",
     userName: "",
-    authTokenExpiration: undefined,
+    authTokenExpiration: new Date(),
+    roles: [],
     errors: undefined,
 };
 
@@ -25,7 +26,7 @@ export const authReducer: Reducer<AuthState> = (state = initialState, action) =>
             const jwtToken = decode(jwtTokenString[1]) as JWTTokenPayload;
 
             return { ...state, loading: false, authToken: jwtTokenString[1],
-                userName: jwtToken.sub, authTokenExpiration: jwtToken.exp, errors: undefined };
+                userName: jwtToken.sub, authTokenExpiration: jwtToken.exp, roles: jwtToken.roles, errors: undefined };
         }
         case AuthActionTypes.AUTH_ERROR: {
             return { ...state, loading: false, errors: action.payload };

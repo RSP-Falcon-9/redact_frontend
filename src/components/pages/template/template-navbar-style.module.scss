@@ -1,0 +1,12 @@
+@import "src/style/colors.scss";
+@import "src/style/variables.scss";
+
+.app_navbar {
+    border-radius: 0px $corner-radius 0px 0px;
+    background-color: $color-primary;
+    color: $color-primary-text;
+}
+
+.nav_link {
+    color: $color-primary-text;
+}

@@ -1,6 +1,6 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheck, faDoorOpen, faEdit, faPlus, faPrint, faQrcode, faSync, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
-import LoginPage from "components/pages/login-page";
+import { HomePage } from "components/pages/home-page";
 import configureStore from "configure-store";
 import { ConnectedRouter } from "connected-react-router";
 import * as History from "history";
@@ -8,8 +8,8 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
-//import PrivateRoute from "utils/components/private-route";
-import { AUTH_URL } from "utils/constants";
+// import PrivateRoute from "utils/components/private-route";
+import { HOME_URL } from "utils/constants";
 
 interface ReduxWindow extends Window {
     initialReduxState: any;
@@ -29,7 +29,7 @@ function App() {
             <PersistGate loading={null} persistor={storePersistor.persistor}>
                 <ConnectedRouter history={history}>
                     <Switch>
-                        <Route exact path={AUTH_URL} component={LoginPage} />
+                        <Route exact path={HOME_URL} component={HomePage} />
                     </Switch>
                 </ConnectedRouter>
             </PersistGate>

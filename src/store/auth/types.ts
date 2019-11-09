@@ -6,7 +6,7 @@ export enum AuthActionTypes {
 }
 
 export interface AuthRequest {
-    username: string;
+    userName: string;
     password: string;
 }
 
@@ -26,6 +26,7 @@ export interface AuthState {
     readonly loading: boolean;
     readonly authToken: string;
     readonly userName: string;
-    readonly authTokenExpiration?: Date;
+    readonly authTokenExpiration: Date;
+    readonly roles: string[];
     readonly errors?: string;
 }
