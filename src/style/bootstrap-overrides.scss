@@ -1,0 +1,7 @@
+@import "src/style/colors.scss";
+// Bootstrap overrides START
+
+$primary: $color-primary;
+
+// Bootstrap overrides END
+@import "~bootstrap/scss/bootstrap.scss";
