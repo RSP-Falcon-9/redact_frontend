@@ -6,7 +6,7 @@ export default class TemplateFooter extends React.Component<{}> {
     render() {
         return (
             <>
-                <footer className={"mt-3 py-3 " + style.app_footer}>
+                <footer className={"py-3 " + style.app_footer}>
                     <div className="text-center">Redact &copy; 2019</div>
                 </footer>
             </>

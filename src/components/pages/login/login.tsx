@@ -109,10 +109,10 @@ class Login extends React.Component<AllProps, LoginState> {
 
         return <>
             {componentToShow}
-            <Row>
+            {(loading || errors) && <Row>
                 {loading && (<Col><Spinner animation="border" variant="primary" className="mb-3 mx-auto" /></Col>)}
                 {errors && (<Col><Alert variant="danger" className="mx-auto flex-grow-1">Cannot authenticate!</Alert></Col>)}
-            </Row>
+            </Row>}
         </>;
     }
 

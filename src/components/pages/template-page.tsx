@@ -22,7 +22,7 @@ export class TemplatePage extends React.Component<Props> {
                     <Col><TemplateNavbar /></Col>
                 </Row>
                 <Row>
-                    <Col className={style.app_content}>{this.props.content}</Col>
+                    <Col><div className={style.app_content}>{this.props.content}</div></Col>
                 </Row>
                 <Row>
                     <Col><TemplateFooter /></Col>

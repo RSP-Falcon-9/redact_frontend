@@ -14,7 +14,7 @@ class TemplateNavbar extends React.Component<PropsFromState> {
 
     render() {
         return (
-            <Navbar variant="dark" className={"mb-3 " + style.app_navbar} expand="lg">
+            <Navbar variant="dark" className={style.app_navbar} expand="lg">
                 <Navbar.Toggle aria-controls="main-navbar" />
                 <Navbar.Collapse id="main-navbar">
                     <Nav className="mr-auto">

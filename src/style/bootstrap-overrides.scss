@@ -1,7 +1,21 @@
 @import "src/style/colors.scss";
-// Bootstrap overrides START
+// Bootstrap variable overrides START
 
 $primary: $color-primary;
 
-// Bootstrap overrides END
+// Bootstrap variable overrides END
 @import "~bootstrap/scss/bootstrap.scss";
+// Bootstrap style overrides START
+
+h2 {
+    margin-bottom: 12px;
+}
+
+body {
+    min-height: 100%;
+    background-repeat: no-repeat;
+    background-size: cover;
+    background-color: $background-color;
+}
+
+// Bootstrap style overrides END
