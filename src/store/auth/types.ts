@@ -1,4 +1,4 @@
-export enum AuthActionTypes {
+export enum AuthAction {
     AUTH_REQUEST = "@@auth/authorization",
     AUTH_SUCCESS = "@@auth/authorizationSuccess",
     AUTH_ERROR = "@@auth/authorizationError",
