@@ -2,7 +2,7 @@ import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import { callApi } from "utils/api";
 import { AUTH_URL } from "utils/constants";
 import { authError, authRequest, authSuccess } from "store/auth/actions";
-import { AuthActionTypes } from "store/auth/types";
+import { AuthAction } from "store/auth/types";
 
 function* handleAuth(action: ReturnType<typeof authRequest>) {
     try {
@@ -25,7 +25,7 @@ function* handleAuth(action: ReturnType<typeof authRequest>) {
 }
 
 function* watchAuthRequest() {
-    yield takeEvery(AuthActionTypes.AUTH_REQUEST, handleAuth);
+    yield takeEvery(AuthAction.AUTH_REQUEST, handleAuth);
 }
 
 function* authSaga() {

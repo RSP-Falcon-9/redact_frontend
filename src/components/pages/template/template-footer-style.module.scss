@@ -1,0 +1,8 @@
+@import "src/style/colors.scss";
+@import "src/style/variables.scss";
+
+.app_footer {
+    border-radius: 0px 0px 0px $corner-radius;
+    background-color: $color-primary;
+    color: $color-primary-text;
+}

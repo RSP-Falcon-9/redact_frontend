@@ -1,0 +1,16 @@
+@import "src/style/colors.scss";
+
+.app_container {
+    margin-top: 5%;
+}
+
+$horizontal-padding: 15px;
+$vertical-padding: 30px;
+
+.app_content {
+    background-color: white;
+    padding-top: $horizontal-padding;
+    padding-bottom: $horizontal-padding;
+    padding-right: $vertical-padding;
+    padding-left: $vertical-padding;
+}

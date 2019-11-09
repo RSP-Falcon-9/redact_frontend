@@ -5,9 +5,12 @@ import { all, fork } from "redux-saga/effects";
 import { authReducer } from "./auth/reducers";
 import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
+import { navigationReducer } from "./navigation/reducers";
+import { NavigationState } from "./navigation/types";
 
 export interface ApplicationState {
     auth: AuthState;
+    navigation: NavigationState;
     router: any;
 }
 
@@ -18,6 +21,7 @@ export interface ConnectedReduxProps<A extends Action = AnyAction> {
 export const createRootReducer = (history: History) =>
     combineReducers<ApplicationState>({
         auth: authReducer,
+        navigation: navigationReducer,
         router: connectRouter(history),
     });
 
