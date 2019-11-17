@@ -2,7 +2,7 @@ import * as React from "react";
 import { connect } from "react-redux";
 import { Redirect, Route, RouteProps } from "react-router-dom";
 import { ApplicationState } from "store/root";
-import { HOME_URL } from "utils/constants";
+import { HOME_URL } from "utils/navigation";
 
 interface PrivilegedRouteProps {
     role: string;

@@ -2,6 +2,10 @@ import { Store } from "redux";
 import { RolePath } from "store/navigation/types";
 import { navigationAddUrl } from "store/navigation/actions";
 
+export const HOME_URL = "/";
+export const AUTH_URL = "/login";
+export const ADMIN_URL = "/admin";
+
 export default class Navigation {
 
     store: Store;

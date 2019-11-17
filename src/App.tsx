@@ -1,6 +1,5 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheck, faDoorOpen, faEdit, faPlus, faPrint, faQrcode, faSync, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
-import EmptyComponent from "components/empty";
+import { faCheck, faDoorOpen, faEdit, faPlus, faTimes, faTrash, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { AdminUsers } from "components/pages/admin/admin-users";
 import { HomePage } from "components/pages/home-page";
 import PrivilegedRoute from "components/privileged-route";
@@ -12,7 +11,7 @@ import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
 // import PrivateRoute from "utils/components/private-route";
-import { HOME_URL } from "utils/constants";
+import { HOME_URL } from "utils/navigation";
 import Navigation from "utils/navigation";
 
 interface ReduxWindow extends Window {
@@ -20,7 +19,7 @@ interface ReduxWindow extends Window {
 }
 
 // stylization icons from fontawesome
-library.add(faEdit, faSync, faTrash, faCheck, faDoorOpen, faPrint, faTimes, faPlus, faQrcode);
+library.add(faEdit, faTrash, faCheck, faDoorOpen, faTimes, faPlus, faInfo);
 
 // app core components
 const history = History.createBrowserHistory();
@@ -30,9 +29,6 @@ const storePersistor = configureStore(history, initialState);
 function App() {
     const navigation = new Navigation(storePersistor.store);
     navigation.addNavigationRolePath({ path: "/admin/users", name: "Uživatelé", role: "ROLE_ADMIN", component: AdminUsers });
-    navigation.addNavigationRolePath({ path: "/admin/test2", name: "Test2", role: "ROLE_ADMIN", component: HomePage });
-    navigation.addNavigationRolePath({ path: "/admin/test3", name: "Test3", role: "ROLE_ADMIN", component: EmptyComponent });
-    navigation.addNavigationRolePath({ path: "/admin/test4", name: "Test4", role: "ROLE_ADMIN", component: HomePage });
 
     return (
         <Provider store={storePersistor.store}>

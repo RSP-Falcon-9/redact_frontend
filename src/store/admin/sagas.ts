@@ -2,7 +2,7 @@ import { all, call, fork, put, takeEvery } from "redux-saga/effects";
 import { getAllUsersError, getAllUsersSuccess } from "store/admin/actions";
 import { AdminAction, GET_ALL_USERS_URL } from "store/admin/types";
 import { callApi, getAuthToken } from "utils/api";
-import { ADMIN_URL } from "utils/constants";
+import { ADMIN_URL } from "utils/navigation";
 
 function* handleGetAllUsers() {
     try {

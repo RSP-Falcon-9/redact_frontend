@@ -8,13 +8,7 @@
     },
     {
       "type": "npm",
-      "script": "build:production",
-      "problemMatcher": []
-    },
-    {
-      "type": "npm",
-      "script": "build:dev",
-      "group": "build",
+      "script": "run build",
       "problemMatcher": []
     }
   ]

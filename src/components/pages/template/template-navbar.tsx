@@ -4,7 +4,8 @@ import { Nav, Navbar, NavDropdown } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Path } from "store/navigation/types";
 import { ApplicationState } from "store/root";
-import { HOME_URL, RolesMapping } from "utils/constants";
+import { RolesMapping } from "utils/constants";
+import { HOME_URL } from "utils/navigation";
 
 interface PropsFromState {
     authRoles: string[];
@@ -19,7 +20,7 @@ class TemplateNavbar extends React.Component<PropsFromState> {
                 <Navbar.Toggle aria-controls="main-navbar" />
                 <Navbar.Collapse id="main-navbar">
                     <Nav className="mr-auto">
-                        <Nav.Link href={HOME_URL}>Home</Nav.Link>
+                        <Nav.Link href={HOME_URL}>Domů</Nav.Link>
                         {Object.entries(this.props.rolePaths).map(([role, paths], index) => {
                             if (!this.props.authRoles.includes(role)) {
                                 return null;
