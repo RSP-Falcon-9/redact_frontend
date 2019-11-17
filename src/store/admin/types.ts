@@ -10,6 +10,7 @@ export interface GetAllUsersResponse {
 
 export interface User {
     userName: string;
+    roles: string[];
 }
 
 export interface AdminState {

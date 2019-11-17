@@ -6,6 +6,7 @@ import { getAllUsersRequest } from "store/admin/actions";
 import { User } from "store/admin/types";
 import { ApplicationState } from "store/root";
 import AdminAddUserModal from "./admin-add-user-modal";
+import AdminUserInfoModal from "./admin-user-info-modal";
 
 interface PropsFromState {
     currentUserName: string;
@@ -20,6 +21,9 @@ interface PropsFromDispatch {
 
 interface AdminUsersFormState {
     addUserModalActive: boolean;
+
+    userInfoModalActive: boolean;
+    selectedUser: User | null;
 }
 
 type AllProps = PropsFromState & PropsFromDispatch;
@@ -31,6 +35,8 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
 
         this.state = {
             addUserModalActive: false,
+            userInfoModalActive: false,
+            selectedUser: null,
         };
 
         this.onOpenAddUserModalClick = this.onOpenAddUserModalClick.bind(this);
@@ -42,6 +48,13 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
 
     onOpenAddUserModalClick() {
         this.setState({ addUserModalActive: true });
+    }
+
+    onSelectUserInfoClick(user: User) {
+        this.setState({
+            userInfoModalActive: true,
+            selectedUser: user,
+        });
     }
 
     render() {
@@ -67,7 +80,7 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
                         return <tr key={index}>
                             <td>{user.userName}</td>
                             <td>
-                                <Button variant="info" className="mr-3">
+                                <Button variant="info" className="mr-3" onClick={() => this.onSelectUserInfoClick(user)}>
                                     <FontAwesomeIcon icon="info" />
                                 </Button>
                                 <Button variant="danger" disabled={user.userName === this.props.currentUserName}>
@@ -81,6 +94,13 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
             <AdminAddUserModal show={this.state.addUserModalActive}
                 onModalClose={() => {
                     this.setState({ addUserModalActive: false });
+                }} />
+            <AdminUserInfoModal show={this.state.userInfoModalActive} user={this.state.selectedUser}
+                onModalClose={() => {
+                    this.setState({
+                        addUserModalActive: false,
+                        selectedUser: null,
+                    });
                 }} />
         </>;
     }
