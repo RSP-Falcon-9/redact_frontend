@@ -2,7 +2,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
 import { Alert, Button, Spinner, Table } from "react-bootstrap";
 import { connect } from "react-redux";
-import { getAllUsersRequest } from "store/admin/actions";
+import { getAllUsersRequest, deleteUserRequest } from "store/admin/actions";
 import { User } from "store/admin/types";
 import { ApplicationState } from "store/root";
 import AdminAddUserModal from "./admin-add-user-modal";
@@ -10,13 +10,14 @@ import AdminUserInfoModal from "./admin-user-info-modal";
 
 interface PropsFromState {
     currentUserName: string;
-    loading: boolean; // TODO: Move deeper into state.
+    loading: boolean;
     users: User[];
     errors?: string;
 }
 
 interface PropsFromDispatch {
     getAllUsersRequest: typeof getAllUsersRequest;
+    deleteUserRequest: typeof deleteUserRequest;
 }
 
 interface AdminUsersFormState {
@@ -83,7 +84,7 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
                                 <Button variant="info" className="mr-3" onClick={() => this.onSelectUserInfoClick(user)}>
                                     <FontAwesomeIcon icon="info" />
                                 </Button>
-                                <Button variant="danger" disabled={user.userName === this.props.currentUserName}>
+                                <Button variant="danger" disabled={user.userName === this.props.currentUserName} onClick={() => this.props.deleteUserRequest(user.userName)}>
                                     <FontAwesomeIcon icon="trash" />
                                 </Button>
                             </td>
@@ -109,13 +110,14 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
 
 const mapStateToProps = ({ auth, admin }: ApplicationState) => ({
     currentUserName: auth.userName,
-    loading: admin.loading,
-    users: admin.users,
-    errors: admin.errors,
+    loading: admin.getAllUsers.loading,
+    users: admin.getAllUsers.users,
+    errors: admin.getAllUsers.errors,
 });
 
 const mapDispatchToProps = {
     getAllUsersRequest,
+    deleteUserRequest,
 };
 
 export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(

@@ -1,42 +1,85 @@
 import * as React from "react";
 import { Alert, Button, Col, Container, Form, FormControlProps, Row, Spinner } from "react-bootstrap";
+import { connect } from "react-redux";
+import { createUserRequest } from "store/admin/actions";
+import { ApplicationState } from "store/root";
 import { RolesMapping } from "utils/constants";
 
-interface AdminAddNewUserFormProps {}
-
-interface AdminAddNewUserFormState {
-    editedEvent: Event;
+interface PropsFromState {
+    loading: boolean;
+    errors?: string;
 }
 
-export default class AdminAddNewUserForm extends React.Component<AdminAddNewUserFormProps, AdminAddNewUserFormState> {
+interface PropsFromDispatch {
+    createUserRequest: typeof createUserRequest;
+}
 
-    constructor(props: Readonly<AdminAddNewUserFormProps>) {
+interface AdminAddNewUserFormState {
+    userName: string;
+    password: string;
+    roles: string[];
+}
+
+type AllProps = PropsFromState & PropsFromDispatch;
+
+class AdminAddNewUserForm extends React.Component<AllProps, AdminAddNewUserFormState> {
+
+    constructor(props: Readonly<AllProps>) {
         super(props);
 
         this.handleChange = this.handleChange.bind(this);
+        this.handleRoleChange = this.handleRoleChange.bind(this);
         this.handleSubmit = this.handleSubmit.bind(this);
 
-        // this.state = { ...this.state, editedEvent: this.props.eventState.event };
+        this.state = {
+            userName: "",
+            password: "",
+            roles: [],
+        };
     }
-
-    /*componentDidUpdate(oldProps: AdminAddNewUserFormProps) {
-        if (oldProps.eventState.event !== this.props.eventState.event) {
-            this.setState({ editedEvent: this.props.eventState.event });
-        }
-    }*/
 
     handleChange(formEvent: React.FormEvent<FormControlProps>) {
         switch (formEvent.currentTarget.id) {
-            case "nameField": {
+            case "usernameField": {
+                this.setState({
+                    userName: formEvent.currentTarget.value!,
+                });
                 break;
             }
             case "passwordField": {
+                this.setState({
+                    password: formEvent.currentTarget.value!,
+                });
                 break;
             }
             default: {
                 break;
             }
         }
+    }
+
+    handleRoleChange(changeEvent: React.ChangeEvent<HTMLInputElement>) {
+        const checked = changeEvent.currentTarget.checked;
+        const value = changeEvent.currentTarget.value!;
+
+        this.setState(oldState => {
+            // add role if checkbox is checked else remove
+            if (checked) {
+                if (!oldState.roles.includes(value)) {
+                    return {
+                        roles: [...oldState.roles, value],
+                    };
+                }
+            } else {
+                if (oldState.roles.includes(value)) {
+                    return {
+                        roles: oldState.roles.filter(role => role !== value),
+                    };
+                }
+            }
+
+            return null;
+        });
     }
 
     handleSubmit(formEvent: React.FormEvent<HTMLFormElement>) {
@@ -47,10 +90,15 @@ export default class AdminAddNewUserForm extends React.Component<AdminAddNewUser
             formEvent.stopPropagation();
             return;
         }
+
+        this.props.createUserRequest(this.state.userName, {
+            password: this.state.password,
+            roles: this.state.roles,
+        });
     }
 
     render() {
-        // const { loading, errors } = this.props.eventState;
+        const { loading, errors } = this.props;
 
         return <>
             <Container>
@@ -65,8 +113,7 @@ export default class AdminAddNewUserForm extends React.Component<AdminAddNewUser
                                         required
                                         type="text"
                                         placeholder="Uživatelské jméno"
-                                        onChange={this.handleChange}
-                                    />
+                                        onChange={this.handleChange} />
                                 </Form.Group>
                                 <Form.Group as={Col}>
                                     <Form.Label>Heslo</Form.Label>
@@ -75,21 +122,27 @@ export default class AdminAddNewUserForm extends React.Component<AdminAddNewUser
                                         required
                                         type="password"
                                         placeholder="Heslo"
-                                        onChange={this.handleChange}
-                                    />
+                                        onChange={this.handleChange} />
                                 </Form.Group>
                             </Form.Row>
                             <Form.Row>
                                 <Form.Group as={Col}>
-                                    <Form.Label>Práva</Form.Label>
+                                    <Form.Label>Role</Form.Label>
                                     {Object.entries(RolesMapping).map((role, index) => {
-                                        return <Form.Check key={index} type="checkbox" label={role[1]} value={role[0]} />;
+                                        return <Form.Check
+                                            id={"rolesField_" + role[0]}
+                                            key={index}
+                                            type="checkbox"
+                                            label={role[1]}
+                                            value={role[0]}
+                                            checked={role[0] === "ROLE_USER"}
+                                            onChange={this.handleRoleChange} />;
                                     })}
                                 </Form.Group>
                             </Form.Row>
                             <Button variant="primary" type="submit" className="mb-3 float-right">Přidat nového uživatele</Button>
-                            {false && (<Spinner animation="border" variant="primary" />)}
-                            {false && (<Alert variant="danger">Momentálně nelze přidat uživatele.</Alert>)}
+                            {loading && (<Spinner animation="border" variant="primary" />)}
+                            {errors && (<Alert variant="danger">Momentálně nelze přidat uživatele.</Alert>)}
                         </Form>
                     </Col>
                 </Row>
@@ -98,3 +151,17 @@ export default class AdminAddNewUserForm extends React.Component<AdminAddNewUser
     }
 
 }
+
+const mapStateToProps = ({ admin }: ApplicationState) => ({
+    loading: admin.getAllUsers.loading,
+    errors: admin.getAllUsers.errors,
+});
+
+const mapDispatchToProps = {
+    createUserRequest,
+};
+
+export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(AdminAddNewUserForm);

@@ -2,7 +2,7 @@ import { connectRouter } from "connected-react-router";
 import { History } from "history";
 import { Action, AnyAction, combineReducers, Dispatch } from "redux";
 import { all, fork } from "redux-saga/effects";
-import { adminReducer } from "./admin/reducers";
+import { createUserReducer, deleteUserReducer, getAllUsersReducer } from "./admin/reducers";
 import adminSaga from "./admin/sagas";
 import { AdminState } from "./admin/types";
 import { authReducer } from "./auth/reducers";
@@ -12,10 +12,10 @@ import { navigationReducer } from "./navigation/reducers";
 import { NavigationState } from "./navigation/types";
 
 export interface ApplicationState {
-    auth: AuthState;
-    navigation: NavigationState;
-    admin: AdminState;
-    router: any;
+    readonly auth: AuthState;
+    readonly navigation: NavigationState;
+    readonly admin: AdminState;
+    readonly router: any;
 }
 
 export interface ConnectedReduxProps<A extends Action = AnyAction> {
@@ -26,7 +26,11 @@ export const createRootReducer = (history: History) =>
     combineReducers<ApplicationState>({
         auth: authReducer,
         navigation: navigationReducer,
-        admin: adminReducer,
+        admin: combineReducers<AdminState>({
+            getAllUsers: getAllUsersReducer,
+            createUser: createUserReducer,
+            deleteUser: deleteUserReducer,
+        }),
         router: connectRouter(history),
     });
 

@@ -1,6 +1,7 @@
-import { BACKEND_URL} from "utils/constants";
-import { ApplicationState } from "store/root";
 import { select } from "redux-saga/effects";
+import { ApplicationState } from "store/root";
+import { BACKEND_URL } from "utils/constants";
+import { ADMIN_URL } from "./navigation";
 
 export async function callApi(method: string, path: string, authToken?: string, data?: any) {
     const response = await fetch(BACKEND_URL + path, {
@@ -50,11 +51,11 @@ export async function callApiMultipart(method: string, path: string, data: any, 
     return await response.blob();
 }
 
-/*export async function callAdminApi(method: string, path: string, authToken?: string, data?: any) {
+export async function callAdminApi(method: string, path: string, authToken?: string, data?: any) {
     return callApi(method, ADMIN_URL + path, authToken, data);
 }
 
-export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {
+/*export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {
     return callApiMultipart(method, ADMIN_URL + path, data, authToken);
 }
 
