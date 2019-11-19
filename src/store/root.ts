@@ -2,7 +2,7 @@ import { connectRouter } from "connected-react-router";
 import { History } from "history";
 import { Action, AnyAction, combineReducers, Dispatch } from "redux";
 import { all, fork } from "redux-saga/effects";
-import { createUserReducer, deleteUserReducer, getAllUsersReducer } from "./admin/reducers";
+import { createUserReducer, deleteUserReducer, getAllUsersStateReducer } from "./admin/reducers";
 import adminSaga from "./admin/sagas";
 import { AdminState } from "./admin/types";
 import { authReducer } from "./auth/reducers";
@@ -27,7 +27,7 @@ export const createRootReducer = (history: History) =>
         auth: authReducer,
         navigation: navigationReducer,
         admin: combineReducers<AdminState>({
-            getAllUsers: getAllUsersReducer,
+            getAllUsers: getAllUsersStateReducer,
             createUser: createUserReducer,
             deleteUser: deleteUserReducer,
         }),

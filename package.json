@@ -1,6 +1,6 @@
 {
   "name": "redact_frontend",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Frontend for Redact system.",
   "private": true,
   "author": "Falcon 9",

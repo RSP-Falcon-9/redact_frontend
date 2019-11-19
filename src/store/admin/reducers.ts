@@ -7,7 +7,7 @@ const initialGetAllUsersState: GetAllUsersState = {
     errors: undefined,
 };
 
-export const getAllUsersReducer: Reducer<GetAllUsersState> = (state = initialGetAllUsersState, action) => {
+export const getAllUsersStateReducer: Reducer<GetAllUsersState> = (state = initialGetAllUsersState, action) => {
     switch (action.type) {
         case AdminAction.GET_ALL_USERS: {
             return { ...state, loading: true, errors: undefined };
@@ -19,8 +19,22 @@ export const getAllUsersReducer: Reducer<GetAllUsersState> = (state = initialGet
         }
         case AdminAction.CREATE_USER_SUCCESS: {
             const user = action.payload as User;
+            let userExists = false;
 
-            return { ...state, loading: false, users: [...state.users, user], errors: undefined };
+            let newUsersList = state.users.map(userInList => {
+                if (userInList.userName === user.userName) {
+                    userExists = true;
+                    return { ...userInList, roles: user.roles};
+                } else {
+                    return userInList;
+                }
+            });
+
+            if (!userExists) {
+                newUsersList = [ ...newUsersList, user ];
+            }
+
+            return { ...state, loading: false, users: newUsersList, errors: undefined };
         }
         case AdminAction.DELETE_USER_SUCCESS: {
             const deletedUserName = action.payload as string;

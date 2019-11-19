@@ -3,6 +3,13 @@ import { ApplicationState } from "store/root";
 import { BACKEND_URL } from "utils/constants";
 import { ADMIN_URL } from "./navigation";
 
+export enum Method {
+    Get = "get",
+    Put = "put",
+    Post = "post",
+    Delete = "delete",
+}
+
 export async function callApi(method: string, path: string, authToken?: string, data?: any) {
     const response = await fetch(BACKEND_URL + path, {
         method,

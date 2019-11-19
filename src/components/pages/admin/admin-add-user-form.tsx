@@ -135,7 +135,7 @@ class AdminAddNewUserForm extends React.Component<AllProps, AdminAddNewUserFormS
                                             type="checkbox"
                                             label={role[1]}
                                             value={role[0]}
-                                            checked={role[0] === "ROLE_USER"}
+                                            defaultChecked={role[0] === "ROLE_USER"}
                                             onChange={this.handleRoleChange} />;
                                     })}
                                 </Form.Group>

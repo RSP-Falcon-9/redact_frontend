@@ -1,11 +1,11 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { createUserError, createUserRequest, createUserSuccess, deleteUserError, deleteUserRequest, deleteUserSuccess, getAllUsersError, getAllUsersSuccess } from "store/admin/actions";
 import { AdminAction, GET_ALL_USERS_URL, USER_URL } from "store/admin/types";
-import { callAdminApi, getAuthToken } from "utils/api";
+import { callAdminApi, getAuthToken, Method } from "utils/api";
 
 function* handleGetAllUsers() {
     try {
-        const response = yield call(callAdminApi, "get", GET_ALL_USERS_URL, yield getAuthToken());
+        const response = yield call(callAdminApi, Method.Get, GET_ALL_USERS_URL, yield getAuthToken());
 
         if (response.error) {
             console.error("There was error with get all users: " + response.error);
@@ -25,7 +25,7 @@ function* handleGetAllUsers() {
 
 function* handleCreateUser(action: ReturnType<typeof createUserRequest>) {
     try {
-        const response = yield call(callAdminApi, "post", USER_URL + action.payload.userName, yield getAuthToken(), action.payload.data);
+        const response = yield call(callAdminApi, Method.Post, USER_URL + action.payload.userName, yield getAuthToken(), action.payload.data);
 
         if (response.error) {
             console.error("There was error with create user: " + response.error);
@@ -48,7 +48,7 @@ function* handleCreateUser(action: ReturnType<typeof createUserRequest>) {
 
 function* handleDeleteUser(action: ReturnType<typeof deleteUserRequest>) {
     try {
-        const response = yield call(callAdminApi, "post", USER_URL + action.payload, yield getAuthToken());
+        const response = yield call(callAdminApi, Method.Delete, USER_URL + action.payload, yield getAuthToken());
 
         if (response.error) {
             console.error("There was error with delete user: " + response.error);

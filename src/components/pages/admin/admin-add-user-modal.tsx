@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Modal } from "react-bootstrap";
+import { Modal } from "react-bootstrap";
 import AdminAddNewUserForm from "./admin-add-user-form";
 
 interface AdminAddUserModalProps {
@@ -24,9 +24,6 @@ export default class AdminAddUserModal extends React.Component<AdminAddUserModal
                 <Modal.Body>
                     <AdminAddNewUserForm />
                 </Modal.Body>
-                <Modal.Footer>
-                    <Button onClick={this.props.onModalClose}>Close</Button>
-                </Modal.Footer>
             </Modal>
         </>;
     }
