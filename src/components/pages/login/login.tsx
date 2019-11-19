@@ -69,7 +69,7 @@ class Login extends React.Component<AllProps, LoginState> {
 
         let componentToShow = !this.props.authenticated ? (
             <Form onSubmit={this.handleSubmit}>
-                <Row>
+                <Row noGutters={true}>
                     <Col>
                         <Form.Control
                             id="usernameField"
@@ -95,7 +95,7 @@ class Login extends React.Component<AllProps, LoginState> {
                     </Col>
                 </Row>
             </Form>) : (
-                <Row>
+                <Row noGutters={true}>
                     <Col>Vítejte, {this.props.userName}</Col>
                     <Col>
                         <Button variant="primary" size="sm" onClick={() => {

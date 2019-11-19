@@ -8,6 +8,7 @@ export default class TemplateFooter extends React.Component<{}> {
             <>
                 <footer className={"py-3 " + style.app_footer}>
                     <div className="text-center">Redact &copy; 2019</div>
+                    <div className="text-center">Version {process.env.REACT_APP_VERSION}</div>
                 </footer>
             </>
         );

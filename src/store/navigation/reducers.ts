@@ -9,13 +9,20 @@ export const navigationReducer: Reducer<NavigationState> = (state = initialState
     switch (action.type) {
         case NavigationAction.NAVIGATION_ADD_ROLE_PATH: {
             const rolePath = action.payload as RolePath;
-            const newRolePaths = { ...state.rolePaths };
+            const path = { name: rolePath.name, path: rolePath.path };
+            let newRolePaths = { ...state.rolePaths };
+            let roleExists = false;
 
             Object.entries(newRolePaths).forEach(([role, paths]) => {
-                if (role === rolePath.name) {
-                    newRolePaths[role] = [ ...paths, { name: rolePath.name, path: rolePath.path } ];
+                if (role === rolePath.role) {
+                    newRolePaths[role] = [ ...paths, path];
+                    roleExists = true;
                 }
             });
+
+            if (!roleExists) {
+                newRolePaths = { ...newRolePaths, [rolePath.role]: [ path ] };
+            }
 
             return { ...state, rolePaths: newRolePaths };
         }
