@@ -1,13 +1,13 @@
 import * as React from "react";
 import { TemplatePage } from "components/pages/template/template-page";
-import AdminUsersTable from "./admin-users-table";
+import ArticleList from "components/pages/common/common-article-list";
 
-export class AdminUsers extends React.Component<{}> {
+export class AuthorMyArticles extends React.Component<{}> {
 
     content(): JSX.Element {
         return <>
-            <h2>Správa uživatelů</h2>
-            <AdminUsersTable />
+            <h2>Moje články</h2>
+            <ArticleList />
         </>;
     }
 
