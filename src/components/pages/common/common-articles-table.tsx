@@ -40,8 +40,10 @@ export class ArticlesTable extends React.Component<AllProps> {
                     </tr>
                 </thead>
                 <tbody>
-                    {this.props.articles.map(article => {
-                        return this.tableArticleRow(article);
+                    {this.props.articles.map((article, index) => {
+                        return <tr key={index}>
+                            {this.tableArticleRow(article)}
+                        </tr>;
                     })}
                 </tbody>
             </Table>
@@ -58,11 +60,9 @@ export class ArticlesTable extends React.Component<AllProps> {
 
     tableArticleRow(article: Article): JSX.Element {
         return <>
-            <tr>
-                <td><Link to={`/article/${article.id}`}>{article.name}</Link></td>
-                <td>{article.versions[0].publishDate}</td>
-                <td><FontAwesomeIcon icon="times" /></td>
-            </tr>
+            <td><Link to={`/article/${article.id}`}>{article.name}</Link></td>
+            <td>{article.versions[0].publishDate}</td>
+            <td><FontAwesomeIcon icon="times" /></td>
         </>;
     }
 
