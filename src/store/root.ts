@@ -10,11 +10,15 @@ import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
 import { navigationReducer } from "./navigation/reducers";
 import { NavigationState } from "./navigation/types";
+import articleSaga from "./articles/sagas";
+import { ArticleState } from "./articles/types";
+import { getArticlesStateReducer } from "./articles/reducers";
 
 export interface ApplicationState {
     readonly auth: AuthState;
     readonly navigation: NavigationState;
     readonly admin: AdminState;
+    readonly articles: ArticleState;
     readonly router: any;
 }
 
@@ -31,9 +35,12 @@ export const createRootReducer = (history: History) =>
             createUser: createUserReducer,
             deleteUser: deleteUserReducer,
         }),
+        articles: combineReducers<ArticleState>({
+            getArticles: getArticlesStateReducer,
+        }),
         router: connectRouter(history),
     });
 
 export function* rootSaga() {
-    yield all([fork(authSaga), fork(adminSaga)]);
+    yield all([fork(authSaga), fork(adminSaga), fork(articleSaga)]);
 }
