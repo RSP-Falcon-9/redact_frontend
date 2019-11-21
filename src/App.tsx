@@ -2,6 +2,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { faCheck, faDoorOpen, faEdit, faPlus, faTimes, faTrash, faInfo } from "@fortawesome/free-solid-svg-icons";
 import { AdminUsers } from "components/pages/admin/admin-users";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
+import { AuthorNewArticle } from "components/pages/author/author-new-article";
 import { ReviewerAssignedArticles } from "components/pages/reviewer/reviewer-assigned-articles";
 import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
 import { HomePage } from "components/pages/home-page";
@@ -32,6 +33,7 @@ const storePersistor = configureStore(history, initialState);
 function App() {
     const navigation = new Navigation(storePersistor.store);
     navigation.addNavigationRolePath({ path: "/admin/users", name: "Uživatelé", role: "ROLE_ADMIN", component: AdminUsers });
+    navigation.addNavigationRolePath({ path: "/author/articles/new", name: "Nahrát nový článek", role: "ROLE_AUTHOR", component: AuthorNewArticle });
     navigation.addNavigationRolePath({ path: "/author/articles", name: "Moje články", role: "ROLE_AUTHOR", component: AuthorMyArticles });
     navigation.addNavigationRolePath({ path: "/reviewer/articles", name: "Články k recenzi", role: "ROLE_REVIEWER", component: ReviewerAssignedArticles });
     navigation.addNavigationRolePath({ path: "/editor/articles", name: "Žádosti o posudek", role: "ROLE_EDITOR", component: EditorPendingArticles });

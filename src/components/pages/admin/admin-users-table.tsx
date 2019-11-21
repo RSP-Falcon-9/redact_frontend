@@ -71,10 +71,10 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
             </Button>
             <Table striped bordered hover>
                 <thead>
-                <tr>
-                    <th>Uživatelské jméno</th>
-                    <th>Akce</th>
-                </tr>
+                    <tr>
+                        <th>Uživatelské jméno</th>
+                        <th>Akce</th>
+                    </tr>
                 </thead>
                 <tbody>
                     {this.props.users.map((user, index) => {
