@@ -48,7 +48,7 @@ function App() {
                         {navigation.rolePaths.map((rolePath, index) => {
                             return <PrivilegedRoute key={"privileged_route_" + index} exact path={rolePath.path} component={rolePath.component} role={rolePath.role} />;
                         })}
-                        <PrivilegedRoute key="show_article_id" path="/article/:id" role="ROLE_AUTHOR" component={ArticleDetail} />
+                        <PrivilegedRoute path="/article/:id" role="ROLE_AUTHOR" component={ArticleDetail} />
                     </Switch>
                 </ConnectedRouter>
             </PersistGate>
