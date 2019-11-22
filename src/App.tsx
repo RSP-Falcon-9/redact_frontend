@@ -5,6 +5,7 @@ import { AuthorMyArticles } from "components/pages/author/author-my-articles";
 import { AuthorNewArticle } from "components/pages/author/author-new-article";
 import { ReviewerAssignedArticles } from "components/pages/reviewer/reviewer-assigned-articles";
 import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
+import { ArticleDetail } from "components/pages/common/common-article-detail";
 import { HomePage } from "components/pages/home-page";
 import PrivilegedRoute from "components/privileged-route";
 import configureStore from "configure-store";
@@ -47,6 +48,7 @@ function App() {
                         {navigation.rolePaths.map((rolePath, index) => {
                             return <PrivilegedRoute key={"privileged_route_" + index} exact path={rolePath.path} component={rolePath.component} role={rolePath.role} />;
                         })}
+                        <PrivilegedRoute key="show_article_id" path="/article/:id" role="ROLE_AUTHOR" component={ArticleDetail} />
                     </Switch>
                 </ConnectedRouter>
             </PersistGate>
