@@ -1,13 +1,16 @@
 import * as React from "react";
 import { TemplatePage } from "components/pages/template/template-page";
-import AdminUsersTable from "./admin-users-table";
+import { RouteComponentProps } from "react-router";
 
-export class AdminUsers extends React.Component<{}> {
+interface RouteProps {
+    id: string;
+}
+
+export class ArticleDetail extends React.Component<RouteComponentProps<RouteProps>> {
 
     content(): JSX.Element {
         return <>
-            <h2>Správa uživatelů</h2>
-            <AdminUsersTable />
+            <h2>Článek #{this.props.match.params.id}</h2>
         </>;
     }
 

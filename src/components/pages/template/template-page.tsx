@@ -1,9 +1,9 @@
 import * as React from "react";
-import TemplateNavbar from "./template/template-navbar";
-import TemplateFooter from "./template/template-footer";
+import TemplateNavbar from "components/pages/template/template-navbar";
+import TemplateFooter from "components/pages/template/template-footer";
 import style from "./template-page-style.module.scss";
 import { Container, Row, Col } from "react-bootstrap";
-import LoginForm from "./login/login";
+import LoginForm from "components/pages/common/common-login";
 
 interface Props {
     content: JSX.Element;

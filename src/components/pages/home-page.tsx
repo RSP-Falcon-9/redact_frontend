@@ -1,5 +1,5 @@
 import * as React from "react";
-import { TemplatePage } from "components/pages/template-page";
+import { TemplatePage } from "components/pages/template/template-page";
 
 export class HomePage extends React.Component<{}> {
 

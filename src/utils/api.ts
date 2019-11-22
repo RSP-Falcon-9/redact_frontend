@@ -1,7 +1,7 @@
 import { select } from "redux-saga/effects";
 import { ApplicationState } from "store/root";
 import { BACKEND_URL } from "utils/constants";
-import { ADMIN_URL } from "./navigation";
+import { ADMIN_URL, AUTHOR_URL } from "./navigation";
 
 export enum Method {
     Get = "get",
@@ -60,6 +60,10 @@ export async function callApiMultipart(method: string, path: string, data: any, 
 
 export async function callAdminApi(method: string, path: string, authToken?: string, data?: any) {
     return callApi(method, ADMIN_URL + path, authToken, data);
+}
+
+export async function callAuthorApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, AUTHOR_URL + path, authToken, data);
 }
 
 /*export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {
