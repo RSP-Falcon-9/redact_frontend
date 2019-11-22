@@ -35,6 +35,15 @@ export class ArticleDetail extends React.Component<RouteComponentProps<RouteProp
             </Button>
 
             <h3>Komentáře</h3>
+
+            <div className="row">
+                <textarea className="col-md"></textarea>
+            </div>
+
+            <Button variant="primary" className="mt-3 mb-3" onClick={() => this.onAddCommentClick()}>
+                Přidat komentář
+            </Button>
+
             <Table>
                 <tbody>
                     {this.messages.map((message, index) => {
@@ -52,6 +61,10 @@ export class ArticleDetail extends React.Component<RouteComponentProps<RouteProp
     }
 
     onAproveClick() {
+        // TODO: do stuff
+    }
+
+    onAddCommentClick() {
         // TODO: do stuff
     }
 
