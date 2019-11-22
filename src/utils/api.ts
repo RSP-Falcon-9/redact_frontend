@@ -29,7 +29,6 @@ export async function callApiBlob(method: string, path: string, authToken?: stri
         method,
         headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
             authorization: authToken ? "bearer " + authToken : "",
         },
         body: JSON.stringify(data),
@@ -42,7 +41,7 @@ export async function callApiMultipart(method: string, path: string, data: any, 
     const fdata = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
-        const typedVal = value as Blob;
+        const typedVal = value as any;
         fdata.append(key, typedVal);
     }
 
@@ -64,6 +63,14 @@ export async function callAdminApi(method: string, path: string, authToken?: str
 
 export async function callAuthorApi(method: string, path: string, authToken?: string, data?: any) {
     return callApi(method, AUTHOR_URL + path, authToken, data);
+}
+
+export async function callAuthorApiMultipart(method: string, path: string, authToken?: string, data?: any) {
+    return callApiMultipart(method, AUTHOR_URL + path, data, authToken);
+}
+
+export async function callAuthorApiBlob(method: string, path: string, authToken?: string, data?: any) {
+    return callApiBlob(method, AUTHOR_URL + path, authToken, data);
 }
 
 /*export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {

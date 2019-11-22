@@ -1,11 +1,28 @@
-import * as React from "react";
 import { TemplatePage } from "components/pages/template/template-page";
+import * as React from "react";
+import { Button, Table, Spinner, Alert } from "react-bootstrap";
+import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
-import { Table, Button } from "react-bootstrap";
+import { getArticleDetailRequest, getArticleFileRequest } from "store/author/actions";
+import { ApplicationState } from "store/root";
 
 interface RouteProps {
     id: string;
 }
+
+interface PropsFromState {
+    loading: boolean;
+    errors?: string;
+    name: string;
+    fileUrl?: string;
+}
+
+interface PropsFromDispatch {
+    getArticleDetailRequest: typeof getArticleDetailRequest;
+    getArticleFileRequest: typeof getArticleFileRequest;
+}
+
+type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
 
 interface Message {
     id: string;
@@ -13,7 +30,7 @@ interface Message {
     content: string;
 }
 
-export class ArticleDetail extends React.Component<RouteComponentProps<RouteProps>> {
+class ArticleDetail extends React.Component<AllProps<RouteProps>> {
 
     messages: Message[] = [
         { id: "m1", author: "reviewer", content: "Předělej tohle" },
@@ -22,9 +39,24 @@ export class ArticleDetail extends React.Component<RouteComponentProps<RouteProp
         { id: "m4", author: "author", content: "Hotovo." },
     ];
 
+    componentDidMount() {
+        this.props.getArticleDetailRequest({ articleId: this.props.match.params.id, version: 0 });
+        this.props.getArticleFileRequest({ articleId: this.props.match.params.id, version: 0 });
+    }
+
     content(): JSX.Element {
+        if (this.props.loading) {
+            return <Spinner animation="border" variant="primary" />;
+        }
+
+        if (this.props.errors) {
+            return <Alert variant="danger">Nelze načíst detail článku {this.props.match.params.id}!</Alert>;
+        }
+
         return <>
-            <h2>Článek #{this.props.match.params.id}</h2>
+            <h2>{this.props.name}</h2>
+
+            {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
             <Button variant="primary" className="mt-3 mb-3" onClick={() => this.onDownloadClick()}>
                 Stáhnout poslední verzi (DATUM)
@@ -67,3 +99,20 @@ export class ArticleDetail extends React.Component<RouteComponentProps<RouteProp
     }
 
 }
+
+const mapStateToProps = ({ author }: ApplicationState) => ({
+    loading: author.getArticleDetail.loading,
+    errors: author.getArticleDetail.errors,
+    name: author.getArticleDetail.name,
+    fileUrl: author.getArticleFile.fileUrl,
+});
+
+const mapDispatchToProps = {
+    getArticleDetailRequest,
+    getArticleFileRequest,
+};
+
+export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(
+    mapStateToProps,
+    mapDispatchToProps,
+)(ArticleDetail);

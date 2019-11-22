@@ -5,19 +5,23 @@ import { all, fork } from "redux-saga/effects";
 import { createUserReducer, deleteUserReducer, getAllUsersStateReducer } from "./admin/reducers";
 import adminSaga from "./admin/sagas";
 import { AdminState } from "./admin/types";
+import { getArticlesStateReducer } from "./articles/reducers";
+import articleSaga from "./articles/sagas";
+import { ArticleState } from "./articles/types";
 import { authReducer } from "./auth/reducers";
 import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
+import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, getAuthorArticleFileStateReducer } from "./author/reducers";
+import authorSaga from "./author/sagas";
+import { AuthorState } from "./author/types";
 import { navigationReducer } from "./navigation/reducers";
 import { NavigationState } from "./navigation/types";
-import articleSaga from "./articles/sagas";
-import { ArticleState } from "./articles/types";
-import { getArticlesStateReducer } from "./articles/reducers";
 
 export interface ApplicationState {
     readonly auth: AuthState;
     readonly navigation: NavigationState;
     readonly admin: AdminState;
+    readonly author: AuthorState;
     readonly articles: ArticleState;
     readonly router: any;
 }
@@ -35,6 +39,12 @@ export const createRootReducer = (history: History) =>
             createUser: createUserReducer,
             deleteUser: deleteUserReducer,
         }),
+        author: combineReducers<AuthorState>({
+            getArticles: getAuthorArticlesStateReducer,
+            createArticle: createArticleStateReducer,
+            getArticleDetail: getAuthorArticleDetailStateReducer,
+            getArticleFile: getAuthorArticleFileStateReducer,
+        }),
         articles: combineReducers<ArticleState>({
             getArticles: getArticlesStateReducer,
         }),
@@ -42,5 +52,5 @@ export const createRootReducer = (history: History) =>
     });
 
 export function* rootSaga() {
-    yield all([fork(authSaga), fork(adminSaga), fork(articleSaga)]);
+    yield all([fork(authSaga), fork(adminSaga), fork(authorSaga), fork(articleSaga)]);
 }
