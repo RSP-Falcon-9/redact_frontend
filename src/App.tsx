@@ -1,12 +1,13 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheck, faDoorOpen, faEdit, faPlus, faTimes, faTrash, faInfo } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faDoorOpen, faEdit, faInfo, faPlus, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
 import { AdminUsers } from "components/pages/admin/admin-users";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
 import AuthorNewArticle from "components/pages/author/author-new-article";
-import { ReviewerAssignedArticles } from "components/pages/reviewer/reviewer-assigned-articles";
-import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
+import AuthorUpdateArticle from "components/pages/author/author-update-article";
 import ArticleDetail from "components/pages/common/common-article-detail";
+import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
 import { HomePage } from "components/pages/home-page";
+import { ReviewerAssignedArticles } from "components/pages/reviewer/reviewer-assigned-articles";
 import PrivilegedRoute from "components/privileged-route";
 import configureStore from "configure-store";
 import { ConnectedRouter } from "connected-react-router";
@@ -15,9 +16,7 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
-// import PrivateRoute from "utils/components/private-route";
-import { HOME_URL } from "utils/navigation";
-import Navigation from "utils/navigation";
+import Navigation, { HOME_URL } from "utils/navigation";
 
 interface ReduxWindow extends Window {
     initialReduxState: any;
@@ -48,7 +47,8 @@ function App() {
                         {navigation.rolePaths.map((rolePath, index) => {
                             return <PrivilegedRoute key={"privileged_route_" + index} exact path={rolePath.path} component={rolePath.component} role={rolePath.role} />;
                         })}
-                        <PrivilegedRoute path="/article/:id" role="ROLE_AUTHOR" component={ArticleDetail} />
+                        <PrivilegedRoute path="/author/article/:id/:version" role="ROLE_AUTHOR" component={ArticleDetail} />
+                        <PrivilegedRoute path="/author/articles/new/:id" role="ROLE_AUTHOR" component={AuthorUpdateArticle} />
                     </Switch>
                 </ConnectedRouter>
             </PersistGate>

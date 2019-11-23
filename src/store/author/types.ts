@@ -7,16 +7,16 @@ export enum AuthorAction {
     CREATE_ARTICLE_SUCCESS = "@author/createArticleSuccess",
     CREATE_ARTICLE_ERROR = "@author/createArticleError",
 
+    UPDATE_ARTICLE = "@@author/updateArticle",
+    UPDATE_ARTICLE_SUCCESS = "@author/updateArticleSuccess",
+    UPDATE_ARTICLE_ERROR = "@author/updateArticleError",
+
     GET_ARTICLE_DETAIL = "@@author/getArticleDetail",
     GET_ARTICLE_DETAIL_SUCCESS = "@author/getArticleDetailSuccess",
     GET_ARTICLE_DETAIL_ERROR = "@author/getArticleDetailError",
-
-    GET_ARTICLE_FILE = "@@author/getArticleFile",
-    GET_ARTICLE_FILE_SUCCESS = "@author/getArticleFileSuccess",
-    GET_ARTICLE_FILE_ERROR = "@author/getArticleFileError",
 }
 
-interface ArticleVersion {
+export interface ArticleVersion {
     version: number;
     fileName: string;
     publishDate: Date;
@@ -28,12 +28,26 @@ export interface Article {
     versions: ArticleVersion[];
 }
 
+export interface AuthorArticleReview {
+    id: string;
+    interest: number;
+    originality: number;
+    specializationLevel: number;
+    languageLevel: number;
+    comment: string;
+}
+
 export interface GetArticlesResponse {
     articles: Article[];
 }
 
 export interface CreateArticleRequest {
     name: string;
+    file: File;
+}
+
+export interface UpdateArticleRequest {
+    id: string;
     file: File;
 }
 
@@ -44,15 +58,7 @@ export interface GetArticleDetailRequest {
 
 export interface GetArticleDetailResponse {
     name: string;
-}
-
-export interface GetArticleFileRequest {
-    articleId: string;
-    version: number;
-}
-
-export interface GetArticleFileResponse {
-    data: Int8Array;
+    reviews: AuthorArticleReview[];
 }
 
 export interface GetArticlesState {
@@ -68,6 +74,12 @@ export interface CreateArticleState {
     readonly errors?: string;
 }
 
+export interface UpdateArticleState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly errors?: string;
+}
+
 export interface GetArticleDetailState {
     readonly loading: boolean;
     readonly message: string;
@@ -75,18 +87,11 @@ export interface GetArticleDetailState {
     readonly name: string;
 }
 
-export interface GetArticleFileState {
-    readonly loading: boolean;
-    readonly message: string;
-    readonly errors?: string;
-    readonly fileUrl?: string;
-}
-
 export interface AuthorState {
     readonly getArticles: GetArticlesState;
     readonly createArticle: CreateArticleState;
+    readonly updateArticle: UpdateArticleState;
     readonly getArticleDetail: GetArticleDetailState;
-    readonly getArticleFile: GetArticleFileState;
 }
 
 export const GET_ARTICLES_URL = "/articles";

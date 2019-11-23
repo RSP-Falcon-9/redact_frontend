@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { GetArticlesState, AuthorAction, GetArticlesResponse, CreateArticleState, GetArticleDetailState, GetArticleDetailResponse, GetArticleFileState, GetArticleFileResponse } from "./types";
+import { GetArticlesState, AuthorAction, GetArticlesResponse, CreateArticleState, GetArticleDetailState, GetArticleDetailResponse, UpdateArticleState } from "./types";
 
 const initialGetArticlesState: GetArticlesState = {
     loading: false,
@@ -50,6 +50,29 @@ export const createArticleStateReducer: Reducer<CreateArticleState> = (state = i
     }
 };
 
+const initialUpdateArticleState: UpdateArticleState = {
+    loading: false,
+    message: "",
+    errors: undefined,
+};
+
+export const updateArticleStateReducer: Reducer<UpdateArticleState> = (state = initialUpdateArticleState, action) => {
+    switch (action.type) {
+        case AuthorAction.CREATE_ARTICLE: {
+            return { ...state, loading: true, errors: undefined };
+        }
+        case AuthorAction.CREATE_ARTICLE_SUCCESS: {
+            return { ...state, loading: false, message: action.payload.message, errors: undefined };
+        }
+        case AuthorAction.GET_ARTICLES_ERROR: {
+            return { ...state, loading: false, errors: action.payload.error };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
 const initialGetArticleDetailState: GetArticleDetailState = {
     loading: false,
     message: "",
@@ -68,32 +91,6 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
             return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name };
         }
         case AuthorAction.GET_ARTICLE_DETAIL_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
-        }
-        default: {
-            return state;
-        }
-    }
-};
-
-const initialGetArticleFileState: GetArticleFileState = {
-    loading: false,
-    message: "",
-    errors: undefined,
-    fileUrl: undefined,
-};
-
-export const getAuthorArticleFileStateReducer: Reducer<GetArticleFileState> = (state = initialGetArticleFileState, action) => {
-    switch (action.type) {
-        case AuthorAction.GET_ARTICLE_FILE: {
-            return { ...state, loading: true, errors: undefined };
-        }
-        case AuthorAction.GET_ARTICLE_FILE_SUCCESS: {
-            const fileResponse = action.payload as GetArticleFileResponse;
-
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, fileUrl: URL.createObjectURL(fileResponse.data) };
-        }
-        case AuthorAction.GET_ARTICLE_FILE_ERROR: {
             return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
         }
         default: {

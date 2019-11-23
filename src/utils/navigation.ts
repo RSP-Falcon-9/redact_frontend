@@ -6,6 +6,7 @@ export const HOME_URL = "/";
 export const AUTH_URL = "/login";
 export const ADMIN_URL = "/admin";
 export const AUTHOR_URL = "/author";
+export const ARTICLE_URL = "/article";
 
 export default class Navigation {
 

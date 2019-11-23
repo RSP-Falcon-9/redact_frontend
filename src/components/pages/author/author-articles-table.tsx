@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, Spinner, Table } from "react-bootstrap";
+import { Alert, Spinner, Table, Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getArticlesRequest } from "store/author/actions";
 import { Article } from "store/author/types";
@@ -19,7 +19,7 @@ interface PropsFromDispatch {
 
 type AllProps = PropsFromState & PropsFromDispatch;
 
-export class ArticlesTable extends React.Component<AllProps> {
+class AuthorArticlesTable extends React.Component<AllProps> {
 
     componentDidMount() {
         this.props.getArticlesRequest();
@@ -53,16 +53,37 @@ export class ArticlesTable extends React.Component<AllProps> {
     tableHeader(): JSX.Element {
         return <>
             <th>Název článku</th>
-            <th>Datum poslední revize</th>
-            <th>Prošlo recenzí?</th>
+            <th>Verze</th>
+            <th>Datum poslední verze</th>
         </>;
     }
 
     tableArticleRow(article: Article): JSX.Element {
+        const sortedVersions = article.versions.sort((a, b) => a.version - b.version);
+        const newestVersion = sortedVersions[0].version;
+
         return <>
-            <td><Link to={`/article/${article.id}`}>{article.name}</Link></td>
-            <td>{article.versions[0].publishDate}</td>
-            <td><FontAwesomeIcon icon="times" /></td>
+
+            <td>{article.name}</td>
+            <td>
+                <Dropdown as={ButtonGroup}>
+                    <Link to={`/author/article/${article.id}/${newestVersion}`}><Button variant="info">Zobrazit poslední verzi</Button></Link>
+
+                    <Dropdown.Toggle split variant="info" id="dropdown-split-versions" />
+
+                    <Dropdown.Menu>
+                        {sortedVersions.map(version => {
+                            return <Dropdown.Item key={`dropdown_${version.version}`} href={`/author/article/${article.id}/${version.version}`}>{version.version}</Dropdown.Item>;
+                        })}
+                    </Dropdown.Menu>
+                </Dropdown>
+                <Link to={`/author/articles/new/${article.id}`}>
+                    <Button variant="primary">
+                        <FontAwesomeIcon icon="plus" />
+                    </Button>
+                </Link>
+            </td>
+            <td>{sortedVersions[0].publishDate}</td>
         </>;
     }
 
@@ -81,4 +102,4 @@ const mapDispatchToProps = {
 export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(
     mapStateToProps,
     mapDispatchToProps,
-)(ArticlesTable);
+)(AuthorArticlesTable);

@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { getArticlesError, getArticlesSuccess } from "store/articles/actions";
-import { callAuthorApi, getAuthToken, Method, callAuthorApiMultipart, callAuthorApiBlob } from "utils/api";
-import { createArticleError, createArticleSuccess, getArticleDetailRequest, createArticleRequest, getArticleDetailError, getArticleDetailSuccess, getArticleFileSuccess, getArticleFileError, getArticleFileRequest } from "./actions";
+import { getArticlesError, getArticlesSuccess, updateArticleRequest, updateArticleError, updateArticleSuccess } from "store/author/actions";
+import { callAuthorApi, callAuthorApiMultipart, getAuthToken, Method } from "utils/api";
+import { createArticleError, createArticleRequest, createArticleSuccess, getArticleDetailError, getArticleDetailRequest, getArticleDetailSuccess } from "./actions";
 import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL } from "./types";
 
 function* handleGetArticles() {
@@ -45,6 +45,27 @@ function* handleCreateArticle(action: ReturnType<typeof createArticleRequest>) {
     }
 }
 
+function* handleUpdateArticle(action: ReturnType<typeof updateArticleRequest>) {
+    try {
+        const response = yield call(callAuthorApiMultipart, Method.Post, ARTICLE_URL,
+            yield getAuthToken(), action.payload);
+
+        if (response.error) {
+            console.error("There was error with update article: " + response.error);
+            yield put(updateArticleError(response.error));
+        } else {
+            yield put(updateArticleSuccess(response));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error("There was error with update article: " + error.stack!);
+            yield put(updateArticleError(error.name));
+        } else {
+            yield put(updateArticleError("There was an unknown error."));
+        }
+    }
+}
+
 function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailRequest>) {
     try {
         const response = yield call(callAuthorApi, Method.Get, `${ARTICLE_URL}${action.payload.articleId}/${action.payload.version}`, yield getAuthToken());
@@ -65,26 +86,6 @@ function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailReque
     }
 }
 
-function* handleGetArticleFile(action: ReturnType<typeof getArticleFileRequest>) {
-    try {
-        const response = yield call(callAuthorApiBlob, Method.Get, `${ARTICLE_URL}${action.payload.articleId}/${action.payload.version}/file`, yield getAuthToken());
-
-        if (response.error) {
-            console.error("There was error with get article file: " + response.error);
-            yield put(getArticleFileError(response.error));
-        } else {
-            yield put(getArticleFileSuccess({data: response}));
-        }
-    } catch (error) {
-        if (error instanceof Error) {
-            console.error("There was error with get article file: " + error.stack!);
-            yield put(getArticleFileError(error.name));
-        } else {
-            yield put(getArticleFileError("There was an unknown error."));
-        }
-    }
-}
-
 function* watchGetArticlesRequest() {
     yield takeLatest(AuthorAction.GET_ARTICLES, handleGetArticles);
 }
@@ -93,20 +94,20 @@ function* watchCreateArticleRequest() {
     yield takeLatest(AuthorAction.CREATE_ARTICLE, handleCreateArticle);
 }
 
-function* watchGetArticleDetailRequest() {
-    yield takeLatest(AuthorAction.GET_ARTICLE_DETAIL, handleGetArticleDetail);
+function* watchUpdateArticleRequest() {
+    yield takeLatest(AuthorAction.UPDATE_ARTICLE, handleUpdateArticle);
 }
 
-function* watchGetArticleFileRequest() {
-    yield takeLatest(AuthorAction.GET_ARTICLE_FILE, handleGetArticleFile);
+function* watchGetArticleDetailRequest() {
+    yield takeLatest(AuthorAction.GET_ARTICLE_DETAIL, handleGetArticleDetail);
 }
 
 function* authorSaga() {
     yield all([
         fork(watchGetArticlesRequest),
         fork(watchCreateArticleRequest),
+        fork(watchUpdateArticleRequest),
         fork(watchGetArticleDetailRequest),
-        fork(watchGetArticleFileRequest),
     ]);
 }
 

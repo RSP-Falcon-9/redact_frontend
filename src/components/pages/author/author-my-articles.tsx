@@ -3,7 +3,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { Button } from "react-bootstrap";
 import { Link } from "react-router-dom";
 import { TemplatePage } from "components/pages/template/template-page";
-import ArticlesTable from "components/pages/common/common-articles-table";
+import AuthorArticlesTable from "./author-articles-table";
 
 export class AuthorMyArticles extends React.Component<{}> {
 
@@ -15,7 +15,7 @@ export class AuthorMyArticles extends React.Component<{}> {
                     <FontAwesomeIcon icon="plus" />
                 </Button>
             </Link>
-            <ArticlesTable />
+            <AuthorArticlesTable />
         </>;
     }
 
