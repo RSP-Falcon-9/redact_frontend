@@ -1,7 +1,7 @@
 import { select } from "redux-saga/effects";
 import { ApplicationState } from "store/root";
 import { BACKEND_URL } from "utils/constants";
-import { ADMIN_URL, AUTHOR_URL, ARTICLE_URL } from "./navigation";
+import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "./navigation";
 
 export enum Method {
     Get = "get",
@@ -57,6 +57,10 @@ export async function callApiMultipart(method: string, path: string, data: any, 
     return await response.blob();
 }
 
+export async function callArticleApiBlob(method: string, path: string, authToken?: string, data?: any) {
+    return callApiBlob(method, ARTICLE_URL + path, authToken, data);
+}
+
 export async function callAdminApi(method: string, path: string, authToken?: string, data?: any) {
     return callApi(method, ADMIN_URL + path, authToken, data);
 }
@@ -73,8 +77,12 @@ export async function callAuthorApiBlob(method: string, path: string, authToken?
     return callApiBlob(method, AUTHOR_URL + path, authToken, data);
 }
 
-export async function callArticleApiBlob(method: string, path: string, authToken?: string, data?: any) {
-    return callApiBlob(method, ARTICLE_URL + path, authToken, data);
+export async function callEditorApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, EDITOR_URL + path, authToken, data);
+}
+
+export async function callReviewerApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, REVIEWER_URL + path, authToken, data);
 }
 
 /*export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {

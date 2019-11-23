@@ -1,13 +1,13 @@
 import { TemplatePage } from "components/pages/template/template-page";
 import * as React from "react";
-import { Button, Table, Spinner, Alert } from "react-bootstrap";
+import { Spinner, Alert } from "react-bootstrap";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { getArticleDetailRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
 import { getArticleFileRequest } from "store/articles/actions";
 import { AuthorArticleReview } from "store/author/types";
-import { AuthorReviewForm } from './author-review-form';
+import { AuthorReviewForm } from "./author-review-form";
 
 interface RouteProps {
     id: string;
@@ -87,6 +87,7 @@ const mapStateToProps = ({ author, articles }: ApplicationState) => ({
     errors: author.getArticleDetail.errors,
     name: author.getArticleDetail.name,
     fileUrl: articles.getArticleFile.fileUrl,
+    reviews: author.getArticleDetail.reviews,
 });
 
 const mapDispatchToProps = {

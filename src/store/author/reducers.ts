@@ -78,6 +78,7 @@ const initialGetArticleDetailState: GetArticleDetailState = {
     message: "",
     errors: undefined,
     name: "",
+    reviews: [],
 };
 
 export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> = (state = initialGetArticleDetailState, action) => {
@@ -88,7 +89,7 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
         case AuthorAction.GET_ARTICLE_DETAIL_SUCCESS: {
             const detailResponse = action.payload as GetArticleDetailResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name };
+            return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name, reviews: detailResponse.reviews };
         }
         case AuthorAction.GET_ARTICLE_DETAIL_ERROR: {
             return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };

@@ -8,6 +8,10 @@ export enum EditorAction {
     GET_ARTICLE_DETAIL = "@@editor/getArticleDetail",
     GET_ARTICLE_DETAIL_SUCCESS = "@editor/getArticleDetailSuccess",
     GET_ARTICLE_DETAIL_ERROR = "@editor/getArticleDetailError",
+
+    GET_REVIEWERS = "@@editor/getReviewers",
+    GET_REVIEWERS_SUCCESS = "@@editor/getReviewersSuccess",
+    GET_REVIEWERS_ERROR = "@@editor/getReviewersError",
 }
 
 export interface EditorArticle {
@@ -15,6 +19,10 @@ export interface EditorArticle {
     name: string;
     authorId: string;
     versions: ArticleVersion[];
+}
+
+export interface Reviewer {
+    userName: string;
 }
 
 export interface GetEditorArticlesResponse {
@@ -28,6 +36,10 @@ export interface GetEditorArticleDetailRequest {
 
 export interface GetEditorArticleDetailResponse {
     name: string;
+}
+
+export interface GetReviewersResponse {
+    reviewers: Reviewer[];
 }
 
 export interface GetEditorArticlesState {
@@ -44,10 +56,19 @@ export interface GetEditorArticleDetailState {
     readonly name: string;
 }
 
+export interface GetReviewersState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly errors?: string;
+    readonly reviewers: Reviewer[];
+}
+
 export interface EditorState {
     readonly getEditorArticles: GetEditorArticlesState;
     readonly getEditorArticleDetail: GetEditorArticleDetailState;
+    readonly getReviewers: GetReviewersState;
 }
 
 export const GET_ARTICLES_URL = "/articles";
 export const ARTICLE_URL = "/article/";
+export const REVIEWERS_URL = "/reviewers";

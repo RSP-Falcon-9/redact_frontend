@@ -85,6 +85,7 @@ export interface GetArticleDetailState {
     readonly message: string;
     readonly errors?: string;
     readonly name: string;
+    readonly reviews: AuthorArticleReview[];
 }
 
 export interface AuthorState {
