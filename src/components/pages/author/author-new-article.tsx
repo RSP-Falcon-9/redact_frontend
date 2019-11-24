@@ -1,6 +1,6 @@
 import { TemplatePage } from "components/pages/template/template-page";
 import * as React from "react";
-import { Button, Form, Spinner, Alert, FormControlProps } from "react-bootstrap";
+import { Button, Form, Spinner, Alert } from "react-bootstrap";
 import { connect } from "react-redux";
 import { createArticleRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
@@ -32,7 +32,7 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
             <Form>
                 <Form.Group>
                     <Form.Label>Název</Form.Label>
-                    <Form.Control id="text_id" type="text" onChange={(e: React.FormEvent<FormControlProps>) => {
+                    <Form.Control id="text_id" type="text" onChange={(e: React.FormEvent<HTMLInputElement>) => {
                         this.setState({ articleName: e.currentTarget.value! });
                     }} />
                 </Form.Group>

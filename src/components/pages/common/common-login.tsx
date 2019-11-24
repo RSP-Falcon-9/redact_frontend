@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
-import { Alert, Button, Col, Form, FormControlProps, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Col, Form, Row, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { authRequest, logout } from "store/auth/actions";
 import { ApplicationState } from "store/root";
@@ -33,7 +33,7 @@ class Login extends React.Component<AllProps, LoginState> {
         this.handleSubmit = this.handleSubmit.bind(this);
     }
 
-    handleChange(event: React.FormEvent<FormControlProps>) {
+    handleChange(event: React.FormEvent<HTMLInputElement>) {
         switch (event.currentTarget.id) {
             case "usernameField": {
                 this.setState({username: event.currentTarget.value!});

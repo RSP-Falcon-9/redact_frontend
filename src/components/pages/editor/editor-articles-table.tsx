@@ -6,6 +6,7 @@ import { Link } from "react-router-dom";
 import { getEditorArticlesRequest } from "store/editor/actions";
 import { EditorArticle } from "store/editor/types";
 import { ApplicationState } from "store/root";
+import EditorSendToReviewerModal from "./editor-send-to-reviewer-modal";
 
 interface PropsFromState {
     loading: boolean;
@@ -19,7 +20,23 @@ interface PropsFromDispatch {
 
 type AllProps = PropsFromState & PropsFromDispatch;
 
-class EditorArticlesTable extends React.Component<AllProps> {
+interface EditorArticlesTableState {
+    showModal: boolean;
+    modalArticleId: string;
+    modalArticleVersion: number;
+}
+
+class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableState> {
+
+    constructor(props: Readonly<AllProps>) {
+        super(props);
+
+        this.state = {
+            showModal: false,
+            modalArticleId: "",
+            modalArticleVersion: 0,
+        };
+    }
 
     componentDidMount() {
         this.props.getEditorArticlesRequest();
@@ -47,6 +64,9 @@ class EditorArticlesTable extends React.Component<AllProps> {
                     })}
                 </tbody>
             </Table>
+            <EditorSendToReviewerModal show={this.state.showModal}
+                articleId={this.state.modalArticleId} version={this.state.modalArticleVersion}
+                onModalClose={() => this.setState({ showModal: false, modalArticleId: "", modalArticleVersion: 0})} />
         </>;
     }
 
@@ -83,11 +103,13 @@ class EditorArticlesTable extends React.Component<AllProps> {
             </td>
             <td>{sortedVersions[0].publishDate}</td>
             <td>
-                <Link to={`/editor/review/${article.id}/${newestVersion}`}>
-                    <Button variant="primary">
-                        <FontAwesomeIcon icon="spell-check" />
-                    </Button>
-                </Link>
+                <Button variant="primary" onClick={() => this.setState({
+                    showModal: true,
+                    modalArticleId: article.id,
+                    modalArticleVersion: newestVersion,
+                })}>
+                    <FontAwesomeIcon icon="spell-check" />
+                </Button>
             </td>
         </>;
     }

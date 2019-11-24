@@ -14,12 +14,12 @@ import { AuthState } from "./auth/types";
 import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
-import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer } from "./editor/reducers";
+import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
 import { NavigationState } from "./navigation/types";
-import { getReviewerArticleDetailStateReducer, getReviewerArticlesStateReducer } from "./reviewer/reducers";
+import { getReviewerArticleDetailStateReducer, getReviewerArticlesStateReducer, reviewArticleStateReducer } from "./reviewer/reducers";
 import reviewerSaga from "./reviewer/sagas";
 import { ReviewerState } from "./reviewer/types";
 
@@ -60,10 +60,12 @@ export const createRootReducer = (history: History) =>
            getEditorArticles: getEditorArticlesStateReducer,
            getEditorArticleDetail: getEditorArticleDetailStateReducer,
            getReviewers: getReviewersStateReducer,
+           setReviewerToArticle: setReviewerToArticleStateReducer,
         }),
         reviewer: combineReducers<ReviewerState>({
             getReviewerArticles: getReviewerArticlesStateReducer,
             getReviewerArticleDetail: getReviewerArticleDetailStateReducer,
+            reviewArticle: reviewArticleStateReducer,
         }),
         router: connectRouter(history),
     });

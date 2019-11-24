@@ -1,5 +1,3 @@
-import { ArticleVersion } from "store/author/types";
-
 export enum ReviewerAction {
     GET_ARTICLES = "@@reviewer/getArticles",
     GET_ARTICLES_SUCCESS = "@@reviewer/getArticlesSuccess",
@@ -8,14 +6,28 @@ export enum ReviewerAction {
     GET_ARTICLE_DETAIL = "@@reviewer/getArticleDetail",
     GET_ARTICLE_DETAIL_SUCCESS = "@reviewer/getArticleDetailSuccess",
     GET_ARTICLE_DETAIL_ERROR = "@reviewer/getArticleDetailError",
+
+    REVIEW_ARTICLE = "@@reviewer/reviewArticle",
+    REVIEW_ARTICLE_SUCCESS = "@reviewer/reviewArticleSuccess",
+    REVIEW_ARTICLE_ERROR = "@reviewer/reviewArticleError",
 }
 
 export interface ReviewerArticle {
     id: string;
     name: string;
-    authorId: string;
-    versions: ArticleVersion[];
+    version: number;
+    fileName: string;
+    publishDate: Date;
+    status: ArticleReviewStatus;
 }
+
+export enum ArticleReviewStatus {
+    NEW,
+    REVIEWED,
+    APPEAL,
+}
+
+// dtos
 
 export interface GetReviewerArticlesResponse {
     articles: ReviewerArticle[];
@@ -28,7 +40,25 @@ export interface GetReviewerArticleDetailRequest {
 
 export interface GetReviewerArticleDetailResponse {
     name: string;
+    reviewId: string;
+    reviewStatus: ArticleReviewStatus;
+    interest: number;
+    originality: number;
+    specializationLevel: number;
+    languageLevel: number;
+    comment: string;
+    reviewDate: Date;
 }
+
+export interface ReviewArticleRequest {
+    interest: number;
+    originality: number;
+    specializationLevel: number;
+    languageLevel: number;
+    comment: string;
+}
+
+// states
 
 export interface GetReviewerArticlesState {
     readonly loading: boolean;
@@ -41,13 +71,29 @@ export interface GetReviewerArticleDetailState {
     readonly loading: boolean;
     readonly message: string;
     readonly errors?: string;
+    readonly id: string;
     readonly name: string;
+    readonly reviewStatus: ArticleReviewStatus;
+    readonly interest: number;
+    readonly originality: number;
+    readonly specializationLevel: number;
+    readonly languageLevel: number;
+    readonly comment: string;
+    readonly reviewDate: Date;
+}
+
+export interface ReviewArticleState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly errors?: string;
 }
 
 export interface ReviewerState {
     readonly getReviewerArticles: GetReviewerArticlesState;
     readonly getReviewerArticleDetail: GetReviewerArticleDetailState;
+    readonly reviewArticle: ReviewArticleState;
 }
 
 export const GET_ARTICLES_URL = "/articles";
 export const ARTICLE_URL = "/article/";
+export const reviewEndpoint = (reviewId: string): string => `/review/${reviewId}`;

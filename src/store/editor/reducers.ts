@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { EditorAction, GetEditorArticleDetailResponse, GetEditorArticleDetailState, GetEditorArticlesState, GetEditorArticlesResponse, GetReviewersState, GetReviewersResponse } from "./types";
+import { EditorAction, GetEditorArticleDetailResponse, GetEditorArticleDetailState, GetEditorArticlesState, GetEditorArticlesResponse, GetReviewersState, GetReviewersResponse, SetReviewerToArticleState } from "./types";
 
 const initialGetArticlesState: GetEditorArticlesState = {
     loading: false,
@@ -71,6 +71,29 @@ export const getReviewersStateReducer: Reducer<GetReviewersState> = (state = ini
             return { ...state, loading: false, message: action.payload.message, errors: undefined, reviewers: detailResponse.reviewers };
         }
         case EditorAction.GET_REVIEWERS_ERROR: {
+            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialSetReviewerToArticleState: SetReviewerToArticleState = {
+    loading: false,
+    message: "",
+    errors: undefined,
+};
+
+export const setReviewerToArticleStateReducer: Reducer<SetReviewerToArticleState> = (state = initialSetReviewerToArticleState, action) => {
+    switch (action.type) {
+        case EditorAction.SET_REVIEWER_TO_ARTICLE: {
+            return { ...state, loading: true, errors: undefined };
+        }
+        case EditorAction.SET_REVIEWER_TO_ARTICLE_SUCCESS: {
+            return { ...state, loading: false, message: action.payload.message, errors: undefined };
+        }
+        case EditorAction.SET_REVIEWER_TO_ARTICLE_ERROR: {
             return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
         }
         default: {

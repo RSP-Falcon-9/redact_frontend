@@ -1,9 +1,11 @@
 import * as React from "react";
-import { Alert, Spinner, Table } from "react-bootstrap";
+import { Alert, Button, Spinner, Table } from "react-bootstrap";
 import { connect } from "react-redux";
+import { Link } from "react-router-dom";
 import { getReviewerArticlesRequest } from "store/reviewer/actions";
 import { ReviewerArticle } from "store/reviewer/types";
 import { ApplicationState } from "store/root";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface PropsFromState {
     loading: boolean;
@@ -51,6 +53,7 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
     tableHeader(): JSX.Element {
         return <>
             <th>Název článku</th>
+            <th>Akce</th>
         </>;
     }
 
@@ -58,6 +61,11 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
         return <>
 
             <td>{article.name}</td>
+            <td>
+                <Link to={`/reviewer/article/${article.id}/${article.version}`}>
+                    <Button variant="info"><FontAwesomeIcon icon="star" /></Button>
+                </Link>
+            </td>
         </>;
     }
 

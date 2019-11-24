@@ -1,7 +1,9 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { getAuthToken, Method, callEditorApi } from "utils/api";
-import { getEditorArticleDetailRequest, getEditorArticlesError, getEditorArticlesSuccess, getReviewersSuccess, getReviewersError } from "./actions";
-import { ARTICLE_URL, EditorAction, GET_ARTICLES_URL, REVIEWERS_URL } from "./types";
+import { getEditorArticleDetailRequest, getEditorArticlesError, getEditorArticlesSuccess, getReviewersSuccess, getReviewersError, setReviewerToArticleRequest, setReviewerToArticleError, setReviewerToArticleSuccess } from "./actions";
+import { ARTICLE_URL, EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint } from "./types";
+
+// requests
 
 function* handleGetArticles() {
     try {
@@ -63,6 +65,28 @@ function* handleGetReviewers() {
     }
 }
 
+function* handleSetReviewerToArticle(action: ReturnType<typeof setReviewerToArticleRequest>) {
+    try {
+        const response = yield call(callEditorApi, Method.Post, reviewEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken(), action.payload.data);
+
+        if (response.error) {
+            console.error("There was error with set reviewer to article: " + response.error);
+            yield put(setReviewerToArticleError(response.error));
+        } else {
+            yield put(setReviewerToArticleSuccess(response));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error("There was error with set reviewer to article: " + error.stack!);
+            yield put(setReviewerToArticleError(error.name));
+        } else {
+            yield put(setReviewerToArticleError("There was an unknown error."));
+        }
+    }
+}
+
+// watchers
+
 function* watchGetArticlesRequest() {
     yield takeLatest(EditorAction.GET_ARTICLES, handleGetArticles);
 }
@@ -75,11 +99,18 @@ function* watchHandleReviewersRequest() {
     yield takeLatest(EditorAction.GET_REVIEWERS, handleGetReviewers);
 }
 
+function* watchHandleSetReviewerToArticle() {
+    yield takeLatest(EditorAction.SET_REVIEWER_TO_ARTICLE, handleSetReviewerToArticle);
+}
+
+// merge
+
 function* editorSaga() {
     yield all([
         fork(watchGetArticlesRequest),
         fork(watchGetArticleDetailRequest),
         fork(watchHandleReviewersRequest),
+        fork(watchHandleSetReviewerToArticle),
     ]);
 }
 

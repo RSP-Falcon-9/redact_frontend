@@ -1,5 +1,5 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheck, faDoorOpen, faEdit, faInfo, faPlus, faSpellCheck, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faDoorOpen, faEdit, faInfo, faPlus, faSpellCheck, faTimes, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
 import { AdminUsers } from "components/pages/admin/admin-users";
 import AuthorArticleDetail from "components/pages/author/author-article-detail";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
@@ -7,8 +7,8 @@ import AuthorNewArticle from "components/pages/author/author-new-article";
 import AuthorUpdateArticle from "components/pages/author/author-update-article";
 import ArticleDetail from "components/pages/common/common-article-detail";
 import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
-import EditorSendToReviewer from "components/pages/editor/editor-send-to-reviewer";
 import { HomePage } from "components/pages/home-page";
+import ReviewerArticleDetail from "components/pages/reviewer/reviewer-article-detail";
 import { ReviewerAssignedArticles } from "components/pages/reviewer/reviewer-assigned-articles";
 import PrivilegedRoute from "components/privileged-route";
 import configureStore from "configure-store";
@@ -25,7 +25,8 @@ interface ReduxWindow extends Window {
 }
 
 // stylization icons from fontawesome
-library.add(faEdit, faTrash, faCheck, faDoorOpen, faTimes, faPlus, faInfo, faSpellCheck);
+library.add(faEdit, faTrash, faCheck, faDoorOpen,
+    faTimes, faPlus, faInfo, faSpellCheck, faStar);
 
 // app core components
 const history = History.createBrowserHistory();
@@ -55,7 +56,8 @@ function App() {
                         <PrivilegedRoute path="/author/articles/new/:id" role="ROLE_AUTHOR" component={AuthorUpdateArticle} />
 
                         <PrivilegedRoute path="/editor/article/:id/:version" role="ROLE_EDITOR" component={ArticleDetail} />
-                        <PrivilegedRoute path="/editor/review/:id/:version" role="ROLE_EDITOR" component={EditorSendToReviewer} />
+
+                        <PrivilegedRoute path="/reviewer/article/:id/:version" role="ROLE_REVIEWER" component={ReviewerArticleDetail} />
                     </Switch>
                 </ConnectedRouter>
             </PersistGate>

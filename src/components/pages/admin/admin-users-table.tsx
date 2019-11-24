@@ -39,23 +39,10 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
             userInfoModalActive: false,
             selectedUser: null,
         };
-
-        this.onOpenAddUserModalClick = this.onOpenAddUserModalClick.bind(this);
     }
 
     componentDidMount() {
         this.props.getAllUsersRequest();
-    }
-
-    onOpenAddUserModalClick() {
-        this.setState({ addUserModalActive: true });
-    }
-
-    onSelectUserInfoClick(user: User) {
-        this.setState({
-            userInfoModalActive: true,
-            selectedUser: user,
-        });
     }
 
     render() {
@@ -66,7 +53,7 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
         }
 
         return <>
-            <Button variant="primary" className="mt-3 mb-3" onClick={this.onOpenAddUserModalClick}>
+            <Button variant="primary" className="mt-3 mb-3" onClick={() => this.setState({ addUserModalActive: true })}>
                 <FontAwesomeIcon icon="plus" />
             </Button>
             <Table striped bordered hover>
@@ -81,10 +68,15 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
                         return <tr key={index}>
                             <td>{user.userName}</td>
                             <td>
-                                <Button variant="info" className="mr-3" onClick={() => this.onSelectUserInfoClick(user)}>
+                                <Button variant="info" className="mr-3" onClick={() => this.setState({
+                                        userInfoModalActive: true,
+                                        selectedUser: user,
+                                })}>
                                     <FontAwesomeIcon icon="info" />
                                 </Button>
-                                <Button variant="danger" disabled={user.userName === this.props.currentUserName} onClick={() => this.props.deleteUserRequest(user.userName)}>
+
+                                <Button variant="danger" disabled={user.userName === this.props.currentUserName}
+                                    onClick={() => this.props.deleteUserRequest(user.userName)}>
                                     <FontAwesomeIcon icon="trash" />
                                 </Button>
                             </td>
@@ -92,10 +84,10 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
                     })}
                 </tbody>
             </Table>
+
             <AdminAddUserModal show={this.state.addUserModalActive}
-                onModalClose={() => {
-                    this.setState({ addUserModalActive: false });
-                }} />
+                onModalClose={() => this.setState({ addUserModalActive: false })} />
+
             <AdminUserInfoModal show={this.state.userInfoModalActive} user={this.state.selectedUser}
                 onModalClose={() => {
                     this.setState({
