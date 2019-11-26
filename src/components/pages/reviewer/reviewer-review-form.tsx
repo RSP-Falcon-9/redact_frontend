@@ -1,16 +1,13 @@
 import * as React from "react";
-import { Form, Button } from "react-bootstrap";
-import { ApplicationState } from "store/root";
+import { Badge, Button, Form } from "react-bootstrap";
 import { connect } from "react-redux";
 import { reviewArticleRequest } from "store/reviewer/actions";
+import { ArticleReviewStatus } from "store/reviewer/types";
+import { ApplicationState } from "store/root";
 
-interface ReviewerReviewFormProps {
+interface ReviewerReviewProps {
     id: string;
-    interest: number;
-    originality: number;
-    specializationLevel: number;
-    languageLevel: number;
-    comment: string;
+    status: ArticleReviewStatus;
 }
 
 interface PropsFromState {
@@ -22,10 +19,9 @@ interface PropsFromDispatch {
     reviewArticleRequest: typeof reviewArticleRequest;
 }
 
-type AllProps = ReviewerReviewFormProps & PropsFromState & PropsFromDispatch;
+type AllProps = ReviewerReviewProps & PropsFromState & PropsFromDispatch;
 
 interface ReviewerReviewFormState {
-    selectedReviewerId: string;
     interest: number;
     originality: number;
     specializationLevel: number;
@@ -35,17 +31,76 @@ interface ReviewerReviewFormState {
 
 class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormState> {
 
+    onChangeRadioButton(groupName: string, value: number) {
+        console.log("HENLO: " + groupName + " VALUE: " + value);
+        switch (groupName) {
+            case "uptodate": {
+                this.setState({
+                    interest: value,
+                });
+                break;
+            }
+            case "originality": {
+                this.setState({
+                    originality: value,
+                });
+                break;
+            }
+            case "technicality": {
+                this.setState({
+                    specializationLevel: value,
+                });
+                break;
+            }
+            case "language": {
+                this.setState({
+                    languageLevel: value,
+                });
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
     render() {
         return <>
-            <Form>
+            <h3>Recenze {this.props.id}
+                {this.props.status === ArticleReviewStatus.NEW && <Badge variant="info">Nový</Badge>}
+                {this.props.status === ArticleReviewStatus.REVIEWED && <Badge variant="info">Zrecenzováno</Badge>}
+                {this.props.status === ArticleReviewStatus.APPEAL && <Badge variant="info">Autor se odvolal</Badge>}
+            </h3>
+            <Form onSubmit={(formEvent: React.FormEvent<HTMLFormElement>) => {
+                formEvent.preventDefault();
+
+                const form = formEvent.currentTarget;
+                if (!form.checkValidity()) {
+                    formEvent.stopPropagation();
+                    return;
+                }
+
+                this.props.reviewArticleRequest(this.props.id, {
+                    interest: this.state.interest,
+                    originality: this.state.originality,
+                    specializationLevel: this.state.specializationLevel,
+                    languageLevel: this.state.languageLevel,
+                    comment: this.state.comment,
+                });
+            }}>
                 {this.radioGroup("Aktuálnost, zajímavost a přínosnost", "uptodate")}
                 {this.radioGroup("Originalita", "originality")}
                 {this.radioGroup("Odborná úroveň", "technicality")}
                 {this.radioGroup("Jazyková a stylistická úroveň", "language")}
 
                 <Form.Group controlId="exampleForm.ControlTextarea1">
-                    <Form.Label>Odpověď autorovi</Form.Label>
-                    <Form.Control as="textarea" rows="3" />
+                    <Form.Label>Komentář</Form.Label>
+                    <Form.Control as="textarea" rows="3"
+                        onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                            this.setState({
+                                comment: event.currentTarget.value,
+                            });
+                        }} />
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Odeslat
@@ -69,15 +124,17 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
     }
 
     radioGroupBtn(name: string, index: number): JSX.Element {
-        return <>
-            <Form.Check
-                key={index}
-                inline
-                type="radio"
-                label={index}
-                name={name + index}
-                id={name + index} />
-        </>;
+        return <Form.Check
+            key={name + index}
+            inline
+            type="radio"
+            label={index}
+            value={index}
+            name={name}
+            id={name + index}
+            onChange={() => {
+                this.onChangeRadioButton(name, index);
+            }} />;
     }
 
 }

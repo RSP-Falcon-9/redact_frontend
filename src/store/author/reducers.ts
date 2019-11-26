@@ -1,5 +1,6 @@
 import { Reducer } from "redux";
-import { GetArticlesState, AuthorAction, GetArticlesResponse, CreateArticleState, GetArticleDetailState, GetArticleDetailResponse, UpdateArticleState } from "./types";
+import { ArticleReviewStatus } from "store/reviewer/types";
+import { AuthorAction, CreateArticleState, GetArticleDetailResponse, GetArticleDetailState, GetArticlesResponse, GetArticlesState, UpdateArticleState } from "./types";
 
 const initialGetArticlesState: GetArticlesState = {
     loading: false,
@@ -88,8 +89,19 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
         }
         case AuthorAction.GET_ARTICLE_DETAIL_SUCCESS: {
             const detailResponse = action.payload as GetArticleDetailResponse;
+            const transformedReviews = detailResponse.reviews.map(review => {
+                return {
+                    id: review.id,
+                    status: Object.values(ArticleReviewStatus).indexOf(review.status),
+                    interest: review.interest,
+                    originality: review.originality,
+                    specializationLevel: review.specializationLevel,
+                    languageLevel: review.languageLevel,
+                    comment: review.comment,
+                };
+            });
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name, reviews: detailResponse.reviews };
+            return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name, reviews: transformedReviews };
         }
         case AuthorAction.GET_ARTICLE_DETAIL_ERROR: {
             return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };

@@ -1,7 +1,10 @@
 import * as React from "react";
-import { Form } from "react-bootstrap";
+import { Form, Badge } from "react-bootstrap";
+import { ArticleReviewStatus } from "store/reviewer/types";
 
 interface FormProps {
+    id: string;
+    status: ArticleReviewStatus;
     interest: number;
     originality: number;
     specializationLevel: number;
@@ -13,6 +16,11 @@ export class AuthorReviewForm extends React.Component<FormProps> {
 
     render() {
         return <>
+            <h3>Recenze {this.props.id}
+                {this.props.status === ArticleReviewStatus.NEW && <Badge variant="info">Nový</Badge>}
+                {this.props.status === ArticleReviewStatus.REVIEWED && <Badge variant="info">Zrecenzováno</Badge>}
+                {this.props.status === ArticleReviewStatus.APPEAL && <Badge variant="info">Autor se odvolal</Badge>}
+            </h3>
             <Form>
                 {this.radioGroup("Aktuálnost, zajímavost a přínosnost", "uptodate", this.props.interest)}
                 {this.radioGroup("Originalita", "originality", this.props.originality)}
@@ -30,30 +38,27 @@ export class AuthorReviewForm extends React.Component<FormProps> {
     }
 
     radioGroup(label: string, name: string, checkedPos: number): JSX.Element {
-        return <>
-                <Form.Group className="row">
-                    <Form.Label className="legend" column md={4}>
-                        {label}
-                    </Form.Label>
+        return <Form.Group className="row">
+            <Form.Label className="legend" column md={4}>
+                {label}
+            </Form.Label>
 
-                    {[...Array(5)].map((_x, i) =>
-                        this.radioGroupBtn(name, i + 1, (i + 1) === checkedPos),
-                    )}
-                </Form.Group>
-            </>;
+            {[...Array(5)].map((_x, i) =>
+                this.radioGroupBtn(name, i + 1, (i + 1) === checkedPos),
+            )}
+        </Form.Group>;
     }
 
     radioGroupBtn(name: string, index: number, checked: boolean): JSX.Element {
-        return <>
-            <Form.Check
+        return <Form.Check
+                key={index}
                 inline
                 type="radio"
                 label={index}
-                name={name + index}
+                name={name}
                 id={name + index}
                 readOnly
-                checked={checked} />
-        </>;
+                checked={checked} />;
     }
 
 }

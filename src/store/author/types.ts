@@ -1,3 +1,5 @@
+import { ArticleReviewStatus } from "store/reviewer/types";
+
 export enum AuthorAction {
     GET_ARTICLES = "@@author/getArticles",
     GET_ARTICLES_SUCCESS = "@@author/getArticlesSuccess",
@@ -30,6 +32,17 @@ export interface Article {
 
 export interface AuthorArticleReview {
     id: string;
+    status: ArticleReviewStatus;
+    interest: number;
+    originality: number;
+    specializationLevel: number;
+    languageLevel: number;
+    comment: string;
+}
+
+export interface AuthorArticleResponse {
+    id: string;
+    status: string;
     interest: number;
     originality: number;
     specializationLevel: number;
@@ -58,7 +71,7 @@ export interface GetArticleDetailRequest {
 
 export interface GetArticleDetailResponse {
     name: string;
-    reviews: AuthorArticleReview[];
+    reviews: AuthorArticleResponse[];
 }
 
 export interface GetArticlesState {

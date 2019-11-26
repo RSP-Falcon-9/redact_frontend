@@ -5,7 +5,9 @@ import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { getArticleFileRequest } from "store/articles/actions";
 import { getReviewerArticleDetailRequest } from "store/reviewer/actions";
+import { ArticleReviewStatus } from "store/reviewer/types";
 import { ApplicationState } from "store/root";
+import { AuthorReviewForm } from "components/pages/author/author-review-form";
 import ReviewerReviewForm from "./reviewer-review-form";
 
 interface RouteProps {
@@ -24,6 +26,7 @@ interface PropsFromState {
     reviewSpecializationLevel: number;
     reviewLanguageLevel: number;
     reviewComment: string;
+    reviewStatus: ArticleReviewStatus;
 }
 
 interface PropsFromDispatch {
@@ -54,13 +57,22 @@ class ReviewerArticleDetail extends React.Component<AllProps<RouteProps>> {
 
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
-            <ReviewerReviewForm 
-               id={this.props.reviewId}
-               interest={this.props.reviewInterest}
-               originality={this.props.reviewOriginality}
-               specializationLevel={this.props.reviewSpecializationLevel}
-               languageLevel={this.props.reviewLanguageLevel}
-               comment={this.props.reviewComment} />
+            {(this.props.reviewStatus === ArticleReviewStatus.REVIEWED || this.props.reviewStatus === ArticleReviewStatus.APPEAL) && (
+                <AuthorReviewForm
+                    id={this.props.reviewId}
+                    status={this.props.reviewStatus}
+                    interest={this.props.reviewInterest}
+                    originality={this.props.reviewOriginality}
+                    specializationLevel={this.props.reviewSpecializationLevel}
+                    languageLevel={this.props.reviewLanguageLevel}
+                    comment={this.props.reviewComment}
+                />
+            )}
+            {this.props.reviewStatus === ArticleReviewStatus.NEW && (
+                <ReviewerReviewForm
+                    id={this.props.reviewId}
+                    status={this.props.reviewStatus} />
+            )}
         </>;
     }
 
@@ -81,6 +93,7 @@ const mapStateToProps = ({ reviewer, articles }: ApplicationState) => ({
     reviewSpecializationLevel: reviewer.getReviewerArticleDetail.specializationLevel,
     reviewLanguageLevel: reviewer.getReviewerArticleDetail.languageLevel,
     reviewComment: reviewer.getReviewerArticleDetail.comment,
+    reviewStatus: reviewer.getReviewerArticleDetail.reviewStatus,
 });
 
 const mapDispatchToProps = {

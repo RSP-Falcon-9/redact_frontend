@@ -41,7 +41,7 @@ export interface GetReviewerArticleDetailRequest {
 export interface GetReviewerArticleDetailResponse {
     name: string;
     reviewId: string;
-    reviewStatus: ArticleReviewStatus;
+    reviewStatus: string;
     interest: number;
     originality: number;
     specializationLevel: number;

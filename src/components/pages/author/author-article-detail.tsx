@@ -29,20 +29,7 @@ interface PropsFromDispatch {
 
 type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
 
-interface Message {
-    id: string;
-    author: string;
-    content: string;
-}
-
 class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
-
-    messages: Message[] = [
-        { id: "m1", author: "reviewer", content: "Předělej tohle" },
-        { id: "m2", author: "author", content: "OK" },
-        { id: "m3", author: "reviewer", content: "Předělej támhleto" },
-        { id: "m4", author: "author", content: "Hotovo." },
-    ];
 
     componentDidMount() {
         this.props.getArticleDetailRequest({ articleId: this.props.match.params.id, version: this.props.match.params.version });
@@ -64,14 +51,14 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
             {this.props.reviews.map((review, index) => {
-                return <>
-                    <h3 key={index}>Review {review.id}</h3>
-                    <AuthorReviewForm key={"form_" + index} interest={review.interest}
-                        originality={review.originality}
-                        specializationLevel={review.specializationLevel}
-                        languageLevel={review.languageLevel}
-                        comment={review.comment} />
-                    </>;
+                return <AuthorReviewForm key={"form_" + index}
+                    id={review.id}
+                    status={review.status}
+                    interest={review.interest}
+                    originality={review.originality}
+                    specializationLevel={review.specializationLevel}
+                    languageLevel={review.languageLevel}
+                    comment={review.comment} />;
             })}
         </>;
     }

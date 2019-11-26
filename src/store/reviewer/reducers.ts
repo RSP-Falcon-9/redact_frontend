@@ -53,7 +53,7 @@ export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDet
             return { ...state, loading: false, message: action.payload.message, errors: undefined,
                 name: detailResponse.name,
                 id: detailResponse.reviewId,
-                reviewStatus: detailResponse.reviewStatus,
+                reviewStatus: Object.values(ArticleReviewStatus).indexOf(detailResponse.reviewStatus),
                 interest: detailResponse.interest,
                 originality: detailResponse.originality,
                 specializationLevel: detailResponse.specializationLevel,
