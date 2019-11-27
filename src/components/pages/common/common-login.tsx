@@ -70,7 +70,7 @@ class Login extends React.Component<AllProps, LoginState> {
         let componentToShow = !this.props.authenticated ? (
             <Form onSubmit={this.handleSubmit}>
                 <Row noGutters={true}>
-                    <Col>
+                    <Col className="mr-3">
                         <Form.Control
                             id="usernameField"
                             required
@@ -79,7 +79,7 @@ class Login extends React.Component<AllProps, LoginState> {
                             onChange={this.handleChange}
                         />
                     </Col>
-                    <Col>
+                    <Col className="mr-3">
                         <Form.Control
                             id="passwordField"
                             required
@@ -95,16 +95,14 @@ class Login extends React.Component<AllProps, LoginState> {
                     </Col>
                 </Row>
             </Form>) : (
-                <Row noGutters={true}>
-                    <Col>Vítejte, {this.props.userName}</Col>
-                    <Col>
-                        <Button variant="primary" size="sm" onClick={() => {
-                                this.props.logout();
-                            }}>
-                                <FontAwesomeIcon icon="door-open" />
-                        </Button>
-                    </Col>
-                </Row>
+                <div className="text-right" >
+                    <span className="mr-3">Vítejte, {this.props.userName}</span>
+                    <Button variant="primary" size="sm" onClick={() => {
+                            this.props.logout();
+                        }}>
+                            <FontAwesomeIcon icon="door-open" />
+                    </Button>
+                </div>
             );
 
         return <>

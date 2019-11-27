@@ -66,7 +66,8 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
 
     render() {
         return <>
-            <h3>Recenze {this.props.id}
+            <h3>
+                <span className="mr-3">Recenze</span>
                 {this.props.status === ArticleReviewStatus.NEW && <Badge variant="info">Nový</Badge>}
                 {this.props.status === ArticleReviewStatus.REVIEWED && <Badge variant="info">Zrecenzováno</Badge>}
                 {this.props.status === ArticleReviewStatus.APPEAL && <Badge variant="info">Autor se odvolal</Badge>}

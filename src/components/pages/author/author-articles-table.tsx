@@ -66,7 +66,7 @@ class AuthorArticlesTable extends React.Component<AllProps> {
 
             <td>{article.name}</td>
             <td>
-                <Dropdown as={ButtonGroup}>
+                <Dropdown as={ButtonGroup} className="mr-3">
                     <Link to={`/author/article/${article.id}/${newestVersion}`}><Button variant="info">Zobrazit poslední verzi</Button></Link>
 
                     <Dropdown.Toggle split variant="info" id="dropdown-split-versions" />
