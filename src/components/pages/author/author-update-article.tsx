@@ -3,7 +3,7 @@ import * as React from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
-import { createArticleRequest, updateArticleRequest } from "store/author/actions";
+import { updateArticleRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
 
 interface RouteProps {
@@ -16,7 +16,6 @@ interface PropsFromState {
 }
 
 interface PropsFromDispatch {
-    createArticleRequest: typeof createArticleRequest;
     updateArticleRequest: typeof updateArticleRequest;
 }
 
@@ -47,7 +46,7 @@ class AuthorUpdateArticle extends React.Component<AllProps<RouteProps>, NewArtic
                     Nahrát &amp; požádat o recenzi
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}
-                {errors && (<Alert variant="danger">Nelze přidat nový článek!</Alert>)}
+                {errors && (<Alert variant="danger">Nelze aktualizovat článek!</Alert>)}
             </Form>
         </>;
     }
@@ -68,7 +67,6 @@ const mapStateToProps = ({ author }: ApplicationState) => ({
 });
 
 const mapDispatchToProps = {
-    createArticleRequest,
     updateArticleRequest,
 };
 

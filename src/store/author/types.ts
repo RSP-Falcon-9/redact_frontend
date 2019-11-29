@@ -1,4 +1,5 @@
 import { ArticleReviewStatus } from "store/reviewer/types";
+import { BaseResponse } from "requests/base-response";
 
 export enum AuthorAction {
     GET_ARTICLES = "@@author/getArticles",
@@ -40,7 +41,7 @@ export interface AuthorArticleReview {
     comment: string;
 }
 
-export interface AuthorArticleResponse {
+export interface AuthorArticleResponse extends BaseResponse {
     id: string;
     status: string;
     interest: number;
@@ -50,7 +51,7 @@ export interface AuthorArticleResponse {
     comment: string;
 }
 
-export interface GetArticlesResponse {
+export interface GetArticlesResponse extends BaseResponse {
     articles: Article[];
 }
 
@@ -69,7 +70,7 @@ export interface GetArticleDetailRequest {
     version: number;
 }
 
-export interface GetArticleDetailResponse {
+export interface GetArticleDetailResponse extends BaseResponse {
     name: string;
     reviews: AuthorArticleResponse[];
 }
@@ -77,7 +78,7 @@ export interface GetArticleDetailResponse {
 export interface GetArticlesState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly articles: Article[];
 }
 
@@ -90,13 +91,13 @@ export interface CreateArticleState {
 export interface UpdateArticleState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
 }
 
 export interface GetArticleDetailState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly name: string;
     readonly reviews: AuthorArticleReview[];
 }
@@ -110,3 +111,5 @@ export interface AuthorState {
 
 export const GET_ARTICLES_URL = "/articles";
 export const ARTICLE_URL = "/article/";
+export const articleEndpoint = (articleId: string, version: number): string =>
+    `/article/${articleId}/${version}`;

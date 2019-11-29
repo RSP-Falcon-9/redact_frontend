@@ -1,6 +1,6 @@
 import { action } from "typesafe-actions";
 import { EditorAction, GetEditorArticleDetailRequest, GetEditorArticleDetailResponse, GetEditorArticlesResponse, GetReviewersResponse, SetReviewerToArticleRequest } from "./types";
-import { BaseDto } from "utils/base-dto";
+import { BaseResponse } from "requests/base-response";
 
 export const getEditorArticlesRequest = () => action(EditorAction.GET_ARTICLES);
 export const getEditorArticlesSuccess = (data: GetEditorArticlesResponse) => action(EditorAction.GET_ARTICLES_SUCCESS, data);
@@ -15,5 +15,5 @@ export const getReviewersSuccess = (data: GetReviewersResponse) => action(Editor
 export const getReviewersError = (message: string) => action(EditorAction.GET_REVIEWERS_ERROR, message);
 
 export const setReviewerToArticleRequest = (articleId: string, version: number, data: SetReviewerToArticleRequest) => action(EditorAction.SET_REVIEWER_TO_ARTICLE, {articleId, version, data});
-export const setReviewerToArticleSuccess = (data: BaseDto) => action(EditorAction.SET_REVIEWER_TO_ARTICLE_SUCCESS, data);
+export const setReviewerToArticleSuccess = (data: BaseResponse) => action(EditorAction.SET_REVIEWER_TO_ARTICLE_SUCCESS, data);
 export const setReviewerToArticleError = (message: string) => action(EditorAction.SET_REVIEWER_TO_ARTICLE_ERROR, message);

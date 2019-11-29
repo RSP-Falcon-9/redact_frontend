@@ -1,25 +1,35 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { getArticlesError, getArticlesSuccess, updateArticleRequest, updateArticleError, updateArticleSuccess } from "store/author/actions";
-import { callAuthorApi, callAuthorApiMultipart, getAuthToken, Method } from "utils/api";
-import { createArticleError, createArticleRequest, createArticleSuccess, getArticleDetailError, getArticleDetailRequest, getArticleDetailSuccess } from "./actions";
-import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL } from "./types";
+import { callAuthorApi, callAuthorApiMultipart, getAuthToken, Method } from "requests/api";
+import {
+    getArticlesError,
+    getArticlesSuccess,
+    updateArticleRequest,
+    updateArticleError,
+    updateArticleSuccess,
+    createArticleError,
+    createArticleRequest,
+    createArticleSuccess,
+    getArticleDetailError,
+    getArticleDetailRequest,
+    getArticleDetailSuccess } from "./actions";
+import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL, articleEndpoint } from "./types";
 
 function* handleGetArticles() {
     try {
         const response = yield call(callAuthorApi, Method.Get, GET_ARTICLES_URL, yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get all articles: " + response.error);
-            yield put(getArticlesError(response.error));
+            console.error(`There was error with get all articles: ${response.error}`);
+            yield put(getArticlesError(response));
         } else {
             yield put(getArticlesSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get all articles: " + error.stack!);
-            yield put(getArticlesError(error.name));
+            console.error(`There was error with get all articles: ${error.stack!}`);
+            yield put(getArticlesError({ error: error.name, message: error.message }));
         } else {
-            yield put(getArticlesError("There was an unknown error."));
+            yield put(getArticlesError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
@@ -30,17 +40,17 @@ function* handleCreateArticle(action: ReturnType<typeof createArticleRequest>) {
             yield getAuthToken(), action.payload);
 
         if (response.error) {
-            console.error("There was error with create article: " + response.error);
+            console.error(`There was error with create article: ${response.error}`);
             yield put(createArticleError(response));
         } else {
             yield put(createArticleSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with create article: " + error.stack!);
-            yield put(createArticleError(error.name));
+            console.error(`There was error with create article: ${error.stack!}`);
+            yield put(createArticleError({ error: error.name, message: error.message }));
         } else {
-            yield put(createArticleError("There was an unknown error."));
+            yield put(createArticleError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
@@ -51,37 +61,39 @@ function* handleUpdateArticle(action: ReturnType<typeof updateArticleRequest>) {
             yield getAuthToken(), action.payload);
 
         if (response.error) {
-            console.error("There was error with update article: " + response.error);
+            console.error(`There was error with update article: ${response.error}`);
             yield put(updateArticleError(response.error));
         } else {
             yield put(updateArticleSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with update article: " + error.stack!);
-            yield put(updateArticleError(error.name));
+            console.error(`There was error with update article: ${error.stack!}`);
+            yield put(updateArticleError({ error: error.name, message: error.message }));
         } else {
-            yield put(updateArticleError("There was an unknown error."));
+            yield put(updateArticleError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
 
 function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailRequest>) {
     try {
-        const response = yield call(callAuthorApi, Method.Get, `${ARTICLE_URL}${action.payload.articleId}/${action.payload.version}`, yield getAuthToken());
+        const response = yield call(callAuthorApi, Method.Get,
+            articleEndpoint(action.payload.articleId, action.payload.version),
+            yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get article detail: " + response.error);
+            console.error(`There was error with get article detail: ${response.error}`);
             yield put(getArticleDetailError(response));
         } else {
             yield put(getArticleDetailSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get article detail: " + error.stack!);
-            yield put(getArticleDetailError(error.name));
+            console.error(`There was error with get article detail: ${error.stack!}`);
+            yield put(getArticleDetailError({ error: error.name, message: error.message }));
         } else {
-            yield put(getArticleDetailError("There was an unknown error."));
+            yield put(getArticleDetailError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }

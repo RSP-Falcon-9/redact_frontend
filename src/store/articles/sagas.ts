@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { getArticleFileError, getArticleFileRequest, getArticleFileSuccess } from "store/articles/actions";
 import { ArticleAction } from "store/articles/types";
-import { callArticleApiBlob, getAuthToken, Method } from "utils/api";
+import { callArticleApiBlob, getAuthToken, Method } from "requests/api";
 
 function* handleGetArticleFile(action: ReturnType<typeof getArticleFileRequest>) {
     try {

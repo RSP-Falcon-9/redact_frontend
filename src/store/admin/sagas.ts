@@ -1,7 +1,7 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { createUserError, createUserRequest, createUserSuccess, deleteUserError, deleteUserRequest, deleteUserSuccess, getAllUsersError, getAllUsersSuccess } from "store/admin/actions";
 import { AdminAction, GET_ALL_USERS_URL, USER_URL } from "store/admin/types";
-import { callAdminApi, getAuthToken, Method } from "utils/api";
+import { callAdminApi, getAuthToken, Method } from "requests/api";
 
 function* handleGetAllUsers() {
     try {

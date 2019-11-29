@@ -1,5 +1,5 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
-import { getAuthToken, Method, callEditorApi } from "utils/api";
+import { getAuthToken, Method, callEditorApi } from "requests/api";
 import { getEditorArticleDetailRequest, getEditorArticlesError, getEditorArticlesSuccess, getReviewersSuccess, getReviewersError, setReviewerToArticleRequest, setReviewerToArticleError, setReviewerToArticleSuccess } from "./actions";
 import { ARTICLE_URL, EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint } from "./types";
 

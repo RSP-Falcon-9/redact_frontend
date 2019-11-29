@@ -1,7 +1,7 @@
 import { select } from "redux-saga/effects";
 import { ApplicationState } from "store/root";
 import { BACKEND_URL } from "utils/constants";
-import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "./navigation";
+import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "../utils/navigation";
 
 export enum Method {
     Get = "get",

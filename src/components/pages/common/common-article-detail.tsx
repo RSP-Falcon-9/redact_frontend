@@ -14,7 +14,7 @@ interface RouteProps {
 
 interface PropsFromState {
     loading: boolean;
-    errors?: string;
+    error?: string;
     name: string;
     fileUrl?: string;
 }
@@ -51,7 +51,7 @@ class ArticleDetail extends React.Component<AllProps<RouteProps>> {
             return <Spinner animation="border" variant="primary" />;
         }
 
-        if (this.props.errors) {
+        if (this.props.error) {
             return <Alert variant="danger">Nelze načíst detail článku {this.props.match.params.id}!</Alert>;
         }
 
@@ -117,7 +117,7 @@ class ArticleDetail extends React.Component<AllProps<RouteProps>> {
 
 const mapStateToProps = ({ author, articles }: ApplicationState) => ({
     loading: author.getArticleDetail.loading,
-    errors: author.getArticleDetail.errors,
+    error: author.getArticleDetail.error,
     name: author.getArticleDetail.name,
     fileUrl: articles.getArticleFile.fileUrl,
 });

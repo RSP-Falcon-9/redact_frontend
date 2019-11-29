@@ -16,7 +16,7 @@ interface RouteProps {
 
 interface PropsFromState {
     loading: boolean;
-    errors?: string;
+    error?: string;
     name: string;
     fileUrl?: string;
     reviews: AuthorArticleReview[];
@@ -32,8 +32,14 @@ type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
 class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
 
     componentDidMount() {
-        this.props.getArticleDetailRequest({ articleId: this.props.match.params.id, version: this.props.match.params.version });
-        this.props.getArticleFileRequest({ articleId: this.props.match.params.id, version: this.props.match.params.version });
+        this.props.getArticleDetailRequest({
+            articleId: this.props.match.params.id,
+            version: this.props.match.params.version,
+        });
+        this.props.getArticleFileRequest({
+            articleId: this.props.match.params.id,
+            version: this.props.match.params.version,
+        });
     }
 
     content(): JSX.Element {
@@ -41,7 +47,7 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
             return <Spinner animation="border" variant="primary" />;
         }
 
-        if (this.props.errors) {
+        if (this.props.error) {
             return <Alert variant="danger">Nelze načíst detail článku {this.props.match.params.id}!</Alert>;
         }
 
@@ -71,7 +77,7 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
 
 const mapStateToProps = ({ author, articles }: ApplicationState) => ({
     loading: author.getArticleDetail.loading,
-    errors: author.getArticleDetail.errors,
+    error: author.getArticleDetail.error,
     name: author.getArticleDetail.name,
     fileUrl: articles.getArticleFile.fileUrl,
     reviews: author.getArticleDetail.reviews,

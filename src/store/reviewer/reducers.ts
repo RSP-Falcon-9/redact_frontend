@@ -1,5 +1,11 @@
 import { Reducer } from "redux";
-import { GetReviewerArticleDetailResponse, GetReviewerArticleDetailState, GetReviewerArticlesResponse, GetReviewerArticlesState, ReviewerAction, ArticleReviewStatus, ReviewArticleState } from "./types";
+import { GetReviewerArticleDetailResponse,
+    GetReviewerArticleDetailState,
+    GetReviewerArticlesResponse,
+    GetReviewerArticlesState,
+    ReviewerAction,
+    ArticleReviewStatus,
+    ReviewArticleState } from "./types";
 
 const initialGetReviewerArticlesState: GetReviewerArticlesState = {
     loading: false,

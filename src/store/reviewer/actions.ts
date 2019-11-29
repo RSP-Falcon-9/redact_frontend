@@ -1,5 +1,5 @@
 import { action } from "typesafe-actions";
-import { BaseDto, ErrorBaseDto } from "utils/base-dto";
+import { BaseResponse, ErrorBaseResponse } from "requests/base-response";
 import { GetReviewerArticleDetailRequest, GetReviewerArticleDetailResponse, GetReviewerArticlesResponse, ReviewArticleRequest, ReviewerAction } from "./types";
 
 export const getReviewerArticlesRequest = () => action(ReviewerAction.GET_ARTICLES);
@@ -11,5 +11,5 @@ export const getReviewerArticleDetailSuccess = (data: GetReviewerArticleDetailRe
 export const getReviewerArticleDetailError = (message: string) => action(ReviewerAction.GET_ARTICLE_DETAIL_ERROR, message);
 
 export const reviewArticleRequest = (id: string, data: ReviewArticleRequest) => action(ReviewerAction.REVIEW_ARTICLE, {id, data});
-export const reviewArticleSuccess = (data: BaseDto) => action(ReviewerAction.REVIEW_ARTICLE_SUCCESS, data);
-export const reviewArticleError = (data: ErrorBaseDto) => action(ReviewerAction.REVIEW_ARTICLE_ERROR, data);
+export const reviewArticleSuccess = (data: BaseResponse) => action(ReviewerAction.REVIEW_ARTICLE_SUCCESS, data);
+export const reviewArticleError = (data: ErrorBaseResponse) => action(ReviewerAction.REVIEW_ARTICLE_ERROR, data);
