@@ -12,15 +12,30 @@ const initialGetArticlesState: GetArticlesState = {
 export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> = (state = initialGetArticlesState, action) => {
     switch (action.type) {
         case AuthorAction.GET_ARTICLES: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                errors: undefined,
+            };
         }
         case AuthorAction.GET_ARTICLES_SUCCESS: {
             const getAuthorArticlesResponse = action.payload as GetArticlesResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, articles: getAuthorArticlesResponse.articles };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                errors: undefined,
+                articles: getAuthorArticlesResponse.articles,
+            };
         }
         case AuthorAction.GET_ARTICLES_ERROR: {
-            return { ...state, loading: false, errors: action.payload };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                errors: action.payload.error,
+            };
         }
         default: {
             return state;
@@ -31,19 +46,33 @@ export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> = (state =
 const initialCreateArticleState: CreateArticleState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
 };
 
 export const createArticleStateReducer: Reducer<CreateArticleState> = (state = initialCreateArticleState, action) => {
     switch (action.type) {
         case AuthorAction.CREATE_ARTICLE: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                errors: undefined,
+            };
         }
         case AuthorAction.CREATE_ARTICLE_SUCCESS: {
-            return { ...state, loading: false, message: action.payload.message, errors: undefined };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+            };
         }
-        case AuthorAction.GET_ARTICLES_ERROR: {
-            return { ...state, loading: false, errors: action.payload.error };
+        case AuthorAction.CREATE_ARTICLE_ERROR: {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: action.payload.error,
+            };
         }
         default: {
             return state;
@@ -59,14 +88,27 @@ const initialUpdateArticleState: UpdateArticleState = {
 
 export const updateArticleStateReducer: Reducer<UpdateArticleState> = (state = initialUpdateArticleState, action) => {
     switch (action.type) {
-        case AuthorAction.CREATE_ARTICLE: {
-            return { ...state, loading: true, errors: undefined };
+        case AuthorAction.UPDATE_ARTICLE: {
+            return {
+                ...state,
+                loading: true,
+                errors: undefined,
+            };
         }
-        case AuthorAction.CREATE_ARTICLE_SUCCESS: {
-            return { ...state, loading: false, message: action.payload.message, errors: undefined };
+        case AuthorAction.UPDATE_ARTICLE_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                errors: undefined,
+            };
         }
-        case AuthorAction.GET_ARTICLES_ERROR: {
-            return { ...state, loading: false, errors: action.payload.error };
+        case AuthorAction.UPDATE_ARTICLE_ERROR: {
+            return {
+                ...state,
+                loading: false,
+                errors: action.payload.error,
+            };
         }
         default: {
             return state;
@@ -85,7 +127,11 @@ const initialGetArticleDetailState: GetArticleDetailState = {
 export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> = (state = initialGetArticleDetailState, action) => {
     switch (action.type) {
         case AuthorAction.GET_ARTICLE_DETAIL: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                errors: undefined,
+            };
         }
         case AuthorAction.GET_ARTICLE_DETAIL_SUCCESS: {
             const detailResponse = action.payload as GetArticleDetailResponse;
@@ -101,10 +147,22 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
                 };
             });
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name, reviews: transformedReviews };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                errors: undefined,
+                name: detailResponse.name,
+                reviews: transformedReviews,
+            };
         }
         case AuthorAction.GET_ARTICLE_DETAIL_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                errors: action.payload.error,
+            };
         }
         default: {
             return state;

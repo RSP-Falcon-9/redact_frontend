@@ -70,7 +70,7 @@ export interface GetReviewerArticlesState {
 export interface GetReviewerArticleDetailState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly id: string;
     readonly name: string;
     readonly reviewStatus: ArticleReviewStatus;

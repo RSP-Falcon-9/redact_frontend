@@ -8,6 +8,7 @@ import { ApplicationState } from "store/root";
 interface PropsFromState {
     loading: boolean;
     errors?: string;
+    message: string;
 }
 
 interface PropsFromDispatch {
@@ -24,10 +25,23 @@ interface NewArticleFormState {
 class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
 
     content(): JSX.Element {
-        const { loading, errors } = this.props;
+        const { loading, errors, message } = this.props;
 
         return <>
             <h2>Nahrát nový článek</h2>
+
+            <Alert variant="info">
+                Prosíme dodržujte pravidla při nahrávání článku:
+                <ul className="mb-0">
+                    <li>
+                        <Alert.Link href="http://www.vspj.cz/soubory/download/id/7344">Pokyny pro autory</Alert.Link>
+                    </li>
+                    <li>
+                        <Alert.Link href="https://www.vspj.cz/soubory/download/id/4186">Šablona</Alert.Link>
+                    </li>
+                </ul>
+                Při nedodržení pravidel může být článek zamítnut.
+            </Alert>
 
             <Form>
                 <Form.Group>
@@ -49,6 +63,7 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}
                 {errors && (<Alert variant="danger">Nelze přidat nový článek!</Alert>)}
+                {!errors && message && (<Alert variant="success">Článek byl úspěšně přidán!</Alert>)}
             </Form>
         </>;
     }
@@ -65,7 +80,8 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
 
 const mapStateToProps = ({ author }: ApplicationState) => ({
     loading: author.createArticle.loading,
-    errors: author.createArticle.errors,
+    errors: author.createArticle.error,
+    message: author.createArticle.message,
 });
 
 const mapDispatchToProps = {

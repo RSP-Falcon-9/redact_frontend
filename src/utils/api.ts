@@ -54,7 +54,7 @@ export async function callApiMultipart(method: string, path: string, data: any, 
         body: fdata,
     });
 
-    return await response.blob();
+    return await response.json();
 }
 
 export async function callArticleApiBlob(method: string, path: string, authToken?: string, data?: any) {

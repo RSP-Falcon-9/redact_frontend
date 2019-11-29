@@ -64,12 +64,12 @@ class AuthorUpdateArticle extends React.Component<AllProps<RouteProps>, NewArtic
 
 const mapStateToProps = ({ author }: ApplicationState) => ({
     loading: author.createArticle.loading,
-    errors: author.createArticle.errors,
+    errors: author.createArticle.error,
 });
 
 const mapDispatchToProps = {
     createArticleRequest,
-    updateArticleRequest
+    updateArticleRequest,
 };
 
 export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(

@@ -31,7 +31,7 @@ function* handleCreateArticle(action: ReturnType<typeof createArticleRequest>) {
 
         if (response.error) {
             console.error("There was error with create article: " + response.error);
-            yield put(createArticleError(response.error));
+            yield put(createArticleError(response));
         } else {
             yield put(createArticleSuccess(response));
         }
@@ -72,7 +72,7 @@ function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailReque
 
         if (response.error) {
             console.error("There was error with get article detail: " + response.error);
-            yield put(getArticleDetailError(response.error));
+            yield put(getArticleDetailError(response));
         } else {
             yield put(getArticleDetailSuccess(response));
         }

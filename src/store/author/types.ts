@@ -6,16 +6,16 @@ export enum AuthorAction {
     GET_ARTICLES_ERROR = "@@author/getArticlesError",
 
     CREATE_ARTICLE = "@@author/createArticle",
-    CREATE_ARTICLE_SUCCESS = "@author/createArticleSuccess",
-    CREATE_ARTICLE_ERROR = "@author/createArticleError",
+    CREATE_ARTICLE_SUCCESS = "@@author/createArticleSuccess",
+    CREATE_ARTICLE_ERROR = "@@author/createArticleError",
 
     UPDATE_ARTICLE = "@@author/updateArticle",
-    UPDATE_ARTICLE_SUCCESS = "@author/updateArticleSuccess",
-    UPDATE_ARTICLE_ERROR = "@author/updateArticleError",
+    UPDATE_ARTICLE_SUCCESS = "@@author/updateArticleSuccess",
+    UPDATE_ARTICLE_ERROR = "@@author/updateArticleError",
 
     GET_ARTICLE_DETAIL = "@@author/getArticleDetail",
-    GET_ARTICLE_DETAIL_SUCCESS = "@author/getArticleDetailSuccess",
-    GET_ARTICLE_DETAIL_ERROR = "@author/getArticleDetailError",
+    GET_ARTICLE_DETAIL_SUCCESS = "@@author/getArticleDetailSuccess",
+    GET_ARTICLE_DETAIL_ERROR = "@@author/getArticleDetailError",
 }
 
 export interface ArticleVersion {
@@ -84,7 +84,7 @@ export interface GetArticlesState {
 export interface CreateArticleState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
 }
 
 export interface UpdateArticleState {

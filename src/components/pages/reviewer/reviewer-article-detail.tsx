@@ -84,7 +84,7 @@ class ReviewerArticleDetail extends React.Component<AllProps<RouteProps>> {
 
 const mapStateToProps = ({ reviewer, articles }: ApplicationState) => ({
     loading: reviewer.getReviewerArticleDetail.loading,
-    errors: reviewer.getReviewerArticleDetail.errors,
+    errors: reviewer.getReviewerArticleDetail.error,
     name: reviewer.getReviewerArticleDetail.name,
     fileUrl: articles.getArticleFile.fileUrl,
     reviewId: reviewer.getReviewerArticleDetail.id,
