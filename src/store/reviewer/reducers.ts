@@ -6,26 +6,46 @@ import { GetReviewerArticleDetailResponse,
     ReviewerAction,
     ArticleReviewStatus,
     ReviewArticleState } from "./types";
+import { ErrorBaseResponse, BaseResponse } from "requests/base-response";
 
 const initialGetReviewerArticlesState: GetReviewerArticlesState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
     articles: [],
 };
 
-export const getReviewerArticlesStateReducer: Reducer<GetReviewerArticlesState> = (state = initialGetReviewerArticlesState, action) => {
+export const getReviewerArticlesStateReducer: Reducer<GetReviewerArticlesState> =
+    (state = initialGetReviewerArticlesState, action): GetReviewerArticlesState => {
     switch (action.type) {
         case ReviewerAction.GET_ARTICLES: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                message: "",
+                error: undefined,
+            };
         }
         case ReviewerAction.GET_ARTICLES_SUCCESS: {
             const articlesResponse = action.payload as GetReviewerArticlesResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, articles: articlesResponse.articles };
+            return {
+                ...state,
+                loading: false,
+                message: articlesResponse.message,
+                error: undefined,
+                articles: articlesResponse.articles,
+            };
         }
         case ReviewerAction.GET_ARTICLES_ERROR: {
-            return { ...state, loading: false, errors: action.payload };
+            const getArticlesError = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: getArticlesError.message,
+                error: getArticlesError.error,
+            };
         }
         default: {
             return state;
@@ -48,12 +68,14 @@ const initialGetReviewerArticleDetailState: GetReviewerArticleDetailState = {
     reviewDate: new Date(),
 };
 
-export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDetailState> = (state = initialGetReviewerArticleDetailState, action) => {
+export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDetailState> =
+    (state = initialGetReviewerArticleDetailState, action): GetReviewerArticleDetailState => {
     switch (action.type) {
         case ReviewerAction.GET_ARTICLE_DETAIL: {
             return {
                 ...state,
                 loading: true,
+                message: "",
                 error: undefined,
             };
         }
@@ -63,7 +85,7 @@ export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDet
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
+                message: detailResponse.message,
                 error: undefined,
                 name: detailResponse.name,
                 id: detailResponse.reviewId,
@@ -77,11 +99,13 @@ export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDet
             };
         }
         case ReviewerAction.GET_ARTICLE_DETAIL_ERROR: {
+            const getArticleDetailError = action.payload as ErrorBaseResponse;
+
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
-                error: action.payload.error,
+                message: getArticleDetailError.message,
+                error: getArticleDetailError.error,
             };
         }
         default: {
@@ -93,19 +117,39 @@ export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDet
 const initialReviewArticleState: ReviewArticleState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
 };
 
-export const reviewArticleStateReducer: Reducer<ReviewArticleState> = (state = initialReviewArticleState, action) => {
+export const reviewArticleStateReducer: Reducer<ReviewArticleState> =
+    (state = initialReviewArticleState, action): ReviewArticleState => {
     switch (action.type) {
         case ReviewerAction.REVIEW_ARTICLE: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                message: "",
+                error: undefined,
+            };
         }
         case ReviewerAction.REVIEW_ARTICLE_SUCCESS: {
-            return { ...state, loading: false, message: action.payload.message, errors: undefined };
+            const reviewArticleSuccess = action.payload as BaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: reviewArticleSuccess.message,
+                error: undefined,
+            };
         }
         case ReviewerAction.REVIEW_ARTICLE_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+            const reviewArticleError = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: reviewArticleError.message,
+                error: reviewArticleError.error,
+            };
         }
         default: {
             return state;

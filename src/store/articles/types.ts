@@ -1,7 +1,7 @@
 export enum ArticleAction {
     GET_ARTICLE_FILE = "@@article/getArticleFile",
-    GET_ARTICLE_FILE_SUCCESS = "@article/getArticleFileSuccess",
-    GET_ARTICLE_FILE_ERROR = "@article/getArticleFileError",
+    GET_ARTICLE_FILE_SUCCESS = "@@article/getArticleFileSuccess",
+    GET_ARTICLE_FILE_ERROR = "@@article/getArticleFileError",
 }
 
 export interface GetArticleFileRequest {
@@ -16,7 +16,7 @@ export interface GetArticleFileResponse {
 export interface GetArticleFileState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly fileUrl?: string;
 }
 
@@ -24,4 +24,7 @@ export interface ArticleState {
     readonly getArticleFile: GetArticleFileState;
 }
 
-export const ARTICLE_URL = "/article/";
+export const articleDetailEndpoint = (articleId: string, version: number): string =>
+    `/article/${articleId}/${version}`;
+export const articleFileEndpoint = (articleId: string, version: number): string =>
+    `/article/${articleId}/${version}/file`;

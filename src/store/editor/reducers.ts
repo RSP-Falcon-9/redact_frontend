@@ -4,22 +4,37 @@ import { EditorAction, GetEditorArticleDetailResponse, GetEditorArticleDetailSta
 const initialGetArticlesState: GetEditorArticlesState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
     articles: [],
 };
 
-export const getEditorArticlesStateReducer: Reducer<GetEditorArticlesState> = (state = initialGetArticlesState, action) => {
+export const getEditorArticlesStateReducer: Reducer<GetEditorArticlesState> =
+    (state = initialGetArticlesState, action): GetEditorArticlesState => {
     switch (action.type) {
         case EditorAction.GET_ARTICLES: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
         }
         case EditorAction.GET_ARTICLES_SUCCESS: {
             const articlesResponse = action.payload as GetEditorArticlesResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, articles: articlesResponse.articles };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+                articles: articlesResponse.articles,
+            };
         }
         case EditorAction.GET_ARTICLES_ERROR: {
-            return { ...state, loading: false, errors: action.payload };
+            return {
+                ...state,
+                loading: false,
+                error: action.payload,
+            };
         }
         default: {
             return state;
@@ -30,22 +45,38 @@ export const getEditorArticlesStateReducer: Reducer<GetEditorArticlesState> = (s
 const initialGetArticleDetailState: GetEditorArticleDetailState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
     name: "",
 };
 
-export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailState> = (state = initialGetArticleDetailState, action) => {
+export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailState> =
+    (state = initialGetArticleDetailState, action): GetEditorArticleDetailState => {
     switch (action.type) {
         case EditorAction.GET_ARTICLE_DETAIL: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
         }
         case EditorAction.GET_ARTICLE_DETAIL_SUCCESS: {
             const detailResponse = action.payload as GetEditorArticleDetailResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, name: detailResponse.name };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+                name: detailResponse.name,
+            };
         }
         case EditorAction.GET_ARTICLE_DETAIL_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: action.payload.error,
+            };
         }
         default: {
             return state;
@@ -56,22 +87,39 @@ export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailS
 const initialGetReviewersState: GetReviewersState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
     reviewers: [],
 };
 
-export const getReviewersStateReducer: Reducer<GetReviewersState> = (state = initialGetReviewersState, action) => {
+export const getReviewersStateReducer: Reducer<GetReviewersState> =
+    (state = initialGetReviewersState, action): GetReviewersState => {
     switch (action.type) {
         case EditorAction.GET_REVIEWERS: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                message: "",
+                error: undefined,
+            };
         }
         case EditorAction.GET_REVIEWERS_SUCCESS: {
             const detailResponse = action.payload as GetReviewersResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, reviewers: detailResponse.reviewers };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+                reviewers: detailResponse.reviewers,
+            };
         }
         case EditorAction.GET_REVIEWERS_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: action.payload.error,
+            };
         }
         default: {
             return state;
@@ -82,19 +130,34 @@ export const getReviewersStateReducer: Reducer<GetReviewersState> = (state = ini
 const initialSetReviewerToArticleState: SetReviewerToArticleState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
 };
 
-export const setReviewerToArticleStateReducer: Reducer<SetReviewerToArticleState> = (state = initialSetReviewerToArticleState, action) => {
+export const setReviewerToArticleStateReducer: Reducer<SetReviewerToArticleState> =
+    (state = initialSetReviewerToArticleState, action): SetReviewerToArticleState => {
     switch (action.type) {
         case EditorAction.SET_REVIEWER_TO_ARTICLE: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
         }
         case EditorAction.SET_REVIEWER_TO_ARTICLE_SUCCESS: {
-            return { ...state, loading: false, message: action.payload.message, errors: undefined };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+            };
         }
         case EditorAction.SET_REVIEWER_TO_ARTICLE_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: action.payload.error,
+            };
         }
         default: {
             return state;

@@ -10,7 +10,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 interface PropsFromState {
     loading: boolean;
     articles: ReviewerArticle[];
-    errors?: string;
+    error?: string;
 }
 
 interface PropsFromDispatch {
@@ -28,7 +28,9 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
     render() {
         if (this.props.loading) {
             return <Spinner animation="border" variant="primary" className="mb-3 mx-auto" />;
-        } else if (this.props.errors) {
+        }
+
+        if (this.props.error) {
             return <Alert variant="danger" className="mx-auto flex-grow-1">Nelze načíst články!</Alert>;
         }
 
@@ -74,7 +76,7 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
 const mapStateToProps = ({ reviewer }: ApplicationState) => ({
     loading: reviewer.getReviewerArticles.loading,
     articles: reviewer.getReviewerArticles.articles,
-    errors: reviewer.getReviewerArticles.errors,
+    error: reviewer.getReviewerArticles.error,
 });
 
 const mapDispatchToProps = {

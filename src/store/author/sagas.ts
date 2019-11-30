@@ -12,7 +12,8 @@ import {
     getArticleDetailError,
     getArticleDetailRequest,
     getArticleDetailSuccess } from "./actions";
-import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL, articleEndpoint } from "./types";
+import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL } from "./types";
+import { articleDetailEndpoint } from "store/articles/types";
 
 function* handleGetArticles() {
     try {
@@ -79,7 +80,7 @@ function* handleUpdateArticle(action: ReturnType<typeof updateArticleRequest>) {
 function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailRequest>) {
     try {
         const response = yield call(callAuthorApi, Method.Get,
-            articleEndpoint(action.payload.articleId, action.payload.version),
+            articleDetailEndpoint(action.payload.articleId, action.payload.version),
             yield getAuthToken());
 
         if (response.error) {

@@ -1,7 +1,16 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { getAuthToken, Method, callEditorApi } from "requests/api";
-import { getEditorArticleDetailRequest, getEditorArticlesError, getEditorArticlesSuccess, getReviewersSuccess, getReviewersError, setReviewerToArticleRequest, setReviewerToArticleError, setReviewerToArticleSuccess } from "./actions";
-import { ARTICLE_URL, EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint } from "./types";
+import {
+    getEditorArticleDetailRequest,
+    getEditorArticlesError,
+    getEditorArticlesSuccess,
+    getReviewersSuccess,
+    getReviewersError,
+    setReviewerToArticleRequest,
+    setReviewerToArticleError,
+    setReviewerToArticleSuccess } from "./actions";
+import { EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint } from "./types";
+import { articleDetailEndpoint } from "store/articles/types";
 
 // requests
 
@@ -10,37 +19,38 @@ function* handleGetArticles() {
         const response = yield call(callEditorApi, Method.Get, GET_ARTICLES_URL, yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get all articles: " + response.error);
-            yield put(getEditorArticlesError(response.error));
+            console.error(`There was error with get all articles: ${response.error}`);
+            yield put(getEditorArticlesError(response));
         } else {
             yield put(getEditorArticlesSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get all articles: " + error.stack!);
-            yield put(getEditorArticlesError(error.name));
+            console.error(`There was error with get all articles: ${error.stack}`);
+            yield put(getEditorArticlesError({ error: error.name, message: error.message }));
         } else {
-            yield put(getEditorArticlesError("There was an unknown error."));
+            yield put(getEditorArticlesError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
 
 function* handleGetArticleDetail(action: ReturnType<typeof getEditorArticleDetailRequest>) {
     try {
-        const response = yield call(callEditorApi, Method.Get, `${ARTICLE_URL}${action.payload.articleId}/${action.payload.version}`, yield getAuthToken());
+        const response = yield call(callEditorApi, Method.Get,
+            articleDetailEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get article detail: " + response.error);
+            console.error(`There was error with get article detail: ${response.error}`);
             yield put(getEditorArticlesError(response.error));
         } else {
             yield put(getEditorArticlesSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get article detail: " + error.stack!);
-            yield put(getEditorArticlesError(error.name));
+            console.error(`There was error with get article detail: ${error.stack}`);
+            yield put(getEditorArticlesError({ error: error.name, message: error.message }));
         } else {
-            yield put(getEditorArticlesError("There was an unknown error."));
+            yield put(getEditorArticlesError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
@@ -50,37 +60,38 @@ function* handleGetReviewers() {
         const response = yield call(callEditorApi, Method.Get, `${REVIEWERS_URL}`, yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get reviewers: " + response.error);
+            console.error(`There was error with get reviewers: ${response.error}`);
             yield put(getReviewersError(response.error));
         } else {
             yield put(getReviewersSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get reviewers: " + error.stack!);
-            yield put(getReviewersError(error.name));
+            console.error(`There was error with get reviewers: ${error.stack}`);
+            yield put(getReviewersError({ error: error.name, message: error.message }));
         } else {
-            yield put(getReviewersError("There was an unknown error."));
+            yield put(getReviewersError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
 
 function* handleSetReviewerToArticle(action: ReturnType<typeof setReviewerToArticleRequest>) {
     try {
-        const response = yield call(callEditorApi, Method.Post, reviewEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken(), action.payload.data);
+        const response = yield call(callEditorApi, Method.Post,
+            reviewEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken(), action.payload.data);
 
         if (response.error) {
-            console.error("There was error with set reviewer to article: " + response.error);
-            yield put(setReviewerToArticleError(response.error));
+            console.error(`There was error with set reviewer to article: ${response.error}`);
+            yield put(setReviewerToArticleError(response));
         } else {
             yield put(setReviewerToArticleSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with set reviewer to article: " + error.stack!);
-            yield put(setReviewerToArticleError(error.name));
+            console.error(`There was error with set reviewer to article: ${error.stack}`);
+            yield put(setReviewerToArticleError({ error: error.name, message: error.message }));
         } else {
-            yield put(setReviewerToArticleError("There was an unknown error."));
+            yield put(setReviewerToArticleError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }

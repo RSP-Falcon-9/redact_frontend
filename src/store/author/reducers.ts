@@ -1,6 +1,13 @@
 import { Reducer } from "redux";
 import { ArticleReviewStatus } from "store/reviewer/types";
-import { AuthorAction, CreateArticleState, GetArticleDetailResponse, GetArticleDetailState, GetArticlesResponse, GetArticlesState, UpdateArticleState } from "./types";
+import {
+    AuthorAction,
+    CreateArticleState,
+    GetArticleDetailResponse,
+    GetArticleDetailState,
+    GetArticlesResponse,
+    GetArticlesState,
+    UpdateArticleState } from "./types";
 import { ErrorBaseResponse, BaseResponse } from "requests/base-response";
 
 const initialGetArticlesState: GetArticlesState = {
@@ -17,6 +24,7 @@ export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> =
             return {
                 ...state,
                 loading: true,
+                message: "",
                 error: undefined,
             };
         }
@@ -26,7 +34,7 @@ export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> =
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
+                message: getAuthorArticlesResponse.message,
                 error: undefined,
                 articles: getAuthorArticlesResponse.articles,
             };
@@ -60,6 +68,7 @@ export const createArticleStateReducer: Reducer<CreateArticleState> =
             return {
                 ...state,
                 loading: true,
+                message: "",
                 error: undefined,
             };
         }
@@ -102,6 +111,7 @@ export const updateArticleStateReducer: Reducer<UpdateArticleState> =
             return {
                 ...state,
                 loading: true,
+                message: "",
                 error: undefined,
             };
         }
@@ -145,6 +155,7 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
             return {
                 ...state,
                 loading: true,
+                message: "",
                 error: undefined,
             };
         }

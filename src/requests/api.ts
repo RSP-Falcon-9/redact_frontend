@@ -1,7 +1,8 @@
-import { select } from "redux-saga/effects";
+import { select, put } from "redux-saga/effects";
 import { ApplicationState } from "store/root";
 import { BACKEND_URL } from "utils/constants";
-import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "../utils/navigation";
+import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "utils/navigation";
+import { logout } from "store/auth/actions";
 
 export enum Method {
     Get = "get",
@@ -96,6 +97,18 @@ export async function callClientApi(method: string, path: string, authToken?: st
 export async function callClientApiRaw(method: string, path: string, authToken?: string, data?: any) {
     return callApiBlob(method, CLIENT_URL + path, authToken, data);
 }*/
+
+// TODO: Invalidate token upon expiration.
+export function* getAuthTokenTEST() {
+    return yield select(({ auth }: ApplicationState) => {
+        if (auth.authToken !== "" && auth.authTokenExpiration < new Date()) {
+            put(logout());
+            return "";
+        }
+
+        return auth.authToken;
+    });
+}
 
 export function* getAuthToken() {
     return yield select(({ auth }: ApplicationState) => auth.authToken);

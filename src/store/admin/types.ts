@@ -4,8 +4,8 @@ export enum AdminAction {
     GET_ALL_USERS_ERROR = "@@admin/getAllUsersError",
 
     CREATE_USER = "@@admin/createUser",
-    CREATE_USER_SUCCESS = "@admin/createUserSuccess",
-    CREATE_USER_ERROR = "@admin/createUserError",
+    CREATE_USER_SUCCESS = "@@admin/createUserSuccess",
+    CREATE_USER_ERROR = "@@admin/createUserError",
 
     DELETE_USER = "@@admin/deleteUser",
     DELETE_USER_SUCCESS = "@@admin/deleteUserSuccess",

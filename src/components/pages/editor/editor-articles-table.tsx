@@ -11,7 +11,7 @@ import EditorSendToReviewerModal from "./editor-send-to-reviewer-modal";
 interface PropsFromState {
     loading: boolean;
     articles: EditorArticle[];
-    errors?: string;
+    error?: string;
 }
 
 interface PropsFromDispatch {
@@ -45,7 +45,9 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
     render() {
         if (this.props.loading) {
             return <Spinner animation="border" variant="primary" className="mb-3 mx-auto" />;
-        } else if (this.props.errors) {
+        }
+
+        if (this.props.error) {
             return <Alert variant="danger" className="mx-auto flex-grow-1">Nelze načíst články!</Alert>;
         }
 
@@ -119,7 +121,7 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
 const mapStateToProps = ({ editor }: ApplicationState) => ({
     loading: editor.getEditorArticles.loading,
     articles: editor.getEditorArticles.articles,
-    errors: editor.getEditorArticles.errors,
+    error: editor.getEditorArticles.error,
 });
 
 const mapDispatchToProps = {

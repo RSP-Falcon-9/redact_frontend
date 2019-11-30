@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Badge, Button, Form } from "react-bootstrap";
+import { Badge, Button, Form, Alert, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { reviewArticleRequest } from "store/reviewer/actions";
 import { ArticleReviewStatus } from "store/reviewer/types";
@@ -12,7 +12,8 @@ interface ReviewerReviewProps {
 
 interface PropsFromState {
     loading: boolean;
-    errors?: string;
+    message: string;
+    error?: string;
 }
 
 interface PropsFromDispatch {
@@ -31,40 +32,9 @@ interface ReviewerReviewFormState {
 
 class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormState> {
 
-    onChangeRadioButton(groupName: string, value: number) {
-        console.log("HENLO: " + groupName + " VALUE: " + value);
-        switch (groupName) {
-            case "uptodate": {
-                this.setState({
-                    interest: value,
-                });
-                break;
-            }
-            case "originality": {
-                this.setState({
-                    originality: value,
-                });
-                break;
-            }
-            case "technicality": {
-                this.setState({
-                    specializationLevel: value,
-                });
-                break;
-            }
-            case "language": {
-                this.setState({
-                    languageLevel: value,
-                });
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-
     render() {
+        const { loading, message, error } = this.props;
+
         return <>
             <h3>
                 <span className="mr-3">Recenze</span>
@@ -104,8 +74,11 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
                         }} />
                 </Form.Group>
                 <Button variant="primary" type="submit">
-                    Odeslat
+                    Odeslat recenzi
                 </Button>
+                {loading && (<Spinner animation="border" variant="primary" />)}
+                {error && (<Alert variant="danger">Nelze zrecenzovat článekk!</Alert>)}
+                {!error && message && (<Alert variant="success">Článek byl úspěšně zrecenzován!</Alert>)}
             </Form>
         </>;
     }
@@ -138,11 +111,44 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
             }} />;
     }
 
+    onChangeRadioButton(groupName: string, value: number) {
+        switch (groupName) {
+            case "uptodate": {
+                this.setState({
+                    interest: value,
+                });
+                break;
+            }
+            case "originality": {
+                this.setState({
+                    originality: value,
+                });
+                break;
+            }
+            case "technicality": {
+                this.setState({
+                    specializationLevel: value,
+                });
+                break;
+            }
+            case "language": {
+                this.setState({
+                    languageLevel: value,
+                });
+                break;
+            }
+            default: {
+                break;
+            }
+        }
+    }
+
 }
 
 const mapStateToProps = ({ reviewer }: ApplicationState) => ({
     loading: reviewer.reviewArticle.loading,
-    errors: reviewer.reviewArticle.errors,
+    message: reviewer.reviewArticle.message,
+    error: reviewer.reviewArticle.error,
 });
 
 const mapDispatchToProps = {

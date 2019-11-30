@@ -1,25 +1,45 @@
 import { Reducer } from "redux";
 import { ArticleAction, GetArticleFileResponse, GetArticleFileState } from "./types";
+import { ErrorBaseResponse } from "requests/base-response";
 
 const initialGetArticleFileState: GetArticleFileState = {
     loading: false,
     message: "",
-    errors: undefined,
+    error: undefined,
     fileUrl: undefined,
 };
 
-export const getArticleFileStateReducer: Reducer<GetArticleFileState> = (state = initialGetArticleFileState, action) => {
+export const getArticleFileStateReducer: Reducer<GetArticleFileState> =
+    (state = initialGetArticleFileState, action): GetArticleFileState => {
     switch (action.type) {
         case ArticleAction.GET_ARTICLE_FILE: {
-            return { ...state, loading: true, errors: undefined };
+            return {
+                ...state,
+                loading: true,
+                message: "",
+                error: undefined,
+            };
         }
         case ArticleAction.GET_ARTICLE_FILE_SUCCESS: {
             const fileResponse = action.payload as GetArticleFileResponse;
 
-            return { ...state, loading: false, message: action.payload.message, errors: undefined, fileUrl: URL.createObjectURL(fileResponse.data) };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+                fileUrl: URL.createObjectURL(fileResponse.data),
+            };
         }
         case ArticleAction.GET_ARTICLE_FILE_ERROR: {
-            return { ...state, loading: false, message: action.payload.message, errors: action.payload.error };
+            const getArticleFileError = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: getArticleFileError.message,
+                error: getArticleFileError.error,
+            };
         }
         default: {
             return state;

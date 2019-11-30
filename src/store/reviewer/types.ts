@@ -1,3 +1,5 @@
+import { BaseResponse } from "requests/base-response";
+
 export enum ReviewerAction {
     GET_ARTICLES = "@@reviewer/getArticles",
     GET_ARTICLES_SUCCESS = "@@reviewer/getArticlesSuccess",
@@ -29,7 +31,7 @@ export enum ArticleReviewStatus {
 
 // dtos
 
-export interface GetReviewerArticlesResponse {
+export interface GetReviewerArticlesResponse extends BaseResponse {
     articles: ReviewerArticle[];
 }
 
@@ -38,7 +40,7 @@ export interface GetReviewerArticleDetailRequest {
     version: number;
 }
 
-export interface GetReviewerArticleDetailResponse {
+export interface GetReviewerArticleDetailResponse extends BaseResponse {
     name: string;
     reviewId: string;
     reviewStatus: string;
@@ -63,7 +65,7 @@ export interface ReviewArticleRequest {
 export interface GetReviewerArticlesState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly articles: ReviewerArticle[];
 }
 
@@ -85,7 +87,7 @@ export interface GetReviewerArticleDetailState {
 export interface ReviewArticleState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
 }
 
 export interface ReviewerState {

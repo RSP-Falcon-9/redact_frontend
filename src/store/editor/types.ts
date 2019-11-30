@@ -6,8 +6,8 @@ export enum EditorAction {
     GET_ARTICLES_ERROR = "@@editor/getArticlesError",
 
     GET_ARTICLE_DETAIL = "@@editor/getArticleDetail",
-    GET_ARTICLE_DETAIL_SUCCESS = "@editor/getArticleDetailSuccess",
-    GET_ARTICLE_DETAIL_ERROR = "@editor/getArticleDetailError",
+    GET_ARTICLE_DETAIL_SUCCESS = "@@editor/getArticleDetailSuccess",
+    GET_ARTICLE_DETAIL_ERROR = "@@editor/getArticleDetailError",
 
     GET_REVIEWERS = "@@editor/getReviewers",
     GET_REVIEWERS_SUCCESS = "@@editor/getReviewersSuccess",
@@ -59,28 +59,28 @@ export interface SetReviewerToArticleRequest {
 export interface GetEditorArticlesState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly articles: EditorArticle[];
 }
 
 export interface GetEditorArticleDetailState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly name: string;
 }
 
 export interface GetReviewersState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
     readonly reviewers: Reviewer[];
 }
 
 export interface SetReviewerToArticleState {
     readonly loading: boolean;
     readonly message: string;
-    readonly errors?: string;
+    readonly error?: string;
 }
 
 export interface EditorState {

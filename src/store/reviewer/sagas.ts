@@ -1,51 +1,62 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { getAuthToken, Method, callReviewerApi } from "requests/api";
-import { getReviewerArticlesError, getReviewerArticlesSuccess, getReviewerArticleDetailRequest, getReviewerArticleDetailError, getReviewerArticleDetailSuccess, reviewArticleError, reviewArticleSuccess, reviewArticleRequest } from "./actions";
-import { ARTICLE_URL, GET_ARTICLES_URL, ReviewerAction, reviewEndpoint } from "./types";
+import {
+    getReviewerArticlesError,
+    getReviewerArticlesSuccess,
+    getReviewerArticleDetailRequest,
+    getReviewerArticleDetailError,
+    getReviewerArticleDetailSuccess,
+    reviewArticleError,
+    reviewArticleSuccess,
+    reviewArticleRequest } from "./actions";
+import { GET_ARTICLES_URL, ReviewerAction, reviewEndpoint } from "./types";
+import { articleDetailEndpoint } from "store/articles/types";
 
 function* handleGetArticles() {
     try {
         const response = yield call(callReviewerApi, Method.Get, GET_ARTICLES_URL, yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get all articles: " + response.error);
-            yield put(getReviewerArticlesError(response.error));
+            console.error(`There was error with get all articles: ${response.error}`);
+            yield put(getReviewerArticlesError(response));
         } else {
             yield put(getReviewerArticlesSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get all articles: " + error.stack!);
-            yield put(getReviewerArticlesError(error.name));
+            console.error(`There was error with get all articles: ${error.name}`);
+            yield put(getReviewerArticlesError({ error: error.name, message: error.message }));
         } else {
-            yield put(getReviewerArticlesError("There was an unknown error."));
+            yield put(getReviewerArticlesError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
 
 function* handleGetArticleDetail(action: ReturnType<typeof getReviewerArticleDetailRequest>) {
     try {
-        const response = yield call(callReviewerApi, Method.Get, `${ARTICLE_URL}${action.payload.articleId}/${action.payload.version}`, yield getAuthToken());
+        const response = yield call(callReviewerApi, Method.Get,
+            articleDetailEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
 
         if (response.error) {
-            console.error("There was error with get article detail: " + response.error);
-            yield put(getReviewerArticleDetailError(response.error));
+            console.error(`There was error with get article detail: ${response.error}`);
+            yield put(getReviewerArticleDetailError(response));
         } else {
             yield put(getReviewerArticleDetailSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
-            console.error("There was error with get article detail: " + error.stack!);
-            yield put(getReviewerArticleDetailError(error.name));
+            console.error(`There was error with get article detail: ${error.name}`);
+            yield put(getReviewerArticleDetailError({ error: error.name, message: error.message }));
         } else {
-            yield put(getReviewerArticleDetailError("There was an unknown error."));
+            yield put(getReviewerArticleDetailError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
 
 function* handleReviewArticle(action: ReturnType<typeof reviewArticleRequest>) {
     try {
-        const response = yield call(callReviewerApi, Method.Post, reviewEndpoint(action.payload.id), yield getAuthToken(), action.payload.data);
+        const response = yield call(callReviewerApi, Method.Post, reviewEndpoint(action.payload.id),
+            yield getAuthToken(), action.payload.request);
 
         if (response.error) {
             console.error("There was error with review: " + response.error);

@@ -9,7 +9,7 @@ interface PropsFromState {
     loading: boolean;
     authenticated: boolean;
     userName: string;
-    errors?: string;
+    error?: string;
 }
 
 interface PropsFromDispatch {
@@ -26,49 +26,24 @@ interface LoginState {
 
 class Login extends React.Component<AllProps, LoginState> {
 
-    constructor(props: Readonly<AllProps>) {
-        super(props);
-
-        this.handleChange = this.handleChange.bind(this);
-        this.handleSubmit = this.handleSubmit.bind(this);
-    }
-
-    handleChange(event: React.FormEvent<HTMLInputElement>) {
-        switch (event.currentTarget.id) {
-            case "usernameField": {
-                this.setState({username: event.currentTarget.value!});
-                break;
-            }
-            case "passwordField": {
-                this.setState({password: event.currentTarget.value!});
-                break;
-            }
-            default: {
-                break;
-            }
-        }
-    }
-
-    handleSubmit(event: React.FormEvent<HTMLFormElement>) {
-        event.preventDefault();
-
-        const form = event.currentTarget;
-        if (!form.checkValidity()) {
-            event.stopPropagation();
-            return;
-        }
-
-        this.props.authRequest({
-            userName: this.state.username,
-            password: this.state.password,
-        });
-    }
-
     render() {
-        const { loading, errors } = this.props;
+        const { loading, error } = this.props;
 
         let componentToShow = !this.props.authenticated ? (
-            <Form onSubmit={this.handleSubmit}>
+            <Form onSubmit={(event: React.FormEvent<HTMLFormElement>) => {
+                event.preventDefault();
+
+                const form = event.currentTarget;
+                if (!form.checkValidity()) {
+                    event.stopPropagation();
+                    return;
+                }
+
+                this.props.authRequest({
+                    userName: this.state.username,
+                    password: this.state.password,
+                });
+            }}>
                 <Row noGutters={true}>
                     <Col className="mr-3">
                         <Form.Control
@@ -76,7 +51,11 @@ class Login extends React.Component<AllProps, LoginState> {
                             required
                             type="text"
                             placeholder="Username"
-                            onChange={this.handleChange}
+                            onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                                this.setState({
+                                    username: event.currentTarget.value!,
+                                });
+                            }}
                         />
                     </Col>
                     <Col className="mr-3">
@@ -85,7 +64,11 @@ class Login extends React.Component<AllProps, LoginState> {
                             required
                             type="password"
                             placeholder="Password"
-                            onChange={this.handleChange}
+                            onChange={(event: React.FormEvent<HTMLInputElement>) => {
+                                this.setState({
+                                    password: event.currentTarget.value!,
+                                });
+                            }}
                         />
                     </Col>
                     <Col>
@@ -107,9 +90,9 @@ class Login extends React.Component<AllProps, LoginState> {
 
         return <>
             {componentToShow}
-            {(loading || errors) && <Row>
+            {(loading || error) && <Row>
                 {loading && (<Col><Spinner animation="border" variant="primary" className="mb-3 mx-auto" /></Col>)}
-                {errors && (<Col><Alert variant="danger" className="mx-auto flex-grow-1">Cannot authenticate!</Alert></Col>)}
+                {error && (<Col><Alert variant="danger" className="mx-auto flex-grow-1">Nelze se přihlásit!</Alert></Col>)}
             </Row>}
         </>;
     }
@@ -120,7 +103,7 @@ const mapStateToProps = ({ auth }: ApplicationState) => ({
     loading: auth.loading,
     authenticated: auth.authToken.length > 0,
     userName: auth.userName,
-    errors: auth.errors,
+    error: auth.error,
 });
 
 const mapDispatchToProps = {

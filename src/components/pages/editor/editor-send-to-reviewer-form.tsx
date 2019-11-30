@@ -13,7 +13,7 @@ interface EditorSendToReviewerProps {
 
 interface PropsFromState {
     loading: boolean;
-    errors?: string;
+    error?: string;
     reviewers: Reviewer[];
 }
 
@@ -86,7 +86,7 @@ class EditorSendToReviewer extends React.Component<AllProps, EditorSendToReviewe
 
 const mapStateToProps = ({ editor }: ApplicationState) => ({
     loading: editor.getReviewers.loading,
-    errors: editor.getReviewers.errors,
+    error: editor.getReviewers.error,
     reviewers: editor.getReviewers.reviewers,
 });
 
