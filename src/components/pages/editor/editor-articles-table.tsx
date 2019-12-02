@@ -3,7 +3,7 @@ import * as React from "react";
 import { Alert, Button, ButtonGroup, Dropdown, Spinner, Table } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
-import { getEditorArticlesRequest } from "store/editor/actions";
+import { getEditorArticlesRequest, acceptArticleRequest, denyArticleRequest } from "store/editor/actions";
 import { EditorArticle } from "store/editor/types";
 import { ApplicationState } from "store/root";
 import EditorSendToReviewerModal from "./editor-send-to-reviewer-modal";
@@ -16,6 +16,8 @@ interface PropsFromState {
 
 interface PropsFromDispatch {
     getEditorArticlesRequest: typeof getEditorArticlesRequest;
+    acceptArticleRequest: typeof acceptArticleRequest;
+    denyArticleRequest: typeof denyArticleRequest;
 }
 
 type AllProps = PropsFromState & PropsFromDispatch;
@@ -105,12 +107,20 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
             </td>
             <td>{sortedVersions[0].publishDate}</td>
             <td>
-                <Button variant="primary" onClick={() => this.setState({
+                <Button variant="warning" className="mr-1" onClick={() => this.setState({
                     showModal: true,
                     modalArticleId: article.id,
                     modalArticleVersion: newestVersion,
                 })}>
                     <FontAwesomeIcon icon="spell-check" />
+                </Button>
+
+                <Button variant="primary" className="mr-1" onClick={() => this.props.acceptArticleRequest(article.id, newestVersion)}>
+                    <FontAwesomeIcon icon="check" />
+                </Button>
+
+                <Button variant="danger" onClick={() => this.props.denyArticleRequest(article.id, newestVersion)}>
+                    <FontAwesomeIcon icon="trash" />
                 </Button>
             </td>
         </>;
@@ -126,6 +136,8 @@ const mapStateToProps = ({ editor }: ApplicationState) => ({
 
 const mapDispatchToProps = {
     getEditorArticlesRequest,
+    acceptArticleRequest,
+    denyArticleRequest,
 };
 
 export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(

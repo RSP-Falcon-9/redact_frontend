@@ -16,6 +16,14 @@ export enum EditorAction {
     SET_REVIEWER_TO_ARTICLE = "@@editor/setReviewerToArticle",
     SET_REVIEWER_TO_ARTICLE_SUCCESS = "@@editor/setReviewerToArticleSuccess",
     SET_REVIEWER_TO_ARTICLE_ERROR = "@@editor/setReviewerToArticleError",
+
+    ACCEPT_ARTICLE = "@@editor/accept",
+    ACCEPT_ARTICLE_SUCCESS = "@@editor/acceptSuccess",
+    ACCEPT_ARTICLE_ERROR = "@@editor/acceptError",
+
+    DENY_ARTICLE = "@@editor/denyArticle",
+    DENY_ARTICLE_SUCCESS = "@@editor/denyArticleSuccess",
+    DENY_ARTICLE_ERROR = "@@editor/denyArticleError",
 }
 
 // data
@@ -83,11 +91,25 @@ export interface SetReviewerToArticleState {
     readonly error?: string;
 }
 
+export interface AcceptArticleState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly error?: string;
+}
+
+export interface DenyArticleState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly error?: string;
+}
+
 export interface EditorState {
     readonly getEditorArticles: GetEditorArticlesState;
     readonly getEditorArticleDetail: GetEditorArticleDetailState;
     readonly getReviewers: GetReviewersState;
     readonly setReviewerToArticle: SetReviewerToArticleState;
+    readonly acceptArticle: AcceptArticleState;
+    readonly denyArticle: DenyArticleState;
 }
 
 export const GET_ARTICLES_URL = "/articles";
@@ -97,3 +119,7 @@ export const reviewEndpoint = (articleId: string, articleVersion: number): strin
     `/review/${articleId}/${articleVersion}`;
 export const editorArticleDetailEndpoint = (articleId: string, version: number): string =>
     `/article/${articleId}/${version}`;
+export const acceptArticleEndpoint = (articleId: string, articleVersion: number): string =>
+    `/accept/${articleId}/${articleVersion}`;
+export const denyArticleEndpoint = (articleId: string, articleVersion: number): string =>
+    `/deny/${articleId}/${articleVersion}`;

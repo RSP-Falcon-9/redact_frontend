@@ -31,12 +31,24 @@ export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> =
         case AuthorAction.GET_ARTICLES_SUCCESS: {
             const getAuthorArticlesResponse = action.payload as GetArticlesResponse;
 
+            const articlesMap = getAuthorArticlesResponse.articles.map(article => {
+                return {
+                    ...article,
+                    versions: article.versions.map(version => {
+                        return {
+                            ...version,
+                            status: Object.values(ArticleReviewStatus).indexOf(version.status),
+                        };
+                    }),
+                };
+            });
+
             return {
                 ...state,
                 loading: false,
                 message: getAuthorArticlesResponse.message,
                 error: undefined,
-                articles: getAuthorArticlesResponse.articles,
+                articles: articlesMap,
             };
         }
         case AuthorAction.GET_ARTICLES_ERROR: {

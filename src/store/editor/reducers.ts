@@ -1,5 +1,5 @@
 import { Reducer } from "redux";
-import { EditorAction, GetEditorArticleDetailResponse, GetEditorArticleDetailState, GetEditorArticlesState, GetEditorArticlesResponse, GetReviewersState, GetReviewersResponse, SetReviewerToArticleState } from "./types";
+import { EditorAction, GetEditorArticleDetailResponse, GetEditorArticleDetailState, GetEditorArticlesState, GetEditorArticlesResponse, GetReviewersState, GetReviewersResponse, SetReviewerToArticleState, AcceptArticleState, DenyArticleState } from "./types";
 
 const initialGetArticlesState: GetEditorArticlesState = {
     loading: false,
@@ -152,6 +152,82 @@ export const setReviewerToArticleStateReducer: Reducer<SetReviewerToArticleState
             };
         }
         case EditorAction.SET_REVIEWER_TO_ARTICLE_ERROR: {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: action.payload.error,
+            };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialAcceptArticleState: AcceptArticleState = {
+    loading: false,
+    message: "",
+    error: undefined,
+};
+
+export const acceptArticleReducer: Reducer<AcceptArticleState> =
+    (state = initialAcceptArticleState, action): AcceptArticleState => {
+    switch (action.type) {
+        case EditorAction.ACCEPT_ARTICLE: {
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
+        }
+        case EditorAction.ACCEPT_ARTICLE_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+            };
+        }
+        case EditorAction.ACCEPT_ARTICLE_ERROR: {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: action.payload.error,
+            };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialDenyArticleState: DenyArticleState = {
+    loading: false,
+    message: "",
+    error: undefined,
+};
+
+export const denyArticleReducer: Reducer<DenyArticleState> =
+    (state = initialDenyArticleState, action): DenyArticleState => {
+    switch (action.type) {
+        case EditorAction.ACCEPT_ARTICLE: {
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
+        }
+        case EditorAction.ACCEPT_ARTICLE_SUCCESS: {
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+            };
+        }
+        case EditorAction.ACCEPT_ARTICLE_ERROR: {
             return {
                 ...state,
                 loading: false,

@@ -50,7 +50,6 @@ class EditorSendToReviewer extends React.Component<AllProps, EditorSendToReviewe
 
     render() {
         return <>
-            <h2>Zaslání žádosti o posudek</h2>
             <Form onSubmit={(formEvent: React.FormEvent<HTMLFormElement>) => {
                 formEvent.preventDefault();
 

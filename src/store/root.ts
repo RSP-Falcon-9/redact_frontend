@@ -14,7 +14,7 @@ import { AuthState } from "./auth/types";
 import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
-import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer } from "./editor/reducers";
+import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, acceptArticleReducer, denyArticleReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
@@ -61,6 +61,8 @@ export const createRootReducer = (history: History) =>
            getEditorArticleDetail: getEditorArticleDetailStateReducer,
            getReviewers: getReviewersStateReducer,
            setReviewerToArticle: setReviewerToArticleStateReducer,
+           acceptArticle: acceptArticleReducer,
+           denyArticle: denyArticleReducer,
         }),
         reviewer: combineReducers<ReviewerState>({
             getReviewerArticles: getReviewerArticlesStateReducer,

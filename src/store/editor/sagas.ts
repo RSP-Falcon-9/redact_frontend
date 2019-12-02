@@ -8,8 +8,14 @@ import {
     getReviewersError,
     setReviewerToArticleRequest,
     setReviewerToArticleError,
-    setReviewerToArticleSuccess } from "./actions";
-import { EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint } from "./types";
+    setReviewerToArticleSuccess,
+    acceptArticleError,
+    acceptArticleSuccess,
+    acceptArticleRequest,
+    denyArticleRequest,
+    denyArticleError,
+    denyArticleSuccess} from "./actions";
+import { EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint, acceptArticleEndpoint, denyArticleEndpoint } from "./types";
 import { editorArticleDetailEndpoint } from "store/editor/types";
 
 // requests
@@ -96,6 +102,48 @@ function* handleSetReviewerToArticle(action: ReturnType<typeof setReviewerToArti
     }
 }
 
+function* handleAcceptArticle(action: ReturnType<typeof acceptArticleRequest>) {
+    try {
+        const response = yield call(callEditorApi, Method.Post,
+            acceptArticleEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
+
+        if (response.error) {
+            console.error(`There was error with accepting article: ${response.error}`);
+            yield put(acceptArticleError(response));
+        } else {
+            yield put(acceptArticleSuccess(response));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(`There was error with accepting article: ${error.stack}`);
+            yield put(acceptArticleError({ error: error.name, message: error.message }));
+        } else {
+            yield put(acceptArticleError({ error: "There was an unknown error.", message: "" }));
+        }
+    }
+}
+
+function* handleDenyArticle(action: ReturnType<typeof denyArticleRequest>) {
+    try {
+        const response = yield call(callEditorApi, Method.Post,
+            denyArticleEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
+
+        if (response.error) {
+            console.error(`There was error denying an article: ${response.error}`);
+            yield put(denyArticleError(response));
+        } else {
+            yield put(denyArticleSuccess(response));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(`There was error denying an article: ${error.stack}`);
+            yield put(denyArticleError({ error: error.name, message: error.message }));
+        } else {
+            yield put(denyArticleError({ error: "There was an unknown error.", message: "" }));
+        }
+    }
+}
+
 // watchers
 
 function* watchGetArticlesRequest() {
@@ -114,6 +162,14 @@ function* watchHandleSetReviewerToArticle() {
     yield takeLatest(EditorAction.SET_REVIEWER_TO_ARTICLE, handleSetReviewerToArticle);
 }
 
+function* watchHandleAcceptArticle() {
+    yield takeLatest(EditorAction.ACCEPT_ARTICLE, handleAcceptArticle);
+}
+
+function* watchHandleDenyArticle() {
+    yield takeLatest(EditorAction.DENY_ARTICLE, handleDenyArticle);
+}
+
 // merge
 
 function* editorSaga() {
@@ -122,6 +178,8 @@ function* editorSaga() {
         fork(watchGetArticleDetailRequest),
         fork(watchHandleReviewersRequest),
         fork(watchHandleSetReviewerToArticle),
+        fork(watchHandleAcceptArticle),
+        fork(watchHandleDenyArticle),
     ]);
 }
 

@@ -19,16 +19,36 @@ export enum AuthorAction {
     GET_ARTICLE_DETAIL_ERROR = "@@author/getArticleDetailError",
 }
 
+export enum ArticleVersionStatus {
+    NEW,
+    ACCEPTED,
+    DENIED,
+}
+
 export interface ArticleVersion {
     version: number;
     fileName: string;
     publishDate: Date;
+    status: string;
 }
 
 export interface Article {
     id: string;
     name: string;
     versions: ArticleVersion[];
+}
+
+export interface AuthorArticleVersion {
+    version: number;
+    fileName: string;
+    publishDate: Date;
+    status: ArticleVersionStatus;
+}
+
+export interface AuthorArticle {
+    id: string;
+    name: string;
+    versions: AuthorArticleVersion[];
 }
 
 export interface AuthorArticleReview {
@@ -79,7 +99,7 @@ export interface GetArticlesState {
     readonly loading: boolean;
     readonly message: string;
     readonly error?: string;
-    readonly articles: Article[];
+    readonly articles: AuthorArticle[];
 }
 
 export interface CreateArticleState {

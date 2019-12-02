@@ -23,3 +23,11 @@ export const getReviewersError = (errorResponse: ErrorBaseResponse) => action(Ed
 export const setReviewerToArticleRequest = (articleId: string, version: number, data: SetReviewerToArticleRequest) => action(EditorAction.SET_REVIEWER_TO_ARTICLE, {articleId, version, data});
 export const setReviewerToArticleSuccess = (response: BaseResponse) => action(EditorAction.SET_REVIEWER_TO_ARTICLE_SUCCESS, response);
 export const setReviewerToArticleError = (errorResponse: ErrorBaseResponse) => action(EditorAction.SET_REVIEWER_TO_ARTICLE_ERROR, errorResponse);
+
+export const acceptArticleRequest = (articleId: string, version: number) => action(EditorAction.ACCEPT_ARTICLE, {articleId, version});
+export const acceptArticleSuccess = (response: BaseResponse) => action(EditorAction.ACCEPT_ARTICLE_SUCCESS, response);
+export const acceptArticleError = (errorResponse: ErrorBaseResponse) => action(EditorAction.ACCEPT_ARTICLE_ERROR, errorResponse);
+
+export const denyArticleRequest = (articleId: string, version: number) => action(EditorAction.DENY_ARTICLE, {articleId, version});
+export const denyArticleSuccess = (response: BaseResponse) => action(EditorAction.DENY_ARTICLE_SUCCESS, response);
+export const denyArticleError = (errorResponse: ErrorBaseResponse) => action(EditorAction.DENY_ARTICLE_ERROR, errorResponse);

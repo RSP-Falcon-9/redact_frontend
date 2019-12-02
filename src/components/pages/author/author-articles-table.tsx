@@ -2,14 +2,14 @@ import * as React from "react";
 import { Alert, Spinner, Table, Dropdown, Button, ButtonGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getArticlesRequest } from "store/author/actions";
-import { Article } from "store/author/types";
+import { AuthorArticle, ArticleVersionStatus } from "store/author/types";
 import { ApplicationState } from "store/root";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface PropsFromState {
     loading: boolean;
-    articles: Article[];
+    articles: AuthorArticle[];
     error?: string;
 }
 
@@ -57,15 +57,29 @@ class AuthorArticlesTable extends React.Component<AllProps> {
             <th>Název článku</th>
             <th>Verze</th>
             <th>Datum poslední verze</th>
+            <th>Stav poslední verze</th>
         </>;
     }
 
-    tableArticleRow(article: Article): JSX.Element {
+    tableArticleRow(article: AuthorArticle): JSX.Element {
         const sortedVersions = article.versions.sort((a, b) => a.version - b.version);
         const newestVersion = sortedVersions[0].version;
 
-        return <>
+        let statusText;
+        switch (sortedVersions[0].status) {
+            case ArticleVersionStatus.NEW:
+                statusText = "Požádáno o recenzi";
+                break;
+            case ArticleVersionStatus.ACCEPTED:
+                statusText = "Přijato";
+                break;
+            case ArticleVersionStatus.DENIED:
+                statusText = "Zamítnuto";
+                break;
+            default: break;
+        }
 
+        return <>
             <td>{article.name}</td>
             <td>
                 <Dropdown as={ButtonGroup} className="mr-3">
@@ -86,6 +100,7 @@ class AuthorArticlesTable extends React.Component<AllProps> {
                 </Link>
             </td>
             <td>{sortedVersions[0].publishDate}</td>
+            <td>{statusText}</td>
         </>;
     }
 
