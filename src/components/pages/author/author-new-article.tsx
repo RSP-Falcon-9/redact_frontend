@@ -4,6 +4,7 @@ import { Button, Form, Spinner, Alert } from "react-bootstrap";
 import { connect } from "react-redux";
 import { createArticleRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
+import { Redirect } from "react-router";
 
 interface PropsFromState {
     loading: boolean;
@@ -40,7 +41,7 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
                         <Alert.Link href="https://www.vspj.cz/soubory/download/id/4186">Šablona</Alert.Link>
                     </li>
                 </ul>
-                Při nedodržení pravidel může být článek zamítnut.
+                Při nedodržení pravidel pravděpodobně bude článek zamítnut.
             </Alert>
 
             <Form>
@@ -63,7 +64,7 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}
                 {errors && (<Alert variant="danger">Nelze přidat nový článek!</Alert>)}
-                {!errors && message && (<Alert variant="success">Článek byl úspěšně přidán!</Alert>)}
+                {!errors && message && (<Redirect to="/author/articles" />)}
             </Form>
         </>;
     }
