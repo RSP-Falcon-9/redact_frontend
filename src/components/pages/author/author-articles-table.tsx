@@ -62,7 +62,7 @@ class AuthorArticlesTable extends React.Component<AllProps> {
     }
 
     tableArticleRow(article: AuthorArticle): JSX.Element {
-        const sortedVersions = article.versions.sort((a, b) => a.version - b.version);
+        const sortedVersions = article.versions.sort((a, b) => b.version - a.version);
         const newestVersion = sortedVersions[0].version;
 
         let statusBadge: JSX.Element;

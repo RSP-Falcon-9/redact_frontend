@@ -85,7 +85,7 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
     }
 
     tableArticleRow(article: EditorArticle): JSX.Element {
-        const sortedVersions = article.versions.sort((a, b) => a.version - b.version);
+        const sortedVersions = article.versions.sort((a, b) => b.version - a.version);
         const newestVersion = sortedVersions[0].version;
 
         return <>
