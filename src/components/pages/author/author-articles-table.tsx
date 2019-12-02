@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, Spinner, Table, Dropdown, Button, ButtonGroup } from "react-bootstrap";
+import { Alert, Spinner, Table, Dropdown, Button, ButtonGroup, Badge } from "react-bootstrap";
 import { connect } from "react-redux";
 import { getArticlesRequest } from "store/author/actions";
 import { AuthorArticle, ArticleVersionStatus } from "store/author/types";
@@ -65,18 +65,23 @@ class AuthorArticlesTable extends React.Component<AllProps> {
         const sortedVersions = article.versions.sort((a, b) => a.version - b.version);
         const newestVersion = sortedVersions[0].version;
 
-        let statusText;
+        let statusBadge: JSX.Element;
         switch (sortedVersions[0].status) {
             case ArticleVersionStatus.NEW:
-                statusText = "Požádáno o recenzi";
+                statusBadge = <Badge variant="info">Požádáno o recenzi</Badge>;
+                break;
+            case ArticleVersionStatus.REVIEW_PENDING:
+                statusBadge = <Badge variant="info">V recenzním řízení</Badge>;
                 break;
             case ArticleVersionStatus.ACCEPTED:
-                statusText = "Přijato";
+                statusBadge = <Badge variant="success">Přijato</Badge>;
                 break;
             case ArticleVersionStatus.DENIED:
-                statusText = "Zamítnuto";
+                statusBadge = <Badge variant="danger">Zamítnuto</Badge>;
                 break;
-            default: break;
+            default:
+                statusBadge = <Badge variant="info">Stav neznámý</Badge>;
+                break;
         }
 
         return <>
@@ -100,7 +105,7 @@ class AuthorArticlesTable extends React.Component<AllProps> {
                 </Link>
             </td>
             <td>{sortedVersions[0].publishDate}</td>
-            <td>{statusText}</td>
+            <td>{statusBadge}</td>
         </>;
     }
 

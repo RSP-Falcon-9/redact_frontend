@@ -7,7 +7,8 @@ import {
     GetArticleDetailState,
     GetArticlesResponse,
     GetArticlesState,
-    UpdateArticleState } from "./types";
+    UpdateArticleState,
+    ArticleVersionStatus} from "./types";
 import { ErrorBaseResponse, BaseResponse } from "requests/base-response";
 
 const initialGetArticlesState: GetArticlesState = {
@@ -37,7 +38,7 @@ export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> =
                     versions: article.versions.map(version => {
                         return {
                             ...version,
-                            status: Object.values(ArticleReviewStatus).indexOf(version.status),
+                            status: Object.values(ArticleVersionStatus).indexOf(version.status),
                         };
                     }),
                 };

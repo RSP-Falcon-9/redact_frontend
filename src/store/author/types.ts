@@ -21,6 +21,7 @@ export enum AuthorAction {
 
 export enum ArticleVersionStatus {
     NEW,
+    REVIEW_PENDING,
     ACCEPTED,
     DENIED,
 }
