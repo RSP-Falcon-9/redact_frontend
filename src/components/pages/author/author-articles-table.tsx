@@ -93,11 +93,13 @@ class AuthorArticlesTable extends React.Component<AllProps> {
                         })}
                     </Dropdown.Menu>
                 </Dropdown>
-                <Link to={`/author/articles/new/${article.id}`}>
-                    <Button variant="primary">
-                        <FontAwesomeIcon icon="plus" />
-                    </Button>
-                </Link>
+                {sortedVersions[0].status === ArticleVersionStatus.DENIED && (
+                    <Link to={`/author/articles/new/${article.id}`}>
+                        <Button variant="primary">
+                            <FontAwesomeIcon icon="plus" />
+                        </Button>
+                    </Link>
+                )}
             </td>
             <td>{sortedVersions[0].publishDate}</td>
             <td>{statusText}</td>
