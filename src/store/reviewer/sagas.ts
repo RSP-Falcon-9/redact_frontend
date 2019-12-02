@@ -10,7 +10,7 @@ import {
     reviewArticleSuccess,
     reviewArticleRequest } from "./actions";
 import { GET_ARTICLES_URL, ReviewerAction, reviewEndpoint } from "./types";
-import { articleDetailEndpoint } from "store/articles/types";
+import { reviewerArticleDetailEndpoint } from "store/reviewer/types";
 
 function* handleGetArticles() {
     try {
@@ -35,7 +35,7 @@ function* handleGetArticles() {
 function* handleGetArticleDetail(action: ReturnType<typeof getReviewerArticleDetailRequest>) {
     try {
         const response = yield call(callReviewerApi, Method.Get,
-            articleDetailEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
+            reviewerArticleDetailEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
 
         if (response.error) {
             console.error(`There was error with get article detail: ${response.error}`);

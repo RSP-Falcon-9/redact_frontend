@@ -111,3 +111,8 @@ export interface AuthorState {
 
 export const GET_ARTICLES_URL = "/articles";
 export const ARTICLE_URL = "/article/";
+
+export const authorUpdateArticleEndpoint = (articleId: string): string =>
+    `/article/${articleId}`;
+export const authorArticleDetailEndpoint = (articleId: string, version: number): string =>
+    `/article/${articleId}/${version}`;

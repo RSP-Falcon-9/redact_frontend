@@ -24,7 +24,5 @@ export interface ArticleState {
     readonly getArticleFile: GetArticleFileState;
 }
 
-export const articleDetailEndpoint = (articleId: string, version: number): string =>
-    `/article/${articleId}/${version}`;
 export const articleFileEndpoint = (articleId: string, version: number): string =>
-    `/article/${articleId}/${version}/file`;
+    `/${articleId}/${version}/file`;

@@ -93,4 +93,7 @@ export interface EditorState {
 export const GET_ARTICLES_URL = "/articles";
 export const ARTICLE_URL = "/article/";
 export const REVIEWERS_URL = "/reviewers";
-export const reviewEndpoint = (articleId: string, articleVersion: number): string => `/review/${articleId}/${articleVersion}`;
+export const reviewEndpoint = (articleId: string, articleVersion: number): string =>
+    `/review/${articleId}/${articleVersion}`;
+export const editorArticleDetailEndpoint = (articleId: string, version: number): string =>
+    `/article/${articleId}/${version}`;

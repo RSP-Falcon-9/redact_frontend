@@ -10,7 +10,7 @@ import {
     setReviewerToArticleError,
     setReviewerToArticleSuccess } from "./actions";
 import { EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint } from "./types";
-import { articleDetailEndpoint } from "store/articles/types";
+import { editorArticleDetailEndpoint } from "store/editor/types";
 
 // requests
 
@@ -37,7 +37,7 @@ function* handleGetArticles() {
 function* handleGetArticleDetail(action: ReturnType<typeof getEditorArticleDetailRequest>) {
     try {
         const response = yield call(callEditorApi, Method.Get,
-            articleDetailEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
+            editorArticleDetailEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken());
 
         if (response.error) {
             console.error(`There was error with get article detail: ${response.error}`);

@@ -98,4 +98,7 @@ export interface ReviewerState {
 
 export const GET_ARTICLES_URL = "/articles";
 export const ARTICLE_URL = "/article/";
-export const reviewEndpoint = (reviewId: string): string => `/review/${reviewId}`;
+export const reviewEndpoint = (reviewId: string): string =>
+    `/review/${reviewId}`;
+export const reviewerArticleDetailEndpoint = (articleId: string, version: number): string =>
+    `/article/${articleId}/${version}`;
