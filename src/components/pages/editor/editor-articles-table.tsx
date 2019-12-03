@@ -121,7 +121,7 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
 
                     <Dropdown.Menu>
                         {sortedVersions.map(version => {
-                            return <Dropdown.Item key={`dropdown_${version.version}`} href={`/editor/article/${article.id}/${version.version}`}>{version.version}</Dropdown.Item>;
+                            return <Dropdown.Item key={`dropdown_${version.version}`} href={`/editor/article/${article.id}/${version.version}`}>Verze {version.version}</Dropdown.Item>;
                         })}
                     </Dropdown.Menu>
                 </Dropdown>
@@ -129,7 +129,7 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
             <td>{sortedVersions[0].publishDate}</td>
             <td>{statusBadge}</td>
             <td>
-                <Button variant="warning" className="mr-1" onClick={() => this.setState({
+                <Button variant="warning" className="mr-1 mb-1" onClick={() => this.setState({
                     showModal: true,
                     modalArticleId: article.id,
                     modalArticleVersion: newestVersion,
@@ -137,11 +137,11 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
                     <FontAwesomeIcon icon="spell-check" className="mr-1" /> Kontrola recenzentem
                 </Button>
 
-                <Button variant="primary" className="mr-1" onClick={() => this.props.acceptArticleRequest(article.id, newestVersion)}>
+                <Button variant="primary" className="mr-1 mb-1" onClick={() => this.props.acceptArticleRequest(article.id, newestVersion)}>
                     <FontAwesomeIcon icon="check" className="mr-1" /> Přijmout
                 </Button>
 
-                <Button variant="danger" onClick={() => this.props.denyArticleRequest(article.id, newestVersion)}>
+                <Button variant="danger" className="mb-1" onClick={() => this.props.denyArticleRequest(article.id, newestVersion)}>
                     <FontAwesomeIcon icon="trash" className="mr-1" /> Odmítnout
                 </Button>
             </td>

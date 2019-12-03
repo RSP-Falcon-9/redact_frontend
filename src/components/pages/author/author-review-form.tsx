@@ -55,9 +55,7 @@ export class AuthorReviewForm extends React.Component<FormProps> {
                     <>
                         <Form.Group controlId="appeal">
                             <Form.Label>Odvolání</Form.Label>
-                            <Form.Control as="textarea" rows="3" readOnly>
-                                {this.props.comment}
-                            </Form.Control>
+                            <Form.Control as="textarea" rows="3" value={this.props.comment} readOnly />
                         </Form.Group>
                         <Form.Group controlId="appealDate">
                             <Form.Label>Datum odvolání</Form.Label>

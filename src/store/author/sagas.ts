@@ -105,7 +105,7 @@ function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailReque
 
 function* handleAppealReview(action: ReturnType<typeof appealReviewRequest>) {
     try {
-        const response = yield call(callAuthorApi, Method.Get,
+        const response = yield call(callAuthorApi, Method.Post,
             authorAppealEndpoint(action.payload.reviewId),
             yield getAuthToken(), action.payload.request);
 

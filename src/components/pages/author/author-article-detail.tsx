@@ -1,6 +1,6 @@
 import { TemplatePage } from "components/pages/template/template-page";
 import * as React from "react";
-import { Spinner, Alert } from "react-bootstrap";
+import { Spinner, Alert, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { getArticleDetailRequest } from "store/author/actions";
@@ -8,6 +8,8 @@ import { ApplicationState } from "store/root";
 import { getArticleFileRequest } from "store/articles/actions";
 import { AuthorArticleReview } from "store/author/types";
 import { AuthorReviewForm } from "./author-review-form";
+import { ArticleReviewStatus } from "store/reviewer/types";
+import AuthorAppealModal from "./author-appeal-modal";
 
 interface RouteProps {
     id: string;
@@ -29,7 +31,21 @@ interface PropsFromDispatch {
 
 type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
 
-class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
+interface AuthorArticleDetailState {
+    showModal: boolean;
+    reviewId: string;
+}
+
+class AuthorArticleDetail extends React.Component<AllProps<RouteProps>, AuthorArticleDetailState> {
+
+    constructor(props: Readonly<AllProps<RouteProps>>) {
+        super(props);
+
+        this.state = {
+            showModal: false,
+            reviewId: "",
+        };
+    }
 
     componentDidMount() {
         this.props.getArticleDetailRequest({
@@ -57,17 +73,39 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
             {this.props.reviews.map((review, index) => {
-                return <AuthorReviewForm key={"form_" + index}
-                    id={review.id}
-                    status={review.status}
-                    interest={review.interest}
-                    originality={review.originality}
-                    specializationLevel={review.specializationLevel}
-                    languageLevel={review.languageLevel}
-                    comment={review.comment}
-                    appeal={review.appeal}
-                    appealDate={review.appealDate} />;
+                return <div key={"form_" + index}>
+                    <AuthorReviewForm
+                        id={review.id}
+                        status={review.status}
+                        interest={review.interest}
+                        originality={review.originality}
+                        specializationLevel={review.specializationLevel}
+                        languageLevel={review.languageLevel}
+                        comment={review.comment}
+                        appeal={review.appeal}
+                        appealDate={review.appealDate} />
+                    {review.status === ArticleReviewStatus.REVIEWED && (<Button variant="secondary" onClick={() => this.setState({
+                        showModal: true,
+                        reviewId: review.id,
+                    })}>Námitka</Button>)}
+                </div>;
             })}
+
+            <AuthorAppealModal
+                show={this.state.showModal}
+                reviewId={this.state.reviewId}
+                onModalClose={() => {
+                    this.setState({
+                        showModal: false,
+                        reviewId: "",
+                    });
+
+                    // FIXME
+                    /*this.props.getArticleDetailRequest({
+                        articleId: this.props.match.params.id,
+                        version: this.props.match.params.version,
+                    });*/
+                }} />
         </>;
     }
 
