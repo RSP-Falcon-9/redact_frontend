@@ -14,8 +14,16 @@ import {
     acceptArticleRequest,
     denyArticleRequest,
     denyArticleError,
-    denyArticleSuccess} from "./actions";
-import { EditorAction, GET_ARTICLES_URL, REVIEWERS_URL, reviewEndpoint, acceptArticleEndpoint, denyArticleEndpoint } from "./types";
+    denyArticleSuccess,
+    getEditorArticleDetailError,
+    getEditorArticleDetailSuccess} from "./actions";
+import {
+    EditorAction,
+    GET_ARTICLES_URL,
+    REVIEWERS_URL,
+    assignReviewerEndpoint,
+    acceptArticleEndpoint,
+    denyArticleEndpoint } from "./types";
 import { editorArticleDetailEndpoint } from "store/editor/types";
 
 // requests
@@ -47,16 +55,16 @@ function* handleGetArticleDetail(action: ReturnType<typeof getEditorArticleDetai
 
         if (response.error) {
             console.error(`There was error with get article detail: ${response.error}`);
-            yield put(getEditorArticlesError(response.error));
+            yield put(getEditorArticleDetailError(response.error));
         } else {
-            yield put(getEditorArticlesSuccess(response));
+            yield put(getEditorArticleDetailSuccess(response));
         }
     } catch (error) {
         if (error instanceof Error) {
             console.error(`There was error with get article detail: ${error.stack}`);
-            yield put(getEditorArticlesError({ error: error.name, message: error.message }));
+            yield put(getEditorArticleDetailError({ error: error.name, message: error.message }));
         } else {
-            yield put(getEditorArticlesError({ error: "There was an unknown error.", message: "" }));
+            yield put(getEditorArticleDetailError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
@@ -84,7 +92,7 @@ function* handleGetReviewers() {
 function* handleSetReviewerToArticle(action: ReturnType<typeof setReviewerToArticleRequest>) {
     try {
         const response = yield call(callEditorApi, Method.Post,
-            reviewEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken(), action.payload.data);
+            assignReviewerEndpoint(action.payload.articleId, action.payload.version), yield getAuthToken(), action.payload.data);
 
         if (response.error) {
             console.error(`There was error with set reviewer to article: ${response.error}`);

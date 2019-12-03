@@ -8,7 +8,9 @@ import {
     GetArticlesResponse,
     GetArticlesState,
     UpdateArticleState,
-    ArticleVersionStatus} from "./types";
+    ArticleVersionStatus,
+    AuthorArticleReview,
+    AppealReviewState} from "./types";
 import { ErrorBaseResponse, BaseResponse } from "requests/base-response";
 
 const initialGetArticlesState: GetArticlesState = {
@@ -144,6 +146,7 @@ export const updateArticleStateReducer: Reducer<UpdateArticleState> =
             return {
                 ...state,
                 loading: false,
+                message: updateArticleError.message,
                 error: updateArticleError.error,
             };
         }
@@ -174,7 +177,7 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
         }
         case AuthorAction.GET_ARTICLE_DETAIL_SUCCESS: {
             const detailResponse = action.payload as GetArticleDetailResponse;
-            const transformedReviews = detailResponse.reviews.map(review => {
+            const transformedReviews: AuthorArticleReview[] = detailResponse.reviews.map(review => {
                 return {
                     id: review.id,
                     status: Object.values(ArticleReviewStatus).indexOf(review.status),
@@ -183,6 +186,8 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
                     specializationLevel: review.specializationLevel,
                     languageLevel: review.languageLevel,
                     comment: review.comment,
+                    appeal: review.appeal,
+                    appealDate: review.appealDate,
                 };
             });
 
@@ -203,6 +208,49 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
                 loading: false,
                 message: getArticleDetail.message,
                 error: getArticleDetail.error,
+            };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialAppealReviewState: AppealReviewState = {
+    loading: false,
+    message: "",
+    error: undefined,
+};
+
+export const appealReviewStateReducer: Reducer<AppealReviewState> =
+    (state = initialAppealReviewState, action): AppealReviewState => {
+    switch (action.type) {
+        case AuthorAction.APPEAL_REVIEW: {
+            return {
+                ...state,
+                loading: true,
+                message: "",
+                error: undefined,
+            };
+        }
+        case AuthorAction.APPEAL_REVIEW_SUCCESS: {
+            const appealReviewSuccess = action.payload as BaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: appealReviewSuccess.message,
+                error: undefined,
+            };
+        }
+        case AuthorAction.APPEAL_REVIEW_ERROR: {
+            const appealReviewError = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: appealReviewError.message,
+                error: appealReviewError.error,
             };
         }
         default: {

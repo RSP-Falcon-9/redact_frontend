@@ -59,13 +59,15 @@ const initialGetReviewerArticleDetailState: GetReviewerArticleDetailState = {
     error: undefined,
     name: "",
     id: "",
+    reviewDate: new Date(),
     reviewStatus: ArticleReviewStatus.NEW,
     interest: -1,
     originality: -1,
     specializationLevel: -1,
     languageLevel: -1,
     comment: "",
-    reviewDate: new Date(),
+    appeal: "",
+    appealDate: new Date(),
 };
 
 export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDetailState> =

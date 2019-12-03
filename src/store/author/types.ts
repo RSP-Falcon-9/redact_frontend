@@ -17,6 +17,10 @@ export enum AuthorAction {
     GET_ARTICLE_DETAIL = "@@author/getArticleDetail",
     GET_ARTICLE_DETAIL_SUCCESS = "@@author/getArticleDetailSuccess",
     GET_ARTICLE_DETAIL_ERROR = "@@author/getArticleDetailError",
+
+    APPEAL_REVIEW = "@@author/appealReview",
+    APPEAL_REVIEW_SUCCESS = "@@author/appealReviewSuccess",
+    APPEAL_REVIEW_ERROR = "@@author/appealReviewError",
 }
 
 export enum ArticleVersionStatus {
@@ -60,6 +64,8 @@ export interface AuthorArticleReview {
     specializationLevel: number;
     languageLevel: number;
     comment: string;
+    appeal: string;
+    appealDate: Date;
 }
 
 export interface AuthorArticleResponse extends BaseResponse {
@@ -70,6 +76,8 @@ export interface AuthorArticleResponse extends BaseResponse {
     specializationLevel: number;
     languageLevel: number;
     comment: string;
+    appeal: string;
+    appealDate: Date;
 }
 
 export interface GetArticlesResponse extends BaseResponse {
@@ -94,6 +102,10 @@ export interface GetArticleDetailRequest {
 export interface GetArticleDetailResponse extends BaseResponse {
     name: string;
     reviews: AuthorArticleResponse[];
+}
+
+export interface AppealReviewRequest {
+    appeal: string;
 }
 
 export interface GetArticlesState {
@@ -123,11 +135,18 @@ export interface GetArticleDetailState {
     readonly reviews: AuthorArticleReview[];
 }
 
+export interface AppealReviewState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly error?: string;
+}
+
 export interface AuthorState {
     readonly getArticles: GetArticlesState;
     readonly createArticle: CreateArticleState;
     readonly updateArticle: UpdateArticleState;
     readonly getArticleDetail: GetArticleDetailState;
+    readonly appealReview: AppealReviewState;
 }
 
 export const GET_ARTICLES_URL = "/articles";
@@ -137,3 +156,5 @@ export const authorUpdateArticleEndpoint = (articleId: string): string =>
     `/article/${articleId}`;
 export const authorArticleDetailEndpoint = (articleId: string, version: number): string =>
     `/article/${articleId}/${version}`;
+export const authorAppealEndpoint = (reviewId: string): string =>
+    `/appeal/${reviewId}`;

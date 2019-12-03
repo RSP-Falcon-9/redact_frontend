@@ -3,11 +3,11 @@ import * as React from "react";
 import { Spinner, Alert } from "react-bootstrap";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
-import { getArticleDetailRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
 import { getArticleFileRequest } from "store/articles/actions";
 import { AuthorArticleReview } from "store/author/types";
-import { AuthorReviewForm } from "./author-review-form";
+import { AuthorReviewForm } from "components/pages/author/author-review-form";
+import { getEditorArticleDetailRequest } from "store/editor/actions";
 
 interface RouteProps {
     id: string;
@@ -23,16 +23,16 @@ interface PropsFromState {
 }
 
 interface PropsFromDispatch {
-    getArticleDetailRequest: typeof getArticleDetailRequest;
+    getEditorArticleDetailRequest: typeof getEditorArticleDetailRequest;
     getArticleFileRequest: typeof getArticleFileRequest;
 }
 
 type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
 
-class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
+class EditorArticleDetail extends React.Component<AllProps<RouteProps>> {
 
     componentDidMount() {
-        this.props.getArticleDetailRequest({
+        this.props.getEditorArticleDetailRequest({
             articleId: this.props.match.params.id,
             version: this.props.match.params.version,
         });
@@ -77,20 +77,20 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>> {
 
 }
 
-const mapStateToProps = ({ author, articles }: ApplicationState) => ({
-    loading: author.getArticleDetail.loading,
-    error: author.getArticleDetail.error,
-    name: author.getArticleDetail.name,
+const mapStateToProps = ({ editor, articles }: ApplicationState) => ({
+    loading: editor.getEditorArticleDetail.loading,
+    error: editor.getEditorArticleDetail.error,
+    name: editor.getEditorArticleDetail.name,
     fileUrl: articles.getArticleFile.fileUrl,
-    reviews: author.getArticleDetail.reviews,
+    reviews: editor.getEditorArticleDetail.reviews,
 });
 
 const mapDispatchToProps = {
-    getArticleDetailRequest,
+    getEditorArticleDetailRequest,
     getArticleFileRequest,
 };
 
 export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(
     mapStateToProps,
     mapDispatchToProps,
-)(AuthorArticleDetail);
+)(EditorArticleDetail);

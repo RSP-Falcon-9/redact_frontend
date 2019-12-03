@@ -5,7 +5,7 @@ import AuthorArticleDetail from "components/pages/author/author-article-detail";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
 import AuthorNewArticle from "components/pages/author/author-new-article";
 import AuthorUpdateArticle from "components/pages/author/author-update-article";
-import ArticleDetail from "components/pages/common/common-article-detail";
+import EditorArticleDetail from "components/pages/editor/editor-article-detail";
 import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
 import { HomePage } from "components/pages/home-page";
 import ReviewerArticleDetail from "components/pages/reviewer/reviewer-article-detail";
@@ -55,7 +55,7 @@ function App() {
                         <PrivilegedRoute path="/author/article/:id/:version" role="ROLE_AUTHOR" component={AuthorArticleDetail} />
                         <PrivilegedRoute path="/author/articles/new/:id" role="ROLE_AUTHOR" component={AuthorUpdateArticle} />
 
-                        <PrivilegedRoute path="/editor/article/:id/:version" role="ROLE_EDITOR" component={ArticleDetail} />
+                        <PrivilegedRoute path="/editor/article/:id/:version" role="ROLE_EDITOR" component={EditorArticleDetail} />
 
                         <PrivilegedRoute path="/reviewer/article/:id/:version" role="ROLE_REVIEWER" component={ReviewerArticleDetail} />
                     </Switch>

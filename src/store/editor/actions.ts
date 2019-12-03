@@ -31,3 +31,7 @@ export const acceptArticleError = (errorResponse: ErrorBaseResponse) => action(E
 export const denyArticleRequest = (articleId: string, version: number) => action(EditorAction.DENY_ARTICLE, {articleId, version});
 export const denyArticleSuccess = (response: BaseResponse) => action(EditorAction.DENY_ARTICLE_SUCCESS, response);
 export const denyArticleError = (errorResponse: ErrorBaseResponse) => action(EditorAction.DENY_ARTICLE_ERROR, errorResponse);
+
+export const setReviewVisibilityRequest = (requestId: string, visibility: boolean) => action(EditorAction.SET_REVIEW_VISIBILITY, {requestId, visibility});
+export const setReviewVisibilitySuccess = (response: BaseResponse) => action(EditorAction.SET_REVIEW_VISIBILITY_SUCCESS, response);
+export const setReviewVisibilityError = (errorResponse: ErrorBaseResponse) => action(EditorAction.SET_REVIEW_VISIBILITY_ERROR, errorResponse);

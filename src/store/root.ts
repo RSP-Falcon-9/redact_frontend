@@ -11,10 +11,10 @@ import { ArticleState } from "./articles/types";
 import { authReducer } from "./auth/reducers";
 import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
-import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
+import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer, appealReviewStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
-import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, acceptArticleReducer, denyArticleReducer } from "./editor/reducers";
+import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, acceptArticleReducer, denyArticleReducer, setReviewVisibilityReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
@@ -55,6 +55,7 @@ export const createRootReducer = (history: History) =>
             createArticle: createArticleStateReducer,
             updateArticle: updateArticleStateReducer,
             getArticleDetail: getAuthorArticleDetailStateReducer,
+            appealReview: appealReviewStateReducer,
         }),
         editor: combineReducers<EditorState>({
            getEditorArticles: getEditorArticlesStateReducer,
@@ -63,6 +64,7 @@ export const createRootReducer = (history: History) =>
            setReviewerToArticle: setReviewerToArticleStateReducer,
            acceptArticle: acceptArticleReducer,
            denyArticle: denyArticleReducer,
+           setReviewVisibility: setReviewVisibilityReducer,
         }),
         reviewer: combineReducers<ReviewerState>({
             getReviewerArticles: getReviewerArticlesStateReducer,
@@ -73,6 +75,12 @@ export const createRootReducer = (history: History) =>
     });
 
 export function* rootSaga() {
-    yield all([fork(authSaga), fork(articleSaga), fork(adminSaga),
-        fork(authorSaga), fork(editorSaga), fork(reviewerSaga)]);
+    yield all([
+        fork(authSaga),
+        fork(articleSaga),
+        fork(adminSaga),
+        fork(authorSaga),
+        fork(editorSaga),
+        fork(reviewerSaga),
+    ]);
 }

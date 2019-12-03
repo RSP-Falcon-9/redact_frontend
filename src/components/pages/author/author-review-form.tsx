@@ -1,6 +1,7 @@
 import * as React from "react";
 import { Form, Badge } from "react-bootstrap";
 import { ArticleReviewStatus } from "store/reviewer/types";
+import { dateToFormDate } from "utils/time";
 
 interface FormProps {
     id: string;
@@ -10,17 +11,34 @@ interface FormProps {
     specializationLevel: number;
     languageLevel: number;
     comment: string;
+    appeal: string;
+    appealDate: Date;
 }
 
 export class AuthorReviewForm extends React.Component<FormProps> {
 
     render() {
+        let appealBadge: JSX.Element;
+
+        switch (this.props.status) {
+            case ArticleReviewStatus.NEW:
+                appealBadge = <Badge variant="info">Nový</Badge>;
+                break;
+            case ArticleReviewStatus.REVIEWED:
+                appealBadge = <Badge variant="info">Zrecenzováno</Badge>;
+                break;
+            case ArticleReviewStatus.APPEAL:
+                appealBadge = <Badge variant="info">Autor se odvolal</Badge>;
+                break;
+            default:
+                appealBadge = <Badge variant="info">Neznámý stav</Badge>;
+                break;
+        }
+
         return <>
             <h3>
                 <span className="mr-3">Recenze</span>
-                {this.props.status === ArticleReviewStatus.NEW && <Badge variant="info">Nový</Badge>}
-                {this.props.status === ArticleReviewStatus.REVIEWED && <Badge variant="info">Zrecenzováno</Badge>}
-                {this.props.status === ArticleReviewStatus.APPEAL && <Badge variant="info">Autor se odvolal</Badge>}
+                {appealBadge}
             </h3>
             <Form>
                 {this.radioGroup("Aktuálnost, zajímavost a přínosnost", "uptodate", this.props.interest)}
@@ -30,10 +48,22 @@ export class AuthorReviewForm extends React.Component<FormProps> {
 
                 <Form.Group controlId="comment">
                     <Form.Label>Komentář</Form.Label>
-                    <Form.Control as="textarea" rows="3" readOnly>
-                        {this.props.comment}
-                    </Form.Control>
+                    <Form.Control as="textarea" rows="3" value={this.props.comment} readOnly />
                 </Form.Group>
+
+                {this.props.status === ArticleReviewStatus.APPEAL && (
+                    <>
+                        <Form.Group controlId="appeal">
+                            <Form.Label>Odvolání</Form.Label>
+                            <Form.Control as="textarea" rows="3" readOnly>
+                                {this.props.comment}
+                            </Form.Control>
+                        </Form.Group>
+                        <Form.Group controlId="appealDate">
+                            <Form.Label>Datum odvolání</Form.Label>
+                            <Form.Control type="date" placeholder="Datum odvolání" value={dateToFormDate(this.props.appealDate)} readOnly />
+                        </Form.Group>
+                    </>)}
             </Form>
         </>;
     }

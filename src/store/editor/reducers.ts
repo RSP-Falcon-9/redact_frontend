@@ -1,5 +1,19 @@
 import { Reducer } from "redux";
-import { EditorAction, GetEditorArticleDetailResponse, GetEditorArticleDetailState, GetEditorArticlesState, GetEditorArticlesResponse, GetReviewersState, GetReviewersResponse, SetReviewerToArticleState, AcceptArticleState, DenyArticleState } from "./types";
+import {
+    EditorAction,
+    GetEditorArticleDetailResponse,
+    GetEditorArticleDetailState,
+    GetEditorArticlesState,
+    GetEditorArticlesResponse,
+    GetReviewersState,
+    GetReviewersResponse,
+    SetReviewerToArticleState,
+    AcceptArticleState,
+    DenyArticleState,
+    SetReviewVisibilityState,
+    EditorArticleReviewState} from "./types";
+import { BaseResponse, ErrorBaseResponse } from "requests/base-response";
+import { ArticleReviewStatus } from "store/reviewer/types";
 
 const initialGetArticlesState: GetEditorArticlesState = {
     loading: false,
@@ -47,6 +61,7 @@ const initialGetArticleDetailState: GetEditorArticleDetailState = {
     message: "",
     error: undefined,
     name: "",
+    reviews: [],
 };
 
 export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailState> =
@@ -61,6 +76,12 @@ export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailS
         }
         case EditorAction.GET_ARTICLE_DETAIL_SUCCESS: {
             const detailResponse = action.payload as GetEditorArticleDetailResponse;
+            const transformedReviews: EditorArticleReviewState[] = detailResponse.reviews.map(review => {
+                return {
+                    ...review,
+                    status: Object.values(ArticleReviewStatus).indexOf(review.status),
+                };
+            });
 
             return {
                 ...state,
@@ -68,6 +89,7 @@ export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailS
                 message: action.payload.message,
                 error: undefined,
                 name: detailResponse.name,
+                reviews: transformedReviews,
             };
         }
         case EditorAction.GET_ARTICLE_DETAIL_ERROR: {
@@ -182,19 +204,23 @@ export const acceptArticleReducer: Reducer<AcceptArticleState> =
             };
         }
         case EditorAction.ACCEPT_ARTICLE_SUCCESS: {
+            const acceptArticleSuccess = action.payload as BaseResponse;
+
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
+                message: acceptArticleSuccess.message,
                 error: undefined,
             };
         }
         case EditorAction.ACCEPT_ARTICLE_ERROR: {
+            const acceptArticleError = action.payload as ErrorBaseResponse;
+
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
-                error: action.payload.error,
+                message: acceptArticleError.message,
+                error: acceptArticleError.error,
             };
         }
         default: {
@@ -212,27 +238,73 @@ const initialDenyArticleState: DenyArticleState = {
 export const denyArticleReducer: Reducer<DenyArticleState> =
     (state = initialDenyArticleState, action): DenyArticleState => {
     switch (action.type) {
-        case EditorAction.ACCEPT_ARTICLE: {
+        case EditorAction.DENY_ARTICLE: {
             return {
                 ...state,
                 loading: true,
                 error: undefined,
             };
         }
-        case EditorAction.ACCEPT_ARTICLE_SUCCESS: {
+        case EditorAction.DENY_ARTICLE_SUCCESS: {
+            const denyArticleSuccess = action.payload as BaseResponse;
+
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
+                message: denyArticleSuccess.message,
                 error: undefined,
             };
         }
-        case EditorAction.ACCEPT_ARTICLE_ERROR: {
+        case EditorAction.DENY_ARTICLE_ERROR: {
+            const denyArticleError = action.payload as ErrorBaseResponse;
+
             return {
                 ...state,
                 loading: false,
-                message: action.payload.message,
-                error: action.payload.error,
+                message: denyArticleError.message,
+                error: denyArticleError.error,
+            };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialSetReviewVisibilityState: SetReviewVisibilityState = {
+    loading: false,
+    message: "",
+    error: undefined,
+};
+
+export const setReviewVisibilityReducer: Reducer<SetReviewVisibilityState> =
+    (state = initialSetReviewVisibilityState, action): SetReviewVisibilityState => {
+    switch (action.type) {
+        case EditorAction.SET_REVIEW_VISIBILITY: {
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
+        }
+        case EditorAction.SET_REVIEW_VISIBILITY_SUCCESS: {
+            const setVisibilitySuccess = action.payload as BaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: setVisibilitySuccess.message,
+                error: undefined,
+            };
+        }
+        case EditorAction.SET_REVIEW_VISIBILITY_ERROR: {
+            const setVisibilityError = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: setVisibilityError.message,
+                error: setVisibilityError.error,
             };
         }
         default: {

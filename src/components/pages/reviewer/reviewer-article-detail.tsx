@@ -27,6 +27,8 @@ interface PropsFromState {
     reviewLanguageLevel: number;
     reviewComment: string;
     reviewStatus: ArticleReviewStatus;
+    reviewAppealComment: string;
+    reviewAppealDate: Date;
 }
 
 interface PropsFromDispatch {
@@ -66,6 +68,8 @@ class ReviewerArticleDetail extends React.Component<AllProps<RouteProps>> {
                     specializationLevel={this.props.reviewSpecializationLevel}
                     languageLevel={this.props.reviewLanguageLevel}
                     comment={this.props.reviewComment}
+                    appeal={this.props.reviewAppealComment}
+                    appealDate = {this.props.reviewAppealDate}
                 />
             )}
             {this.props.reviewStatus === ArticleReviewStatus.NEW && (
@@ -94,6 +98,8 @@ const mapStateToProps = ({ reviewer, articles }: ApplicationState) => ({
     reviewLanguageLevel: reviewer.getReviewerArticleDetail.languageLevel,
     reviewComment: reviewer.getReviewerArticleDetail.comment,
     reviewStatus: reviewer.getReviewerArticleDetail.reviewStatus,
+    reviewAppealComment: reviewer.getReviewerArticleDetail.appeal,
+    reviewAppealDate: reviewer.getReviewerArticleDetail.appealDate,
 });
 
 const mapDispatchToProps = {

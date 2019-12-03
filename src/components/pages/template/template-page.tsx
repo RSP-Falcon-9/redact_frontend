@@ -15,7 +15,7 @@ export class TemplatePage extends React.Component<Props> {
         return (
             <Container className={style.app_container}>
                 <Row>
-                    <Col sm={8}><h1>Redact</h1></Col>
+                    <Col sm={6}><h1>Redact</h1></Col>
                     <Col><LoginForm /></Col>
                 </Row>
                 <Row>

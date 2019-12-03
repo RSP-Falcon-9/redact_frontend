@@ -87,7 +87,7 @@ class AuthorArticlesTable extends React.Component<AllProps> {
         return <>
             <td>{article.name}</td>
             <td>
-                <Dropdown as={ButtonGroup} className="mr-3">
+                <Dropdown as={ButtonGroup}>
                     <Link to={`/author/article/${article.id}/${newestVersion}`}><Button variant="info">Zobrazit poslední verzi</Button></Link>
 
                     <Dropdown.Toggle split variant="info" id="dropdown-split-versions" />
@@ -100,7 +100,7 @@ class AuthorArticlesTable extends React.Component<AllProps> {
                 </Dropdown>
                 {sortedVersions[0].status === ArticleVersionStatus.DENIED && (
                     <Link to={`/author/articles/new/${article.id}`}>
-                        <Button variant="primary">
+                        <Button variant="primary" className="ml-3">
                             <FontAwesomeIcon icon="plus" />
                         </Button>
                     </Link>

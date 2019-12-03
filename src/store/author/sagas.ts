@@ -11,8 +11,11 @@ import {
     createArticleSuccess,
     getArticleDetailError,
     getArticleDetailRequest,
-    getArticleDetailSuccess } from "./actions";
-import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL, authorUpdateArticleEndpoint } from "./types";
+    getArticleDetailSuccess,
+    appealReviewRequest,
+    appealReviewError,
+    appealReviewSuccess} from "./actions";
+import { ARTICLE_URL, AuthorAction, GET_ARTICLES_URL, authorUpdateArticleEndpoint, authorAppealEndpoint } from "./types";
 import { authorArticleDetailEndpoint } from "store/author/types";
 
 function* handleGetArticles() {
@@ -100,6 +103,30 @@ function* handleGetArticleDetail(action: ReturnType<typeof getArticleDetailReque
     }
 }
 
+function* handleAppealReview(action: ReturnType<typeof appealReviewRequest>) {
+    try {
+        const response = yield call(callAuthorApi, Method.Get,
+            authorAppealEndpoint(action.payload.reviewId),
+            yield getAuthToken(), action.payload.request);
+
+        if (response.error) {
+            console.error(`There was error with appeal review detail: ${response.error}`);
+            yield put(appealReviewError(response));
+        } else {
+            yield put(appealReviewSuccess(response));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(`There was error with appeal review detail: ${error.stack!}`);
+            yield put(appealReviewError({ error: error.name, message: error.message }));
+        } else {
+            yield put(appealReviewError({ error: "There was an unknown error.", message: "" }));
+        }
+    }
+}
+
+// watchers
+
 function* watchGetArticlesRequest() {
     yield takeLatest(AuthorAction.GET_ARTICLES, handleGetArticles);
 }
@@ -116,12 +143,19 @@ function* watchGetArticleDetailRequest() {
     yield takeLatest(AuthorAction.GET_ARTICLE_DETAIL, handleGetArticleDetail);
 }
 
+function* watchAppealReviewRequest() {
+    yield takeLatest(AuthorAction.APPEAL_REVIEW, handleAppealReview);
+}
+
+// merge
+
 function* authorSaga() {
     yield all([
         fork(watchGetArticlesRequest),
         fork(watchCreateArticleRequest),
         fork(watchUpdateArticleRequest),
         fork(watchGetArticleDetailRequest),
+        fork(watchAppealReviewRequest),
     ]);
 }
 

@@ -43,13 +43,15 @@ export interface GetReviewerArticleDetailRequest {
 export interface GetReviewerArticleDetailResponse extends BaseResponse {
     name: string;
     reviewId: string;
+    reviewDate: Date;
     reviewStatus: string;
     interest: number;
     originality: number;
     specializationLevel: number;
     languageLevel: number;
     comment: string;
-    reviewDate: Date;
+    appeal: string;
+    appealDate: Date;
 }
 
 export interface ReviewArticleRequest {
@@ -75,13 +77,15 @@ export interface GetReviewerArticleDetailState {
     readonly error?: string;
     readonly id: string;
     readonly name: string;
+    readonly reviewDate: Date;
     readonly reviewStatus: ArticleReviewStatus;
     readonly interest: number;
     readonly originality: number;
     readonly specializationLevel: number;
     readonly languageLevel: number;
     readonly comment: string;
-    readonly reviewDate: Date;
+    readonly appeal: string;
+    readonly appealDate: Date;
 }
 
 export interface ReviewArticleState {

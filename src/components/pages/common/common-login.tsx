@@ -83,7 +83,7 @@ class Login extends React.Component<AllProps, LoginState> {
                     <Button variant="primary" size="sm" onClick={() => {
                             this.props.logout();
                         }}>
-                            <FontAwesomeIcon icon="door-open" />
+                            <FontAwesomeIcon icon="door-open" className={"mr-1"} /> Odhlásit se
                     </Button>
                 </div>
             );

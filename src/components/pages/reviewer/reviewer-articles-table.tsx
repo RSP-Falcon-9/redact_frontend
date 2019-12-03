@@ -55,6 +55,7 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
     tableHeader(): JSX.Element {
         return <>
             <th>Název článku</th>
+            <th>Verze článku</th>
             <th>Akce</th>
         </>;
     }
@@ -63,9 +64,10 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
         return <>
 
             <td>{article.name}</td>
+            <td>{article.version}</td>
             <td>
                 <Link to={`/reviewer/article/${article.id}/${article.version}`}>
-                    <Button variant="info"><FontAwesomeIcon icon="star" /></Button>
+                    <Button variant="info"><FontAwesomeIcon icon="star" className="mr-1" /> Zrecenzovat</Button>
                 </Link>
             </td>
         </>;
