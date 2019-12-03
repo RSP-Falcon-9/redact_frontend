@@ -105,6 +105,8 @@ export const getReviewerArticleDetailStateReducer: Reducer<GetReviewerArticleDet
                 languageLevel: detailResponse.languageLevel,
                 comment: detailResponse.comment,
                 reviewDate: detailResponse.reviewDate,
+                appeal: detailResponse.appeal,
+                appealDate: detailResponse.appealDate,
             };
         }
         case ReviewerAction.GET_ARTICLE_DETAIL_ERROR: {

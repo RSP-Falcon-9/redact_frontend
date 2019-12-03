@@ -36,12 +36,26 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
     render() {
         const { loading, message, error } = this.props;
 
+        let appealBadge: JSX.Element;
+        switch (this.props.status) {
+            case ArticleReviewStatus.NEW:
+                appealBadge = <Badge variant="info">Nový</Badge>;
+                break;
+            case ArticleReviewStatus.REVIEWED:
+                appealBadge = <Badge variant="info">Zrecenzováno</Badge>;
+                break;
+            case ArticleReviewStatus.APPEAL:
+                appealBadge = <Badge variant="info">Autor se odvolal</Badge>;
+                break;
+            default:
+                appealBadge = <Badge variant="info">Neznámý stav</Badge>;
+                break;
+        }
+
         return <>
             <h3>
                 <span className="mr-3">Recenze</span>
-                {this.props.status === ArticleReviewStatus.NEW && <Badge variant="info">Nový</Badge>}
-                {this.props.status === ArticleReviewStatus.REVIEWED && <Badge variant="info">Zrecenzováno</Badge>}
-                {this.props.status === ArticleReviewStatus.APPEAL && <Badge variant="info">Autor se odvolal</Badge>}
+                {appealBadge}
             </h3>
             <Form onSubmit={(formEvent: React.FormEvent<HTMLFormElement>) => {
                 formEvent.preventDefault();
@@ -78,7 +92,7 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
                     Odeslat recenzi
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}
-                {error && (<Alert variant="danger">Nelze zrecenzovat článekk!</Alert>)}
+                {error && (<Alert variant="danger">Nelze zrecenzovat článek!</Alert>)}
                 {!error && message && (<Redirect to="/reviewer/articles" />)}
             </Form>
         </>;

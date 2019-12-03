@@ -1,5 +1,5 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheck, faDoorOpen, faEdit, faInfo, faPlus, faSpellCheck, faTimes, faTrash, faStar } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faDoorOpen, faEdit, faInfo, faPlus, faSpellCheck, faTimes, faTrash, faStar, faHandMiddleFinger } from "@fortawesome/free-solid-svg-icons";
 import { AdminUsers } from "components/pages/admin/admin-users";
 import AuthorArticleDetail from "components/pages/author/author-article-detail";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
@@ -25,7 +25,8 @@ interface ReduxWindow extends Window {
 
 // stylization icons from fontawesome
 library.add(faEdit, faTrash, faCheck, faDoorOpen,
-    faTimes, faPlus, faInfo, faSpellCheck, faStar);
+    faTimes, faPlus, faInfo, faSpellCheck, faStar,
+    faHandMiddleFinger);
 
 // app core components
 const history = History.createBrowserHistory();

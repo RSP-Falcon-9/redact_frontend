@@ -57,14 +57,9 @@ export class EditorReviewForm extends React.Component<FormProps> {
                     <>
                         <Form.Group controlId="appeal">
                             <Form.Label>Odvolání</Form.Label>
-                            <Form.Control as="textarea" rows="3" readOnly>
-                                {this.props.comment}
-                            </Form.Control>
+                            <Form.Control as="textarea" rows="3" value={this.props.appeal} readOnly />
                         </Form.Group>
-                        <Form.Group controlId="appealDate">
-                            <Form.Label>Datum odvolání</Form.Label>
-                            <Form.Control type="date" placeholder="Datum odvolání" value={dateToFormDate(this.props.appealDate)} readOnly />
-                        </Form.Group>
+                        Datum odvolání: {dateToFormDate(this.props.appealDate)}
                     </>)}
             </Form>
         </>;

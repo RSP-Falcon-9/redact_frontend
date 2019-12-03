@@ -9,6 +9,7 @@ import { getEditorArticleDetailRequest, setReviewVisibilityRequest } from "store
 import { EditorReviewForm } from "./editor-review-form";
 import { EditorArticleReview } from "store/editor/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { ArticleReviewStatus } from "store/reviewer/types";
 
 interface RouteProps {
     id: string;
@@ -59,7 +60,7 @@ class EditorArticleDetail extends React.Component<AllProps<RouteProps>> {
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
             {this.props.reviews.map((review, index) => {
-                return <div key={"reviewDiv_" + index}>
+                return <div key={"reviewDiv_" + index} className="mb-3">
                     <EditorReviewForm
                         id={review.id}
                         authorName={review.reviewer.userName}
@@ -72,14 +73,14 @@ class EditorArticleDetail extends React.Component<AllProps<RouteProps>> {
                         appeal={review.appeal}
                         appealDate={review.appealDate} />
 
-                    {!review.visibleToAuthor ?
+                    {review.status !== ArticleReviewStatus.NEW && (!review.visibleToAuthor ?
                         (<Button variant="info" onClick={() => this.props.setReviewVisibilityRequest(review.id, true)}>
                             <FontAwesomeIcon icon="plus" className="mr-1" /> Zpřístupnit autorovi
                         </Button>) :
                         (<Button variant="info" onClick={() => this.props.setReviewVisibilityRequest(review.id, false)}>
                             <FontAwesomeIcon icon="times" className="mr-1" /> Odebrat přístup autorovi
                         </Button>)
-                    }
+                    )}
                 </div>;
             })}
         </>;

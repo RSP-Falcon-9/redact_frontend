@@ -10,6 +10,7 @@ import { AuthorArticleReview } from "store/author/types";
 import { AuthorReviewForm } from "./author-review-form";
 import { ArticleReviewStatus } from "store/reviewer/types";
 import AuthorAppealModal from "./author-appeal-modal";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface RouteProps {
     id: string;
@@ -87,7 +88,7 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>, AuthorAr
                     {review.status === ArticleReviewStatus.REVIEWED && (<Button variant="secondary" onClick={() => this.setState({
                         showModal: true,
                         reviewId: review.id,
-                    })}>Námitka</Button>)}
+                    })}><FontAwesomeIcon icon="hand-middle-finger" className="mr-1" />Námitka</Button>)}
                 </div>;
             })}
 
