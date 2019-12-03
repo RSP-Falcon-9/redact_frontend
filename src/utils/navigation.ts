@@ -4,8 +4,11 @@ import { navigationAddUrl } from "store/navigation/actions";
 
 export const HOME_URL = "/";
 export const AUTH_URL = "/login";
+export const ARTICLE_URL = "/article";
 export const ADMIN_URL = "/admin";
 export const AUTHOR_URL = "/author";
+export const EDITOR_URL = "/editor";
+export const REVIEWER_URL = "/reviewer";
 
 export default class Navigation {
 

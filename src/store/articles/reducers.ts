@@ -1,24 +1,45 @@
 import { Reducer } from "redux";
-import { GetArticlesState, ArticleAction, GetArticlesResponse } from "store/articles/types";
+import { ArticleAction, GetArticleFileResponse, GetArticleFileState } from "./types";
+import { ErrorBaseResponse } from "requests/base-response";
 
-const initialGetAllUsersState: GetArticlesState = {
+const initialGetArticleFileState: GetArticleFileState = {
     loading: false,
-    articles: [],
-    errors: undefined,
+    message: "",
+    error: undefined,
+    fileUrl: undefined,
 };
 
-export const getArticlesStateReducer: Reducer<GetArticlesState> = (state = initialGetAllUsersState, action) => {
+export const getArticleFileStateReducer: Reducer<GetArticleFileState> =
+    (state = initialGetArticleFileState, action): GetArticleFileState => {
     switch (action.type) {
-        case ArticleAction.GET_AUTHOR_ARTICLES: {
-            return { ...state, loading: true, errors: undefined };
+        case ArticleAction.GET_ARTICLE_FILE: {
+            return {
+                ...state,
+                loading: true,
+                message: "",
+                error: undefined,
+            };
         }
-        case ArticleAction.GET_AUTHOR_ARTICLES_SUCCESS: {
-            const getAuthorArticlesResponse = action.payload as GetArticlesResponse;
+        case ArticleAction.GET_ARTICLE_FILE_SUCCESS: {
+            const fileResponse = action.payload as GetArticleFileResponse;
 
-            return { ...state, loading: false, articles: getAuthorArticlesResponse.articles, errors: undefined };
+            return {
+                ...state,
+                loading: false,
+                message: action.payload.message,
+                error: undefined,
+                fileUrl: URL.createObjectURL(fileResponse.data),
+            };
         }
-        case ArticleAction.GET_AUTHOR_ARTICLES_ERROR: {
-            return { ...state, loading: false, errors: action.payload };
+        case ArticleAction.GET_ARTICLE_FILE_ERROR: {
+            const getArticleFileError = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: getArticleFileError.message,
+                error: getArticleFileError.error,
+            };
         }
         default: {
             return state;

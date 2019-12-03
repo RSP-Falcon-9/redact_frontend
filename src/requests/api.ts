@@ -1,7 +1,8 @@
-import { select } from "redux-saga/effects";
+import { select, put } from "redux-saga/effects";
 import { ApplicationState } from "store/root";
 import { BACKEND_URL } from "utils/constants";
-import { ADMIN_URL, AUTHOR_URL } from "./navigation";
+import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "utils/navigation";
+import { logout } from "store/auth/actions";
 
 export enum Method {
     Get = "get",
@@ -29,7 +30,6 @@ export async function callApiBlob(method: string, path: string, authToken?: stri
         method,
         headers: {
             "Content-Type": "application/json",
-            Accept: "application/json",
             authorization: authToken ? "bearer " + authToken : "",
         },
         body: JSON.stringify(data),
@@ -42,7 +42,7 @@ export async function callApiMultipart(method: string, path: string, data: any, 
     const fdata = new FormData();
 
     for (const [key, value] of Object.entries(data)) {
-        const typedVal = value as Blob;
+        const typedVal = value as any;
         fdata.append(key, typedVal);
     }
 
@@ -55,7 +55,11 @@ export async function callApiMultipart(method: string, path: string, data: any, 
         body: fdata,
     });
 
-    return await response.blob();
+    return await response.json();
+}
+
+export async function callArticleApiBlob(method: string, path: string, authToken?: string, data?: any) {
+    return callApiBlob(method, ARTICLE_URL + path, authToken, data);
 }
 
 export async function callAdminApi(method: string, path: string, authToken?: string, data?: any) {
@@ -64,6 +68,22 @@ export async function callAdminApi(method: string, path: string, authToken?: str
 
 export async function callAuthorApi(method: string, path: string, authToken?: string, data?: any) {
     return callApi(method, AUTHOR_URL + path, authToken, data);
+}
+
+export async function callAuthorApiMultipart(method: string, path: string, authToken?: string, data?: any) {
+    return callApiMultipart(method, AUTHOR_URL + path, data, authToken);
+}
+
+export async function callAuthorApiBlob(method: string, path: string, authToken?: string, data?: any) {
+    return callApiBlob(method, AUTHOR_URL + path, authToken, data);
+}
+
+export async function callEditorApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, EDITOR_URL + path, authToken, data);
+}
+
+export async function callReviewerApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, REVIEWER_URL + path, authToken, data);
 }
 
 /*export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {
@@ -77,6 +97,18 @@ export async function callClientApi(method: string, path: string, authToken?: st
 export async function callClientApiRaw(method: string, path: string, authToken?: string, data?: any) {
     return callApiBlob(method, CLIENT_URL + path, authToken, data);
 }*/
+
+// TODO: Invalidate token upon expiration.
+export function* getAuthTokenTEST() {
+    return yield select(({ auth }: ApplicationState) => {
+        if (auth.authToken !== "" && auth.authTokenExpiration < new Date()) {
+            put(logout());
+            return "";
+        }
+
+        return auth.authToken;
+    });
+}
 
 export function* getAuthToken() {
     return yield select(({ auth }: ApplicationState) => auth.authToken);

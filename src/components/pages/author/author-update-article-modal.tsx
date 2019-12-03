@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Modal } from "react-bootstrap";
-import AdminAddNewUserForm from "./admin-add-user-form";
+import AuthorUpdateArticle from "./author-update-article";
 
-interface AdminAddUserModalProps {
+interface AuthorUpdateArticleModalProps {
     show: boolean;
+    articleId: string;
+    articleName: string;
     onModalClose: (() => void);
 }
 
-export default class AdminAddUserModal extends React.Component<AdminAddUserModalProps> {
+export default class AuthorUpdateArticleModal extends React.Component<AuthorUpdateArticleModalProps> {
 
     render() {
         return <>
@@ -18,11 +20,13 @@ export default class AdminAddUserModal extends React.Component<AdminAddUserModal
                 onHide={this.props.onModalClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        Přidat uživatele
+                        Aktualizovat článek <i>{this.props.articleName}</i>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AdminAddNewUserForm onAddClick={() => this.props.onModalClose() } />
+                    <AuthorUpdateArticle
+                        articleId={this.props.articleId}
+                        onUploadNewArticle={() => this.props.onModalClose()} />
                 </Modal.Body>
             </Modal>
         </>;

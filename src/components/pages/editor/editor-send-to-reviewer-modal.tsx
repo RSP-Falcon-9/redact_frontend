@@ -1,13 +1,15 @@
 import * as React from "react";
 import { Modal } from "react-bootstrap";
-import AdminAddNewUserForm from "./admin-add-user-form";
+import EditorSendToReviewer from "./editor-send-to-reviewer-form";
 
 interface AdminAddUserModalProps {
     show: boolean;
+    articleId: string;
+    version: number;
     onModalClose: (() => void);
 }
 
-export default class AdminAddUserModal extends React.Component<AdminAddUserModalProps> {
+export default class EditorSendToReviewerModal extends React.Component<AdminAddUserModalProps> {
 
     render() {
         return <>
@@ -18,11 +20,12 @@ export default class AdminAddUserModal extends React.Component<AdminAddUserModal
                 onHide={this.props.onModalClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        Přidat uživatele
+                        Zaslání žádosti o posudek
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
-                    <AdminAddNewUserForm onAddClick={() => this.props.onModalClose() } />
+                    <EditorSendToReviewer articleId={this.props.articleId} version={this.props.version}
+                        onAddClick={() => this.props.onModalClose() } />
                 </Modal.Body>
             </Modal>
         </>;

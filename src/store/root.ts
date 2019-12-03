@@ -5,20 +5,32 @@ import { all, fork } from "redux-saga/effects";
 import { createUserReducer, deleteUserReducer, getAllUsersStateReducer } from "./admin/reducers";
 import adminSaga from "./admin/sagas";
 import { AdminState } from "./admin/types";
+import { getArticleFileStateReducer } from "./articles/reducers";
+import articleSaga from "./articles/sagas";
+import { ArticleState } from "./articles/types";
 import { authReducer } from "./auth/reducers";
 import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
+import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer, appealReviewStateReducer } from "./author/reducers";
+import authorSaga from "./author/sagas";
+import { AuthorState } from "./author/types";
+import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, acceptArticleReducer, denyArticleReducer, setReviewVisibilityReducer } from "./editor/reducers";
+import editorSaga from "./editor/sagas";
+import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
 import { NavigationState } from "./navigation/types";
-import articleSaga from "./articles/sagas";
-import { ArticleState } from "./articles/types";
-import { getArticlesStateReducer } from "./articles/reducers";
+import { getReviewerArticleDetailStateReducer, getReviewerArticlesStateReducer, reviewArticleStateReducer } from "./reviewer/reducers";
+import reviewerSaga from "./reviewer/sagas";
+import { ReviewerState } from "./reviewer/types";
 
 export interface ApplicationState {
     readonly auth: AuthState;
     readonly navigation: NavigationState;
-    readonly admin: AdminState;
     readonly articles: ArticleState;
+    readonly admin: AdminState;
+    readonly author: AuthorState;
+    readonly editor: EditorState;
+    readonly reviewer: ReviewerState;
     readonly router: any;
 }
 
@@ -30,17 +42,45 @@ export const createRootReducer = (history: History) =>
     combineReducers<ApplicationState>({
         auth: authReducer,
         navigation: navigationReducer,
+        articles: combineReducers<ArticleState>({
+            getArticleFile: getArticleFileStateReducer,
+        }),
         admin: combineReducers<AdminState>({
             getAllUsers: getAllUsersStateReducer,
             createUser: createUserReducer,
             deleteUser: deleteUserReducer,
         }),
-        articles: combineReducers<ArticleState>({
-            getArticles: getArticlesStateReducer,
+        author: combineReducers<AuthorState>({
+            getArticles: getAuthorArticlesStateReducer,
+            createArticle: createArticleStateReducer,
+            updateArticle: updateArticleStateReducer,
+            getArticleDetail: getAuthorArticleDetailStateReducer,
+            appealReview: appealReviewStateReducer,
+        }),
+        editor: combineReducers<EditorState>({
+           getEditorArticles: getEditorArticlesStateReducer,
+           getEditorArticleDetail: getEditorArticleDetailStateReducer,
+           getReviewers: getReviewersStateReducer,
+           setReviewerToArticle: setReviewerToArticleStateReducer,
+           acceptArticle: acceptArticleReducer,
+           denyArticle: denyArticleReducer,
+           setReviewVisibility: setReviewVisibilityReducer,
+        }),
+        reviewer: combineReducers<ReviewerState>({
+            getReviewerArticles: getReviewerArticlesStateReducer,
+            getReviewerArticleDetail: getReviewerArticleDetailStateReducer,
+            reviewArticle: reviewArticleStateReducer,
         }),
         router: connectRouter(history),
     });
 
 export function* rootSaga() {
-    yield all([fork(authSaga), fork(adminSaga), fork(articleSaga)]);
+    yield all([
+        fork(authSaga),
+        fork(articleSaga),
+        fork(adminSaga),
+        fork(authorSaga),
+        fork(editorSaga),
+        fork(reviewerSaga),
+    ]);
 }

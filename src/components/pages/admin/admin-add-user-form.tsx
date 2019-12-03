@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Alert, Button, Col, Container, Form, FormControlProps, Row, Spinner } from "react-bootstrap";
+import { Alert, Button, Col, Container, Form, Row, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
 import { createUserRequest } from "store/admin/actions";
 import { ApplicationState } from "store/root";
@@ -14,13 +14,17 @@ interface PropsFromDispatch {
     createUserRequest: typeof createUserRequest;
 }
 
+interface AddUserFormProps {
+    onAddClick: () => void;
+}
+
 interface AdminAddNewUserFormState {
     userName: string;
     password: string;
     roles: string[];
 }
 
-type AllProps = PropsFromState & PropsFromDispatch;
+type AllProps = AddUserFormProps & PropsFromState & PropsFromDispatch;
 
 class AdminAddNewUserForm extends React.Component<AllProps, AdminAddNewUserFormState> {
 
@@ -34,11 +38,11 @@ class AdminAddNewUserForm extends React.Component<AllProps, AdminAddNewUserFormS
         this.state = {
             userName: "",
             password: "",
-            roles: [],
+            roles: ["ROLE_USER"],
         };
     }
 
-    handleChange(formEvent: React.FormEvent<FormControlProps>) {
+    handleChange(formEvent: React.FormEvent<HTMLInputElement>) {
         switch (formEvent.currentTarget.id) {
             case "usernameField": {
                 this.setState({
@@ -95,6 +99,8 @@ class AdminAddNewUserForm extends React.Component<AllProps, AdminAddNewUserFormS
             password: this.state.password,
             roles: this.state.roles,
         });
+
+        this.props.onAddClick();
     }
 
     render() {

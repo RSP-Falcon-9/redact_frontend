@@ -5,7 +5,8 @@ const initialState: NavigationState = {
     rolePaths: {},
 };
 
-export const navigationReducer: Reducer<NavigationState> = (state = initialState, action) => {
+export const navigationReducer: Reducer<NavigationState> =
+    (state = initialState, action): NavigationState => {
     switch (action.type) {
         case NavigationAction.NAVIGATION_ADD_ROLE_PATH: {
             const rolePath = action.payload as RolePath;
@@ -21,10 +22,16 @@ export const navigationReducer: Reducer<NavigationState> = (state = initialState
             });
 
             if (!roleExists) {
-                newRolePaths = { ...newRolePaths, [rolePath.role]: [ path ] };
+                newRolePaths = {
+                    ...newRolePaths,
+                    [rolePath.role]: [ path ],
+                };
             }
 
-            return { ...state, rolePaths: newRolePaths };
+            return {
+                ...state,
+                rolePaths: newRolePaths,
+            };
         }
         default: {
             return state;
