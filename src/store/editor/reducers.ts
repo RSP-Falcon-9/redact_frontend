@@ -11,9 +11,13 @@ import {
     AcceptArticleState,
     DenyArticleState,
     SetReviewVisibilityState,
-    EditorArticleReviewState} from "./types";
+    EditorArticleReviewState,
+    SetReviewVisibilityResponse,
+    EditorArticleState,
+    ChangeArticleStatusResponse} from "./types";
 import { BaseResponse, ErrorBaseResponse } from "requests/base-response";
 import { ArticleReviewStatus } from "store/reviewer/types";
+import { ArticleVersionStatus } from "store/author/types";
 
 const initialGetArticlesState: GetEditorArticlesState = {
     loading: false,
@@ -34,13 +38,24 @@ export const getEditorArticlesStateReducer: Reducer<GetEditorArticlesState> =
         }
         case EditorAction.GET_ARTICLES_SUCCESS: {
             const articlesResponse = action.payload as GetEditorArticlesResponse;
+            const transformedArticles: EditorArticleState[] = articlesResponse.articles.map(article => {
+                return {
+                    ...article,
+                    versions: article.versions.map(version => {
+                        return {
+                            ...version,
+                            status: Object.values(ArticleVersionStatus).indexOf(version.status),
+                        };
+                    }),
+                };
+            });
 
             return {
                 ...state,
                 loading: false,
                 message: action.payload.message,
                 error: undefined,
-                articles: articlesResponse.articles,
+                articles: transformedArticles,
             };
         }
         case EditorAction.GET_ARTICLES_ERROR: {
@@ -48,6 +63,87 @@ export const getEditorArticlesStateReducer: Reducer<GetEditorArticlesState> =
                 ...state,
                 loading: false,
                 error: action.payload,
+            };
+        }
+        case EditorAction.ACCEPT_ARTICLE_SUCCESS: {
+            const acceptArticleSuccessResponse = action.payload as ChangeArticleStatusResponse;
+            const transformedArticles: EditorArticleState[] = state.articles.map(article => {
+                if (article.id === acceptArticleSuccessResponse.articleId) {
+                    return {
+                        ...article,
+                        versions: article.versions.map(version => {
+                            if (version.version === acceptArticleSuccessResponse.version) {
+                                return {
+                                    ...version,
+                                    status: ArticleVersionStatus.ACCEPTED,
+                                };
+                            }
+
+                            return version;
+                        }),
+                    };
+                }
+
+                return article;
+            });
+
+            return {
+                ...state,
+                articles: transformedArticles,
+            };
+        }
+        case EditorAction.DENY_ARTICLE_SUCCESS: {
+            const denyArticleSuccessResponse = action.payload as ChangeArticleStatusResponse;
+            const transformedArticles: EditorArticleState[] = state.articles.map(article => {
+                if (article.id === denyArticleSuccessResponse.articleId) {
+                    return {
+                        ...article,
+                        versions: article.versions.map(version => {
+                            if (version.version === denyArticleSuccessResponse.version) {
+                                return {
+                                    ...version,
+                                    status: ArticleVersionStatus.DENIED,
+                                };
+                            }
+
+                            return version;
+                        }),
+                    };
+                }
+
+                return article;
+            });
+
+            return {
+                ...state,
+                articles: transformedArticles,
+            };
+        }
+        case EditorAction.SET_REVIEWER_TO_ARTICLE_SUCCESS: {
+            const setReviewerToArticleSuccessResponse = action.payload as ChangeArticleStatusResponse;
+            const transformedArticles: EditorArticleState[] = state.articles.map(article => {
+                if (article.id === setReviewerToArticleSuccessResponse.articleId) {
+                    return {
+                        ...article,
+                        versions: article.versions.map(version => {
+                            if (version.version === setReviewerToArticleSuccessResponse.version) {
+                                return {
+                                    ...version,
+                                    status: ArticleVersionStatus.REVIEW_PENDING,
+                                };
+                            }
+
+                            return version;
+                        }),
+                    };
+                }
+
+                return article;
+            });
+
+            return {
+                ...state,
+                articles: transformedArticles,
             };
         }
         default: {
@@ -98,6 +194,25 @@ export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailS
                 loading: false,
                 message: action.payload.message,
                 error: action.payload.error,
+            };
+        }
+        case EditorAction.SET_REVIEW_VISIBILITY_SUCCESS: {
+            const setReviewVisibilitySuccessResponse = action.payload as SetReviewVisibilityResponse;
+
+            const transformedReviews: EditorArticleReviewState[] = state.reviews.map(review => {
+                if (review.id === setReviewVisibilitySuccessResponse.reviewId) {
+                    return {
+                        ...review,
+                        visibleToAuthor: setReviewVisibilitySuccessResponse.visibility,
+                    };
+                }
+
+                return review;
+            });
+
+            return {
+                ...state,
+                reviews: transformedReviews,
             };
         }
         default: {

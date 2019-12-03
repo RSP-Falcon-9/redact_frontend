@@ -1,15 +1,15 @@
 import * as React from "react";
-import { Alert, Button, Spinner, Table } from "react-bootstrap";
+import { Alert, Button, Spinner, Table, Badge } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getReviewerArticlesRequest } from "store/reviewer/actions";
-import { ReviewerArticle } from "store/reviewer/types";
+import { ArticleReviewStatus, ReviewerArticleState } from "store/reviewer/types";
 import { ApplicationState } from "store/root";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface PropsFromState {
     loading: boolean;
-    articles: ReviewerArticle[];
+    articles: ReviewerArticleState[];
     error?: string;
 }
 
@@ -56,15 +56,33 @@ class ReviewerArticlesTable extends React.Component<AllProps> {
         return <>
             <th>Název článku</th>
             <th>Verze článku</th>
+            <th>Stav recenze</th>
             <th>Akce</th>
         </>;
     }
 
-    tableArticleRow(article: ReviewerArticle): JSX.Element {
-        return <>
+    tableArticleRow(article: ReviewerArticleState): JSX.Element {
+        let statusBadge: JSX.Element;
 
+        switch (article.status) {
+            case ArticleReviewStatus.NEW:
+                statusBadge = <Badge variant="info">Nový</Badge>;
+                break;
+            case ArticleReviewStatus.REVIEWED:
+                statusBadge = <Badge variant="info">Zrecenzováno</Badge>;
+                break;
+            case ArticleReviewStatus.APPEAL:
+                statusBadge = <Badge variant="info">Autor se odvolal</Badge>;
+                break;
+            default:
+                statusBadge = <Badge variant="info">Neznámý stav</Badge>;
+                break;
+        }
+
+        return <>
             <td>{article.name}</td>
             <td>{article.version}</td>
+            <td>{statusBadge}</td>
             <td>
                 <Link to={`/reviewer/article/${article.id}/${article.version}`}>
                     <Button variant="info"><FontAwesomeIcon icon="star" className="mr-1" /> Zrecenzovat</Button>

@@ -5,7 +5,8 @@ import { GetReviewerArticleDetailResponse,
     GetReviewerArticlesState,
     ReviewerAction,
     ArticleReviewStatus,
-    ReviewArticleState } from "./types";
+    ReviewArticleState,
+    ReviewerArticleState} from "./types";
 import { ErrorBaseResponse, BaseResponse } from "requests/base-response";
 
 const initialGetReviewerArticlesState: GetReviewerArticlesState = {
@@ -28,13 +29,19 @@ export const getReviewerArticlesStateReducer: Reducer<GetReviewerArticlesState> 
         }
         case ReviewerAction.GET_ARTICLES_SUCCESS: {
             const articlesResponse = action.payload as GetReviewerArticlesResponse;
+            const transformedArticles: ReviewerArticleState[] = articlesResponse.articles.map(article => {
+                return {
+                    ...article,
+                    status: Object.values(ArticleReviewStatus).indexOf(article.status),
+                };
+            });
 
             return {
                 ...state,
                 loading: false,
                 message: articlesResponse.message,
                 error: undefined,
-                articles: articlesResponse.articles,
+                articles: transformedArticles,
             };
         }
         case ReviewerAction.GET_ARTICLES_ERROR: {

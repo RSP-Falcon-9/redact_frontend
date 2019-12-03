@@ -10,7 +10,9 @@ import {
     UpdateArticleState,
     ArticleVersionStatus,
     AuthorArticleReview,
-    AppealReviewState} from "./types";
+    AppealReviewState,
+    UpdateArticleSuccessResponse,
+    AuthorArticle} from "./types";
 import { ErrorBaseResponse, BaseResponse } from "requests/base-response";
 
 const initialGetArticlesState: GetArticlesState = {
@@ -51,6 +53,30 @@ export const getAuthorArticlesStateReducer: Reducer<GetArticlesState> =
                 loading: false,
                 message: getAuthorArticlesResponse.message,
                 error: undefined,
+                articles: articlesMap,
+            };
+        }
+        case AuthorAction.UPDATE_ARTICLE_SUCCESS: {
+            const updateArticleSuccessResponse = action.payload as UpdateArticleSuccessResponse;
+
+            const articlesMap: AuthorArticle[] = state.articles.map(article => {
+                if (article.id === updateArticleSuccessResponse.id) {
+                    return {
+                        ...updateArticleSuccessResponse,
+                        versions: updateArticleSuccessResponse.versions.map(version => {
+                            return {
+                                ...version,
+                                status: Object.values(ArticleVersionStatus).indexOf(version.status),
+                            };
+                        }),
+                    };
+                }
+
+                return article;
+            });
+
+            return {
+                ...state,
                 articles: articlesMap,
             };
         }

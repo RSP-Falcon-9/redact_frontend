@@ -1,5 +1,6 @@
-import { ArticleVersion } from "store/author/types";
+import { ArticleVersion, ArticleVersionStatus } from "store/author/types";
 import { ArticleReviewStatus } from "store/reviewer/types";
+import { BaseResponse } from "requests/base-response";
 
 export enum EditorAction {
     GET_ARTICLES = "@@editor/getArticles",
@@ -18,9 +19,9 @@ export enum EditorAction {
     SET_REVIEWER_TO_ARTICLE_SUCCESS = "@@editor/setReviewerToArticleSuccess",
     SET_REVIEWER_TO_ARTICLE_ERROR = "@@editor/setReviewerToArticleError",
 
-    ACCEPT_ARTICLE = "@@editor/accept",
-    ACCEPT_ARTICLE_SUCCESS = "@@editor/acceptSuccess",
-    ACCEPT_ARTICLE_ERROR = "@@editor/acceptError",
+    ACCEPT_ARTICLE = "@@editor/acceptArticle",
+    ACCEPT_ARTICLE_SUCCESS = "@@editor/acceptArticleSuccess",
+    ACCEPT_ARTICLE_ERROR = "@@editor/acceptArticleError",
 
     DENY_ARTICLE = "@@editor/denyArticle",
     DENY_ARTICLE_SUCCESS = "@@editor/denyArticleSuccess",
@@ -79,15 +80,40 @@ export interface EditorArticleReview {
     comment: string;
     appeal: string;
     appealDate: Date;
+    visibleToAuthor: boolean;
+}
+
+export interface SetReviewVisibilityResponse extends BaseResponse {
+    reviewId: string;
+    visibility: boolean;
+}
+
+export interface ChangeArticleStatusResponse extends BaseResponse {
+    articleId: string;
+    version: number;
 }
 
 // states
+
+export interface EditorArticleVersionState {
+    readonly version: number;
+    readonly fileName: string;
+    readonly publishDate: Date;
+    readonly status: ArticleVersionStatus;
+}
+
+export interface EditorArticleState {
+    readonly id: string;
+    readonly name: string;
+    readonly authorId: string;
+    readonly versions: EditorArticleVersionState[];
+}
 
 export interface GetEditorArticlesState {
     readonly loading: boolean;
     readonly message: string;
     readonly error?: string;
-    readonly articles: EditorArticle[];
+    readonly articles: EditorArticleState[];
 }
 
 export interface EditorArticleReviewState {
@@ -101,6 +127,7 @@ export interface EditorArticleReviewState {
     readonly comment: string;
     readonly appeal: string;
     readonly appealDate: Date;
+    readonly visibleToAuthor: boolean;
 }
 
 export interface GetEditorArticleDetailState {

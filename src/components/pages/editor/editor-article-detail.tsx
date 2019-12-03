@@ -1,13 +1,14 @@
 import { TemplatePage } from "components/pages/template/template-page";
 import * as React from "react";
-import { Spinner, Alert } from "react-bootstrap";
+import { Spinner, Alert, Button } from "react-bootstrap";
 import { connect } from "react-redux";
 import { RouteComponentProps } from "react-router";
 import { ApplicationState } from "store/root";
 import { getArticleFileRequest } from "store/articles/actions";
-import { AuthorArticleReview } from "store/author/types";
-import { AuthorReviewForm } from "components/pages/author/author-review-form";
-import { getEditorArticleDetailRequest } from "store/editor/actions";
+import { getEditorArticleDetailRequest, setReviewVisibilityRequest } from "store/editor/actions";
+import { EditorReviewForm } from "./editor-review-form";
+import { EditorArticleReview } from "store/editor/types";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 interface RouteProps {
     id: string;
@@ -19,12 +20,13 @@ interface PropsFromState {
     error?: string;
     name: string;
     fileUrl?: string;
-    reviews: AuthorArticleReview[];
+    reviews: EditorArticleReview[];
 }
 
 interface PropsFromDispatch {
     getEditorArticleDetailRequest: typeof getEditorArticleDetailRequest;
     getArticleFileRequest: typeof getArticleFileRequest;
+    setReviewVisibilityRequest: typeof setReviewVisibilityRequest;
 }
 
 type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
@@ -57,16 +59,28 @@ class EditorArticleDetail extends React.Component<AllProps<RouteProps>> {
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
             {this.props.reviews.map((review, index) => {
-                return <AuthorReviewForm key={"form_" + index}
-                    id={review.id}
-                    status={review.status}
-                    interest={review.interest}
-                    originality={review.originality}
-                    specializationLevel={review.specializationLevel}
-                    languageLevel={review.languageLevel}
-                    comment={review.comment}
-                    appeal={review.appeal}
-                    appealDate={review.appealDate} />;
+                return <div key={"reviewDiv_" + index}>
+                    <EditorReviewForm
+                        id={review.id}
+                        authorName={review.reviewer.userName}
+                        status={review.status}
+                        interest={review.interest}
+                        originality={review.originality}
+                        specializationLevel={review.specializationLevel}
+                        languageLevel={review.languageLevel}
+                        comment={review.comment}
+                        appeal={review.appeal}
+                        appealDate={review.appealDate} />
+
+                    {!review.visibleToAuthor ?
+                        (<Button variant="info" onClick={() => this.props.setReviewVisibilityRequest(review.id, true)}>
+                            <FontAwesomeIcon icon="plus" className="mr-1" /> Zpřístupnit autorovi
+                        </Button>) :
+                        (<Button variant="info" onClick={() => this.props.setReviewVisibilityRequest(review.id, false)}>
+                            <FontAwesomeIcon icon="times" className="mr-1" /> Odebrat přístup autorovi
+                        </Button>)
+                    }
+                </div>;
             })}
         </>;
     }
@@ -88,6 +102,7 @@ const mapStateToProps = ({ editor, articles }: ApplicationState) => ({
 const mapDispatchToProps = {
     getEditorArticleDetailRequest,
     getArticleFileRequest,
+    setReviewVisibilityRequest,
 };
 
 export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(

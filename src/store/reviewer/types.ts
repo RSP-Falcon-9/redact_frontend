@@ -20,7 +20,7 @@ export interface ReviewerArticle {
     version: number;
     fileName: string;
     publishDate: Date;
-    status: ArticleReviewStatus;
+    status: string;
 }
 
 export enum ArticleReviewStatus {
@@ -64,11 +64,20 @@ export interface ReviewArticleRequest {
 
 // states
 
+export interface ReviewerArticleState {
+    readonly id: string;
+    readonly name: string;
+    readonly version: number;
+    readonly fileName: string;
+    readonly publishDate: Date;
+    readonly status: ArticleReviewStatus;
+}
+
 export interface GetReviewerArticlesState {
     readonly loading: boolean;
     readonly message: string;
     readonly error?: string;
-    readonly articles: ReviewerArticle[];
+    readonly articles: ReviewerArticleState[];
 }
 
 export interface GetReviewerArticleDetailState {

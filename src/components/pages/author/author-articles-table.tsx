@@ -6,6 +6,7 @@ import { AuthorArticle, ArticleVersionStatus } from "store/author/types";
 import { ApplicationState } from "store/root";
 import { Link } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import AuthorUpdateArticleModal from "./author-update-article-modal";
 
 interface PropsFromState {
     loading: boolean;
@@ -19,7 +20,23 @@ interface PropsFromDispatch {
 
 type AllProps = PropsFromState & PropsFromDispatch;
 
-class AuthorArticlesTable extends React.Component<AllProps> {
+interface AuthorArticlesTableState {
+    showModal: boolean;
+    articleId: string;
+    articleName: string;
+}
+
+class AuthorArticlesTable extends React.Component<AllProps, AuthorArticlesTableState> {
+
+    constructor(props: Readonly<AllProps>) {
+        super(props);
+
+        this.state = {
+            showModal: false,
+            articleId: "",
+            articleName: "",
+        };
+    }
 
     componentDidMount() {
         this.props.getArticlesRequest();
@@ -49,6 +66,15 @@ class AuthorArticlesTable extends React.Component<AllProps> {
                     })}
                 </tbody>
             </Table>
+            <AuthorUpdateArticleModal
+                show={this.state.showModal}
+                articleId={this.state.articleId}
+                articleName={this.state.articleName}
+                onModalClose={() => this.setState({
+                    showModal: false,
+                    articleId: "",
+                    articleName: "",
+                })} />
         </>;
     }
 
@@ -94,16 +120,18 @@ class AuthorArticlesTable extends React.Component<AllProps> {
 
                     <Dropdown.Menu>
                         {sortedVersions.map(version => {
-                            return <Dropdown.Item key={`dropdown_${version.version}`} href={`/author/article/${article.id}/${version.version}`}>{version.version}</Dropdown.Item>;
+                            return <Dropdown.Item key={`dropdown_${version.version}`} href={`/author/article/${article.id}/${version.version}`}>Verze {version.version}</Dropdown.Item>;
                         })}
                     </Dropdown.Menu>
                 </Dropdown>
                 {sortedVersions[0].status === ArticleVersionStatus.DENIED && (
-                    <Link to={`/author/articles/new/${article.id}`}>
-                        <Button variant="primary" className="ml-3">
-                            <FontAwesomeIcon icon="plus" />
-                        </Button>
-                    </Link>
+                    <Button variant="primary" className="ml-3" onClick={() => this.setState({
+                        showModal: true,
+                        articleId: article.id,
+                        articleName: article.name,
+                    })}>
+                        <FontAwesomeIcon icon="plus" className="mr-1" /> Nahrát novou verzi
+                    </Button>
                 )}
             </td>
             <td>{sortedVersions[0].publishDate}</td>

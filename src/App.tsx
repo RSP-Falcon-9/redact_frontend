@@ -4,7 +4,6 @@ import { AdminUsers } from "components/pages/admin/admin-users";
 import AuthorArticleDetail from "components/pages/author/author-article-detail";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
 import AuthorNewArticle from "components/pages/author/author-new-article";
-import AuthorUpdateArticle from "components/pages/author/author-update-article";
 import EditorArticleDetail from "components/pages/editor/editor-article-detail";
 import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
 import { HomePage } from "components/pages/home-page";
@@ -53,7 +52,6 @@ function App() {
                         })}
 
                         <PrivilegedRoute path="/author/article/:id/:version" role="ROLE_AUTHOR" component={AuthorArticleDetail} />
-                        <PrivilegedRoute path="/author/articles/new/:id" role="ROLE_AUTHOR" component={AuthorUpdateArticle} />
 
                         <PrivilegedRoute path="/editor/article/:id/:version" role="ROLE_EDITOR" component={EditorArticleDetail} />
 

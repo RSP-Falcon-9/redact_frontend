@@ -16,14 +16,18 @@ import {
     denyArticleError,
     denyArticleSuccess,
     getEditorArticleDetailError,
-    getEditorArticleDetailSuccess} from "./actions";
+    getEditorArticleDetailSuccess,
+    setReviewVisibilityRequest,
+    setReviewVisibilityError,
+    setReviewVisibilitySuccess} from "./actions";
 import {
     EditorAction,
     GET_ARTICLES_URL,
     REVIEWERS_URL,
     assignReviewerEndpoint,
     acceptArticleEndpoint,
-    denyArticleEndpoint } from "./types";
+    denyArticleEndpoint,
+    reviewVisibilityEndpoint} from "./types";
 import { editorArticleDetailEndpoint } from "store/editor/types";
 
 // requests
@@ -98,7 +102,7 @@ function* handleSetReviewerToArticle(action: ReturnType<typeof setReviewerToArti
             console.error(`There was error with set reviewer to article: ${response.error}`);
             yield put(setReviewerToArticleError(response));
         } else {
-            yield put(setReviewerToArticleSuccess(response));
+            yield put(setReviewerToArticleSuccess({ articleId: action.payload.articleId, version: action.payload.version, message: response.message }));
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -119,7 +123,7 @@ function* handleAcceptArticle(action: ReturnType<typeof acceptArticleRequest>) {
             console.error(`There was error with accepting article: ${response.error}`);
             yield put(acceptArticleError(response));
         } else {
-            yield put(acceptArticleSuccess(response));
+            yield put(acceptArticleSuccess({ articleId: action.payload.articleId, version: action.payload.version, message: response.message }));
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -140,7 +144,7 @@ function* handleDenyArticle(action: ReturnType<typeof denyArticleRequest>) {
             console.error(`There was error denying an article: ${response.error}`);
             yield put(denyArticleError(response));
         } else {
-            yield put(denyArticleSuccess(response));
+            yield put(denyArticleSuccess({ articleId: action.payload.articleId, version: action.payload.version, message: response.message }));
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -148,6 +152,27 @@ function* handleDenyArticle(action: ReturnType<typeof denyArticleRequest>) {
             yield put(denyArticleError({ error: error.name, message: error.message }));
         } else {
             yield put(denyArticleError({ error: "There was an unknown error.", message: "" }));
+        }
+    }
+}
+
+function* handleSetReviewVisibility(action: ReturnType<typeof setReviewVisibilityRequest>) {
+    try {
+        const response = yield call(callEditorApi, Method.Get,
+            reviewVisibilityEndpoint(action.payload.reviewId, action.payload.visibility), yield getAuthToken());
+
+        if (response.error) {
+            console.error(`There was error setting review visible: ${response.error}`);
+            yield put(setReviewVisibilityError(response));
+        } else {
+            yield put(setReviewVisibilitySuccess({ reviewId: action.payload.reviewId, visibility: action.payload.visibility, message: response.message }));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(`There was error setting review visible: ${error.stack}`);
+            yield put(setReviewVisibilityError({ error: error.name, message: error.message }));
+        } else {
+            yield put(setReviewVisibilityError({ error: "There was an unknown error.", message: "" }));
         }
     }
 }
@@ -178,6 +203,10 @@ function* watchHandleDenyArticle() {
     yield takeLatest(EditorAction.DENY_ARTICLE, handleDenyArticle);
 }
 
+function* watchSetReviewVisibility() {
+    yield takeLatest(EditorAction.SET_REVIEW_VISIBILITY, handleSetReviewVisibility);
+}
+
 // merge
 
 function* editorSaga() {
@@ -188,6 +217,7 @@ function* editorSaga() {
         fork(watchHandleSetReviewerToArticle),
         fork(watchHandleAcceptArticle),
         fork(watchHandleDenyArticle),
+        fork(watchSetReviewVisibility),
     ]);
 }
 

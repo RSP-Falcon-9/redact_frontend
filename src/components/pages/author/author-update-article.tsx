@@ -1,13 +1,12 @@
-import { TemplatePage } from "components/pages/template/template-page";
 import * as React from "react";
 import { Alert, Button, Form, Spinner } from "react-bootstrap";
 import { connect } from "react-redux";
-import { RouteComponentProps } from "react-router";
 import { updateArticleRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
 
-interface RouteProps {
-    id: string;
+interface UpdateArticleProps {
+    articleId: string;
+    onUploadNewArticle: (() => void);
 }
 
 interface PropsFromState {
@@ -19,20 +18,18 @@ interface PropsFromDispatch {
     updateArticleRequest: typeof updateArticleRequest;
 }
 
-type AllProps<T> = PropsFromState & PropsFromDispatch & RouteComponentProps<T>;
+type AllProps = PropsFromState & PropsFromDispatch & UpdateArticleProps;
 
 interface NewArticleFormState {
     file: File;
 }
 
-class AuthorUpdateArticle extends React.Component<AllProps<RouteProps>, NewArticleFormState> {
+class AuthorUpdateArticle extends React.Component<AllProps, NewArticleFormState> {
 
-    content(): JSX.Element {
+    render() {
         const { loading, errors } = this.props;
 
         return <>
-            <h2>Aktualizovat článek {this.props.match.params.id}</h2>
-
             <Form>
                 <Form.Group>
                     <Form.Label>Soubor (.pdf)</Form.Label>
@@ -52,11 +49,8 @@ class AuthorUpdateArticle extends React.Component<AllProps<RouteProps>, NewArtic
     }
 
     onUploadNewArticleClick() {
-        this.props.updateArticleRequest({ id: this.props.match.params.id, file: this.state.file });
-    }
-
-    render() {
-        return <TemplatePage content={this.content()} />;
+        this.props.updateArticleRequest({ id: this.props.articleId, file: this.state.file });
+        this.props.onUploadNewArticle();
     }
 
 }
@@ -70,7 +64,7 @@ const mapDispatchToProps = {
     updateArticleRequest,
 };
 
-export default connect<PropsFromState, PropsFromDispatch, {}, ApplicationState>(
+export default connect<PropsFromState, PropsFromDispatch, UpdateArticleProps, ApplicationState>(
     mapStateToProps,
     mapDispatchToProps,
 )(AuthorUpdateArticle);

@@ -108,6 +108,8 @@ export interface AppealReviewRequest {
     appeal: string;
 }
 
+export interface UpdateArticleSuccessResponse extends BaseResponse, Article { }
+
 export interface GetArticlesState {
     readonly loading: boolean;
     readonly message: string;

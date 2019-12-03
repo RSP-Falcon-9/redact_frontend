@@ -6,7 +6,8 @@ import {
     GetArticlesResponse,
     GetArticleDetailResponse,
     UpdateArticleRequest,
-    AppealReviewRequest} from "./types";
+    AppealReviewRequest,
+    UpdateArticleSuccessResponse} from "./types";
 import { BaseResponse, ErrorBaseResponse } from "requests/base-response";
 
 export const getArticlesRequest = () => action(AuthorAction.GET_ARTICLES);
@@ -18,7 +19,7 @@ export const createArticleSuccess = (response: BaseResponse) => action(AuthorAct
 export const createArticleError = (errorResponse: ErrorBaseResponse) => action(AuthorAction.CREATE_ARTICLE_ERROR, errorResponse);
 
 export const updateArticleRequest = (request: UpdateArticleRequest) => action(AuthorAction.UPDATE_ARTICLE, request);
-export const updateArticleSuccess = (response: BaseResponse) => action(AuthorAction.UPDATE_ARTICLE_SUCCESS, response);
+export const updateArticleSuccess = (response: UpdateArticleSuccessResponse) => action(AuthorAction.UPDATE_ARTICLE_SUCCESS, response);
 export const updateArticleError = (errorResponse: ErrorBaseResponse) => action(AuthorAction.UPDATE_ARTICLE_ERROR, errorResponse);
 
 export const getArticleDetailRequest = (request: GetArticleDetailRequest) => action(AuthorAction.GET_ARTICLE_DETAIL, request);

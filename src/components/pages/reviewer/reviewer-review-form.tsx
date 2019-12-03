@@ -4,6 +4,7 @@ import { connect } from "react-redux";
 import { reviewArticleRequest } from "store/reviewer/actions";
 import { ArticleReviewStatus } from "store/reviewer/types";
 import { ApplicationState } from "store/root";
+import { Redirect } from "react-router";
 
 interface ReviewerReviewProps {
     id: string;
@@ -78,7 +79,7 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}
                 {error && (<Alert variant="danger">Nelze zrecenzovat článekk!</Alert>)}
-                {!error && message && (<Alert variant="success">Článek byl úspěšně zrecenzován!</Alert>)}
+                {!error && message && (<Redirect to="/reviewer/articles" />)}
             </Form>
         </>;
     }

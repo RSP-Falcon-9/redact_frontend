@@ -1,16 +1,17 @@
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import * as React from "react";
-import { Alert, Button, ButtonGroup, Dropdown, Spinner, Table } from "react-bootstrap";
+import { Alert, Button, ButtonGroup, Dropdown, Spinner, Table, Badge } from "react-bootstrap";
 import { connect } from "react-redux";
 import { Link } from "react-router-dom";
 import { getEditorArticlesRequest, acceptArticleRequest, denyArticleRequest } from "store/editor/actions";
-import { EditorArticle } from "store/editor/types";
+import { EditorArticleState } from "store/editor/types";
 import { ApplicationState } from "store/root";
 import EditorSendToReviewerModal from "./editor-send-to-reviewer-modal";
+import { ArticleVersionStatus } from "store/author/types";
 
 interface PropsFromState {
     loading: boolean;
-    articles: EditorArticle[];
+    articles: EditorArticleState[];
     error?: string;
 }
 
@@ -80,13 +81,33 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
             <th>Autor</th>
             <th>Verze</th>
             <th>Datum poslední verze</th>
+            <th>Stav poslední verze</th>
             <th>Akce</th>
         </>;
     }
 
-    tableArticleRow(article: EditorArticle): JSX.Element {
+    tableArticleRow(article: EditorArticleState): JSX.Element {
         const sortedVersions = article.versions.sort((a, b) => b.version - a.version);
         const newestVersion = sortedVersions[0].version;
+
+        let statusBadge: JSX.Element;
+        switch (sortedVersions[0].status) {
+            case ArticleVersionStatus.NEW:
+                statusBadge = <Badge variant="info">Požádáno o recenzi</Badge>;
+                break;
+            case ArticleVersionStatus.REVIEW_PENDING:
+                statusBadge = <Badge variant="info">V recenzním řízení</Badge>;
+                break;
+            case ArticleVersionStatus.ACCEPTED:
+                statusBadge = <Badge variant="success">Přijato</Badge>;
+                break;
+            case ArticleVersionStatus.DENIED:
+                statusBadge = <Badge variant="danger">Zamítnuto</Badge>;
+                break;
+            default:
+                statusBadge = <Badge variant="info">Stav neznámý</Badge>;
+                break;
+        }
 
         return <>
 
@@ -106,21 +127,22 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
                 </Dropdown>
             </td>
             <td>{sortedVersions[0].publishDate}</td>
+            <td>{statusBadge}</td>
             <td>
                 <Button variant="warning" className="mr-1" onClick={() => this.setState({
                     showModal: true,
                     modalArticleId: article.id,
                     modalArticleVersion: newestVersion,
                 })}>
-                    <FontAwesomeIcon icon="spell-check" />
+                    <FontAwesomeIcon icon="spell-check" className="mr-1" /> Kontrola recenzentem
                 </Button>
 
                 <Button variant="primary" className="mr-1" onClick={() => this.props.acceptArticleRequest(article.id, newestVersion)}>
-                    <FontAwesomeIcon icon="check" />
+                    <FontAwesomeIcon icon="check" className="mr-1" /> Přijmout
                 </Button>
 
                 <Button variant="danger" onClick={() => this.props.denyArticleRequest(article.id, newestVersion)}>
-                    <FontAwesomeIcon icon="trash" />
+                    <FontAwesomeIcon icon="trash" className="mr-1" /> Odmítnout
                 </Button>
             </td>
         </>;
