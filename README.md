@@ -1,4 +1,4 @@
-# redact_frontend
+# redact_frontend [![Build Status](https://travis-ci.com/RSP-Falcon-9/redact_frontend.svg?branch=master)](https://travis-ci.com/RSP-Falcon-9/redact_frontend)
 Frontend pro systém Redact.
 
 ## Jak otevřít?

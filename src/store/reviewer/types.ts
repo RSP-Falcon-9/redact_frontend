@@ -10,8 +10,8 @@ export enum ReviewerAction {
     GET_ARTICLE_DETAIL_ERROR = "@reviewer/getArticleDetailError",
 
     REVIEW_ARTICLE = "@@reviewer/reviewArticle",
-    REVIEW_ARTICLE_SUCCESS = "@reviewer/reviewArticleSuccess",
-    REVIEW_ARTICLE_ERROR = "@reviewer/reviewArticleError",
+    REVIEW_ARTICLE_SUCCESS = "@@reviewer/reviewArticleSuccess",
+    REVIEW_ARTICLE_ERROR = "@@reviewer/reviewArticleError",
 }
 
 export interface ReviewerArticle {

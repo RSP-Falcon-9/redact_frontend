@@ -1,0 +1,21 @@
+language: node_js
+
+node_js:
+  - "stable"
+
+# Cache dependencies
+cache:
+  directories:
+    - node_modules
+
+# Build CRA
+script:
+  - npm run-script build 
+  
+# Deploy master
+deploy:
+  provider: script
+  script: scripts/deploy.sh
+  skip_cleanup: true
+  on:
+    branch: master
