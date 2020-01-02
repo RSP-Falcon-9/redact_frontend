@@ -41,6 +41,7 @@ export class EditorReviewForm extends React.Component<FormProps> {
                 <span className="mr-3">Recenze</span>
                 {appealBadge}
             </h3>
+            <p> Nápověda: 1-nejhorší, 5-nejlepší <p>
             Autor: {this.props.authorName}
             <Form>
                 {this.radioGroup("Aktuálnost, zajímavost a přínosnost", "uptodate", this.props.interest)}
