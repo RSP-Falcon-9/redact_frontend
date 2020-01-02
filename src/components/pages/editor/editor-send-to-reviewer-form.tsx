@@ -66,7 +66,7 @@ class EditorSendToReviewer extends React.Component<AllProps, EditorSendToReviewe
                 this.props.onAddClick();
             }}>
                 <Form.Group controlId="reviewRequest.reviewerPick">
-                    <Form.Label>Výběr reviewera</Form.Label>
+                    <Form.Label>Výběr recenzenta:</Form.Label>
                     <Form.Control as="select" onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) =>
                         this.setState({ selectedReviewerId: changeEvent.currentTarget.value })}>
                             {this.props.reviewers.map((reviewer, index) => {

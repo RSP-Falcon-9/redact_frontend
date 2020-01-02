@@ -137,7 +137,7 @@ class EditorArticlesTable extends React.Component<AllProps, EditorArticlesTableS
                     <FontAwesomeIcon icon="spell-check" className="mr-1" /> Kontrola recenzentem
                 </Button>
 
-                <Button variant="primary" className="mr-1 mb-1" onClick={() => this.props.acceptArticleRequest(article.id, newestVersion)}>
+                <Button variant="success" className="mr-1 mb-1" onClick={() => this.props.acceptArticleRequest(article.id, newestVersion)}>
                     <FontAwesomeIcon icon="check" className="mr-1" /> Přijmout
                 </Button>
 
