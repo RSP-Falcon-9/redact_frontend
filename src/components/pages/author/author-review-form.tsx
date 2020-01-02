@@ -40,6 +40,7 @@ export class AuthorReviewForm extends React.Component<FormProps> {
                 <span className="mr-3">Recenze</span>
                 {appealBadge}
             </h3>
+             <p> Nápověda: 1-nejhorší, 5-nejlepší </p>
             <Form>
                 {this.radioGroup("Aktuálnost, zajímavost a přínosnost", "uptodate", this.props.interest)}
                 {this.radioGroup("Originalita", "originality", this.props.originality)}
@@ -60,7 +61,7 @@ export class AuthorReviewForm extends React.Component<FormProps> {
                         Datum odvolání: {dateToFormDate(this.props.appealDate)}
                     </>)}
             </Form>
-            <p> Nápověda: 1-nejhorší, 5-nejlepší </p>
+           
         </>;
     }
 
