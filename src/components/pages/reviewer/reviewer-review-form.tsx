@@ -57,7 +57,7 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
                 <span className="mr-3">Recenze</span>
                 {appealBadge}
             </h3>
-            <p> Nápověda: 1-nejhorší, 5-nejlepší <p>
+            <p> Nápověda: 1-nejhorší, 5-nejlepší </p>
             <Form onSubmit={(formEvent: React.FormEvent<HTMLFormElement>) => {
                 formEvent.preventDefault();
 
