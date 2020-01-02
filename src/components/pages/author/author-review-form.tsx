@@ -60,6 +60,7 @@ export class AuthorReviewForm extends React.Component<FormProps> {
                         Datum odvolání: {dateToFormDate(this.props.appealDate)}
                     </>)}
             </Form>
+            <p> Nápověda: 1-nejhorší, 5-nejlepší </p>
         </>;
     }
 
