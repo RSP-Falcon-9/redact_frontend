@@ -14,7 +14,7 @@ export class TemplatePage extends React.Component<Props> {
     render() {
         return (
             <Container className={style.app_container}>
-                <div className={style.app_content}> <img src="/images/logo.png" width="489" height="103" class="rounded"> </div>
+                <img src="/images/logo.png" width="290" height="61">
                 <Row>
                     <Col sm={6}><h1>Redact</h1></Col>
                     <Col><LoginForm /></Col>
