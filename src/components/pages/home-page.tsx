@@ -30,6 +30,31 @@ export class HomePage extends React.Component<{}> {
                 v českém, slovenském a anglickém jazyce. Do recenzního řízení jsou přijímány příspěvky tematicky odpovídající
                 zaměření časopisu a formálně upravené dle redakční šablony.
             </p>
+
+            <h2>Šéfredaktor</h2>
+            <ul className="list-group mb-3">
+                <li className="list-group-item">doc. Ing. Zdeněk Horák, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
+            </ul>
+
+            <h2>Redakční rada</h2>
+            <ul className="list-group mb-3">
+                <li className="list-group-item">prof. PhDr. RNDr. Martin Boltižiar, PhD. (Univerzita Konštantína Filozofa v Nitre)</li>
+                <li className="list-group-item">prof. RNDr. Helena Brožová, CSc. (Česká zemědělská univerzita v Praze)</li>
+                <li className="list-group-item">doc. PhDr. Lada Cetlová, PhD. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">prof. Mgr. Ing. Martin Dlouhý, Dr. MSc. (Vysoká škola ekonomická v Praze)</li>
+                <li className="list-group-item">prof. Ing. Tomáš Dostál, DrSc. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">doc. Ing. Jiří Dušek, Ph.D. (Vysoká škola evropských a regionálních studií)</li>
+                <li className="list-group-item">doc. RNDr. Petr Gurka, CSc. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">Ing. Veronika Hedija, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">doc. Ing. Zdeněk Horák, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">Ing. Ivica Linderová, PhD. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">prof. MUDr. Aleš Roztočil, CSc. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">doc. PhDr. David Urban, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">doc. Dr. Ing. Jan Voráček, CSc. (Vysoká škola polytechnická Jihlava)</li>
+                <li className="list-group-item">RNDr. PaedDr. Ján Veselovský, PhD. (Univerzita Konštantína Filozofa v Nitre)</li>
+                <li className="list-group-item">doc. Ing. Libor Žídek, Ph.D. (Masarykova univerzita Brno)</li>
+            </ul>
+
             <h2>O systému Redact</h2>
             <p>
                 Systém Redact slouží pro ulehčení workflowu časopisu LOGOS POLYTECHNIKOS, pro manipulaci se systémem

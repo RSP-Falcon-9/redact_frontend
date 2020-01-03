@@ -50,7 +50,7 @@ class Login extends React.Component<AllProps, LoginState> {
                             id="usernameField"
                             required
                             type="text"
-                            placeholder="Username"
+                            placeholder="Uživatelské jméno"
                             onChange={(event: React.FormEvent<HTMLInputElement>) => {
                                 this.setState({
                                     username: event.currentTarget.value!,
@@ -63,7 +63,7 @@ class Login extends React.Component<AllProps, LoginState> {
                             id="passwordField"
                             required
                             type="password"
-                            placeholder="Password"
+                            placeholder="Heslo"
                             onChange={(event: React.FormEvent<HTMLInputElement>) => {
                                 this.setState({
                                     password: event.currentTarget.value!,
@@ -73,7 +73,7 @@ class Login extends React.Component<AllProps, LoginState> {
                     </Col>
                     <Col>
                         <Button variant="primary" type="submit" className="mb-3" block>
-                            SIGN IN
+                            Přihlásit se
                         </Button>
                     </Col>
                 </Row>
