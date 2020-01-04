@@ -1,9 +1,10 @@
 import { library } from "@fortawesome/fontawesome-svg-core";
-import { faCheck, faDoorOpen, faEdit, faHandMiddleFinger, faInfo, faPlus, faSpellCheck, faStar, faTimes, faTrash } from "@fortawesome/free-solid-svg-icons";
+import { faCheck, faDoorOpen, faEdit, faHandMiddleFinger, faInfo, faPlus, faSpellCheck, faStar, faTimes, faTrash, faArchive } from "@fortawesome/free-solid-svg-icons";
 import { AdminUsers } from "components/pages/admin/admin-users";
 import AuthorArticleDetail from "components/pages/author/author-article-detail";
 import { AuthorMyArticles } from "components/pages/author/author-my-articles";
 import AuthorNewArticle from "components/pages/author/author-new-article";
+import { ChiefEditorEditions } from "components/pages/chiefeditor/chiefeditor-editions";
 import EditorArticleDetail from "components/pages/editor/editor-article-detail";
 import { EditorPendingArticles } from "components/pages/editor/editor-pending-articles";
 import { HomePage } from "components/pages/home-page";
@@ -27,7 +28,7 @@ interface ReduxWindow extends Window {
 // stylization icons from fontawesome
 library.add(faEdit, faTrash, faCheck, faDoorOpen,
     faTimes, faPlus, faInfo, faSpellCheck, faStar,
-    faHandMiddleFinger);
+    faHandMiddleFinger, faArchive);
 
 // app core components
 const history = History.createBrowserHistory();
@@ -48,6 +49,9 @@ function App() {
 
     // editor
     navigation.addNavigationRolePath({ path: "/editor/articles", name: "Žádosti o posudek", role: "ROLE_EDITOR", component: EditorPendingArticles });
+
+    // chief editor
+    navigation.addNavigationRolePath({ path: "/chiefeditor/editions", name: "Správa vydání", role: "ROLE_CHIEF_EDITOR", component: ChiefEditorEditions });
 
     return (
         <Provider store={storePersistor.store}>
