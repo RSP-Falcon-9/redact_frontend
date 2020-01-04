@@ -33,13 +33,13 @@ export const getArchivesStateReducer: Reducer<ArchivesState> =
             };
         }
         case UnauthenticatedAction.GET_ARCHIVES_ERROR: {
-            const reviewArticleError = action.payload as ErrorBaseResponse;
+            const getArchivesError = action.payload as ErrorBaseResponse;
 
             return {
                 ...state,
                 loading: false,
-                message: reviewArticleError.message,
-                error: reviewArticleError.error,
+                message: getArchivesError.message,
+                error: getArchivesError.error,
             };
         }
         default: {

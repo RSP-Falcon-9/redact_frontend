@@ -14,6 +14,8 @@ import { AuthState } from "./auth/types";
 import { appealReviewStateReducer, createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
+import { archiveEditionStateReducer, createEditionStateReducer, deleteEditionStateReducer, getEditionsStateReducer } from "./chiefeditor/reducers";
+import { ChiefEditorState } from "./chiefeditor/types";
 import { acceptArticleReducer, denyArticleReducer, getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, setReviewVisibilityReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
@@ -25,6 +27,7 @@ import { ReviewerState } from "./reviewer/types";
 import { getArchivesStateReducer } from "./unauthenticated/reducers";
 import unauthenticatedSaga from "./unauthenticated/sagas";
 import { UnauthenticatedState } from "./unauthenticated/types";
+import chiefEditorSaga from "./chiefeditor/sagas";
 
 export interface ApplicationState {
     readonly auth: AuthState;
@@ -35,6 +38,7 @@ export interface ApplicationState {
     readonly editor: EditorState;
     readonly reviewer: ReviewerState;
     readonly unauthenticated: UnauthenticatedState;
+    readonly chiefEditor: ChiefEditorState;
     readonly router: any;
 }
 
@@ -78,6 +82,12 @@ export const createRootReducer = (history: History) =>
         unauthenticated: combineReducers<UnauthenticatedState>({
             archivesState: getArchivesStateReducer,
         }),
+        chiefEditor: combineReducers<ChiefEditorState>({
+            getEditionsState: getEditionsStateReducer,
+            createEditionState: createEditionStateReducer,
+            deleteEditionState: deleteEditionStateReducer,
+            archiveEditionState: archiveEditionStateReducer,
+        }),
         router: connectRouter(history),
     });
 
@@ -90,5 +100,6 @@ export function* rootSaga() {
         fork(editorSaga),
         fork(reviewerSaga),
         fork(unauthenticatedSaga),
+        fork(chiefEditorSaga),
     ]);
 }
