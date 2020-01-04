@@ -11,10 +11,10 @@ import { ArticleState } from "./articles/types";
 import { authReducer } from "./auth/reducers";
 import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
-import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer, appealReviewStateReducer } from "./author/reducers";
+import { appealReviewStateReducer, createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
-import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, acceptArticleReducer, denyArticleReducer, setReviewVisibilityReducer } from "./editor/reducers";
+import { acceptArticleReducer, denyArticleReducer, getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, setReviewVisibilityReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
@@ -22,6 +22,9 @@ import { NavigationState } from "./navigation/types";
 import { getReviewerArticleDetailStateReducer, getReviewerArticlesStateReducer, reviewArticleStateReducer } from "./reviewer/reducers";
 import reviewerSaga from "./reviewer/sagas";
 import { ReviewerState } from "./reviewer/types";
+import { getArchivesStateReducer } from "./unauthenticated/reducers";
+import unauthenticatedSaga from "./unauthenticated/sagas";
+import { UnauthenticatedState } from "./unauthenticated/types";
 
 export interface ApplicationState {
     readonly auth: AuthState;
@@ -31,6 +34,7 @@ export interface ApplicationState {
     readonly author: AuthorState;
     readonly editor: EditorState;
     readonly reviewer: ReviewerState;
+    readonly unauthenticated: UnauthenticatedState;
     readonly router: any;
 }
 
@@ -71,6 +75,9 @@ export const createRootReducer = (history: History) =>
             getReviewerArticleDetail: getReviewerArticleDetailStateReducer,
             reviewArticle: reviewArticleStateReducer,
         }),
+        unauthenticated: combineReducers<UnauthenticatedState>({
+            archivesState: getArchivesStateReducer,
+        }),
         router: connectRouter(history),
     });
 
@@ -82,5 +89,6 @@ export function* rootSaga() {
         fork(authorSaga),
         fork(editorSaga),
         fork(reviewerSaga),
+        fork(unauthenticatedSaga),
     ]);
 }

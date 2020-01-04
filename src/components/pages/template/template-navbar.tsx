@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Path } from "store/navigation/types";
 import { ApplicationState } from "store/root";
 import { RolesMapping } from "utils/constants";
-import { HOME_URL } from "utils/navigation";
+import { HOME_URL, ARCHIVES_URL } from "utils/navigation";
 
 interface PropsFromState {
     authRoles: string[];
@@ -21,6 +21,7 @@ class TemplateNavbar extends React.Component<PropsFromState> {
                 <Navbar.Collapse id="main-navbar">
                     <Nav className="mr-auto">
                         <Nav.Link href={HOME_URL}>Domů</Nav.Link>
+                        <Nav.Link href={ARCHIVES_URL}>Archív článků</Nav.Link>
                         {Object.entries(this.props.rolePaths).map(([role, paths], index) => {
                             if (!this.props.authRoles.includes(role)) {
                                 return null;
