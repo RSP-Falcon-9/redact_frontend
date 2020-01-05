@@ -5,14 +5,18 @@ import { connect } from "react-redux";
 import { createArticleRequest } from "store/author/actions";
 import { ApplicationState } from "store/root";
 import { Redirect } from "react-router";
+import { getEditionsRequest } from "store/unauthenticated/actions";
+import { Edition } from "store/unauthenticated/types";
 
 interface PropsFromState {
     loading: boolean;
     errors?: string;
     message: string;
+    editions: Edition[];
 }
 
 interface PropsFromDispatch {
+    getEditionsRequest: typeof getEditionsRequest;
     createArticleRequest: typeof createArticleRequest;
 }
 
@@ -20,10 +24,15 @@ type AllProps = PropsFromState & PropsFromDispatch;
 
 interface NewArticleFormState {
     articleName: string;
+    selectedEdition: number;
     file: File;
 }
 
 class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
+
+    componentDidMount() {
+        this.props.getEditionsRequest();
+    }
 
     content(): JSX.Element {
         const { loading, errors, message } = this.props;
@@ -41,7 +50,7 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
                         <Alert.Link href="https://www.vspj.cz/soubory/download/id/4186">Šablona</Alert.Link>
                     </li>
                 </ul>
-                Při nedodržení pravidel pravděpodobně bude článek zamítnut.
+                Při nedodržení pravidel bude článek zamítnut.
             </Alert>
 
             <Form>
@@ -50,6 +59,15 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
                     <Form.Control id="text_id" type="text" onChange={(e: React.FormEvent<HTMLInputElement>) => {
                         this.setState({ articleName: e.currentTarget.value! });
                     }} />
+                </Form.Group>
+                <Form.Group controlId="reviewRequest.reviewerPick">
+                    <Form.Label>Výběr vydání:</Form.Label>
+                    <Form.Control as="select" onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) =>
+                        this.setState({ selectedEdition: parseInt(changeEvent.currentTarget.value, 10) })}>
+                            {this.props.editions.map((edition, index) => {
+                                return <option key={index} value={edition.id}>{edition.id} ({edition.deadline}) - {edition.description}</option>;
+                            })}
+                    </Form.Control>
                 </Form.Group>
                 <Form.Group>
                     <Form.Label>Soubor (.pdf)</Form.Label>
@@ -79,13 +97,15 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
 
 }
 
-const mapStateToProps = ({ author }: ApplicationState) => ({
+const mapStateToProps = ({ author, unauthenticated }: ApplicationState) => ({
     loading: author.createArticle.loading,
     errors: author.createArticle.error,
     message: author.createArticle.message,
+    editions: unauthenticated.getEditionsState.editions,
 });
 
 const mapDispatchToProps = {
+    getEditionsRequest,
     createArticleRequest,
 };
 

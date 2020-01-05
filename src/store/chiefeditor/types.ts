@@ -1,10 +1,7 @@
 import { BaseResponse } from "requests/base-response";
+import { Edition } from "store/unauthenticated/types";
 
 export enum ChiefEditorActions {
-    GET_EDITIONS = "@@chiefEditor/getEditions",
-    GET_EDITIONS_SUCCESS = "@@chiefEditor/getEditionsSuccess",
-    GET_EDITIONS_ERROR = "@@chiefEditor/getEditionsError",
-
     CREATE_EDITION = "@@chiefEditor/createEdition",
     CREATE_EDITION_SUCCESS = "@@chiefEditor/createEditionSuccess",
     CREATE_EDITION_ERROR = "@@chiefEditor/createEditionError",
@@ -19,17 +16,6 @@ export enum ChiefEditorActions {
 }
 
 // dtos
-
-export interface Edition {
-    id: number;
-    description: string;
-    deadline: Date;
-    archived: Boolean;
-}
-
-export interface GetEditionsResponse extends BaseResponse {
-    editions: Edition[];
-}
 
 export interface CreateEditionRequest {
     description: string;
@@ -51,17 +37,9 @@ export interface ArchiveEditionResponse extends BaseResponse {
 // states
 
 export interface ChiefEditorState {
-    readonly getEditionsState: GetEditionsState;
     readonly createEditionState: CreateEditionState;
     readonly deleteEditionState: DeleteEditionState;
     readonly archiveEditionState: ArchiveEditionState;
-}
-
-export interface GetEditionsState {
-    readonly loading: boolean;
-    readonly message: string;
-    readonly error?: string;
-    readonly editions: Edition[];
 }
 
 export interface CreateEditionState {
@@ -84,8 +62,6 @@ export interface ArchiveEditionState {
 
 export const CHIEF_EDITOR_ENDPOINT = "/chief-editor";
 
-export const getEditionsEndpoint = (): string =>
-    `/editions`;
 export const createEditionEndpoint = (): string =>
     `/edition`;
 export const deleteEditionEndpoint = (editionId: number): string =>

@@ -1,27 +1,7 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { Method, callChiefEditorApi, getAuthToken } from "requests/api";
-import { ChiefEditorActions, getEditionsEndpoint, createEditionEndpoint, deleteEditionEndpoint, archiveEditionEndpoint } from "./types";
-import { getEditionsError, getEditionsSuccess, createEditionRequest, deleteEditionRequest, createEditionError, createEditionSuccess, deleteEditionError, deleteEditionSuccess, archiveEditionError, archiveEditionSuccess, archiveEditionRequest } from "./actions";
-
-function* handleGetEditions() {
-    try {
-        const response = yield call(callChiefEditorApi, Method.Post, getEditionsEndpoint(), yield getAuthToken());
-
-        if (response.error) {
-            console.error("There was error with get editions: " + response.error);
-            yield put(getEditionsError(response.error));
-        } else {
-            yield put(getEditionsSuccess(response));
-        }
-    } catch (error) {
-        if (error instanceof Error) {
-            console.error("There was error with get editions: " + error.stack!);
-            yield put(getEditionsError({ error: error.name, message: error.message }));
-        } else {
-            yield put(getEditionsError({ error: "There was an unknown error.", message: "" }));
-        }
-    }
-}
+import { ChiefEditorActions, createEditionEndpoint, deleteEditionEndpoint, archiveEditionEndpoint } from "./types";
+import { createEditionRequest, deleteEditionRequest, createEditionError, createEditionSuccess, deleteEditionError, deleteEditionSuccess, archiveEditionError, archiveEditionSuccess, archiveEditionRequest } from "./actions";
 
 function* handleCreateEdition(action: ReturnType<typeof createEditionRequest>) {
     try {
@@ -88,10 +68,6 @@ function* handleArchiveEdition(action: ReturnType<typeof archiveEditionRequest>)
 
 // watchers
 
-function* watchGetEditionsRequest() {
-    yield takeLatest(ChiefEditorActions.GET_EDITIONS, handleGetEditions);
-}
-
 function* watchCreateEditionRequest() {
     yield takeLatest(ChiefEditorActions.CREATE_EDITION, handleCreateEdition);
 }
@@ -108,7 +84,6 @@ function* watchArchiveEditionRequest() {
 
 function* chiefEditorSaga() {
     yield all([
-        fork(watchGetEditionsRequest),
         fork(watchCreateEditionRequest),
         fork(watchDeleteEditionRequest),
         fork(watchArchiveEditionRequest),

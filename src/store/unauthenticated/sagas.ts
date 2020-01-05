@@ -1,7 +1,27 @@
 import { all, call, fork, put, takeLatest } from "redux-saga/effects";
 import { callUnauthenticatedApi, Method } from "requests/api";
-import { getArchivesError, getArchivesSuccess } from "./actions";
-import { getArchivesEndpoint, UnauthenticatedAction } from "./types";
+import { getArchivesError, getArchivesSuccess, getEditionsError, getEditionsSuccess } from "./actions";
+import { getArchivesEndpoint, UnauthenticatedAction, getEditionsEndpoint } from "./types";
+
+function* handleGetEditions() {
+    try {
+        const response = yield call(callUnauthenticatedApi, Method.Post, getEditionsEndpoint());
+
+        if (response.error) {
+            console.error("There was error with get editions: " + response.error);
+            yield put(getEditionsError(response.error));
+        } else {
+            yield put(getEditionsSuccess(response));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error("There was error with get editions: " + error.stack!);
+            yield put(getEditionsError({ error: error.name, message: error.message }));
+        } else {
+            yield put(getEditionsError({ error: "There was an unknown error.", message: "" }));
+        }
+    }
+}
 
 function* handleGetArchives() {
     try {
@@ -25,6 +45,10 @@ function* handleGetArchives() {
 
 // watchers
 
+function* watchGetEditionsRequest() {
+    yield takeLatest(UnauthenticatedAction.GET_EDITIONS, handleGetEditions);
+}
+
 function* watchGetArchivesRequest() {
     yield takeLatest(UnauthenticatedAction.GET_ARCHIVES, handleGetArchives);
 }
@@ -33,6 +57,7 @@ function* watchGetArchivesRequest() {
 
 function* unauthenticatedSaga() {
     yield all([
+        fork(watchGetEditionsRequest),
         fork(watchGetArchivesRequest),
     ]);
 }

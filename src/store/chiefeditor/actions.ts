@@ -2,15 +2,10 @@ import { ErrorBaseResponse } from "requests/base-response";
 import { action } from "typesafe-actions";
 import {
     ChiefEditorActions,
-    GetEditionsResponse,
     CreateEditionRequest,
     CreateEditionResponse,
     DeleteEditionResponse,
     ArchiveEditionResponse } from "./types";
-
-export const getEditionsRequest = () => action(ChiefEditorActions.GET_EDITIONS);
-export const getEditionsSuccess = (response: GetEditionsResponse) => action(ChiefEditorActions.GET_EDITIONS_SUCCESS, response);
-export const getEditionsError = (errorResponse: ErrorBaseResponse) => action(ChiefEditorActions.GET_EDITIONS_ERROR, errorResponse);
 
 export const createEditionRequest = (request: CreateEditionRequest) => action(ChiefEditorActions.CREATE_EDITION, request);
 export const createEditionSuccess = (response: CreateEditionResponse) => action(ChiefEditorActions.CREATE_EDITION_SUCCESS, response);

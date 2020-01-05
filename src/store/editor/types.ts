@@ -30,6 +30,10 @@ export enum EditorAction {
     SET_REVIEW_VISIBILITY = "@@editor/setReviewVisibility",
     SET_REVIEW_VISIBILITY_SUCCESS = "@@editor/setReviewVisibilitySuccess",
     SET_REVIEW_VISIBILITY_ERROR = "@@editor/setReviewVisibilityError",
+
+    SET_ARTICLE_EDITION = "@@editor/setArticleEdition",
+    SET_ARTICLE_EDITION_SUCCESS = "@@editor/setArticleEditionSuccess",
+    SET_ARTICLE_EDITION_ERROR = "@@editor/setArticleEditionError",
 }
 
 // data
@@ -39,6 +43,7 @@ export interface EditorArticle {
     name: string;
     authorId: string;
     versions: ArticleVersion[];
+    edition: number;
 }
 
 export interface Reviewer {
@@ -91,6 +96,11 @@ export interface SetReviewVisibilityResponse extends BaseResponse {
 export interface ChangeArticleStatusResponse extends BaseResponse {
     articleId: string;
     version: number;
+}
+
+export interface SetArticleEditionResponse extends BaseResponse {
+    articleId: string;
+    editionNumber: number;
 }
 
 // states
@@ -169,6 +179,12 @@ export interface SetReviewVisibilityState {
     readonly error?: string;
 }
 
+export interface SetArticleEditionState {
+    readonly loading: boolean;
+    readonly message: string;
+    readonly error?: string;
+}
+
 export interface EditorState {
     readonly getEditorArticles: GetEditorArticlesState;
     readonly getEditorArticleDetail: GetEditorArticleDetailState;
@@ -177,6 +193,7 @@ export interface EditorState {
     readonly acceptArticle: AcceptArticleState;
     readonly denyArticle: DenyArticleState;
     readonly setReviewVisibility: SetReviewVisibilityState;
+    readonly setArticleEdition: SetArticleEditionState;
 }
 
 export const GET_ARTICLES_URL = "/articles";
@@ -192,3 +209,5 @@ export const denyArticleEndpoint = (articleId: string, articleVersion: number): 
     `/deny/${articleId}/${articleVersion}`;
 export const reviewVisibilityEndpoint = (reviewId: string, visibility: boolean): string =>
     `/review/${reviewId}?visibility=${visibility}`;
+export const articleEditionEndpoint = (articleId: string, editionNumber: number): string =>
+    `/set-article-edition/${articleId}?editionNumber=${editionNumber}`;

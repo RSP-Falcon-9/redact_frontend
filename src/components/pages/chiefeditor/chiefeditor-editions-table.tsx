@@ -3,9 +3,10 @@ import * as React from "react";
 import { Alert, Button, Spinner, Table, Badge } from "react-bootstrap";
 import { connect } from "react-redux";
 import { ApplicationState } from "store/root";
-import { deleteEditionRequest, getEditionsRequest, archiveEditionRequest } from "store/chiefeditor/actions";
-import { Edition } from "store/chiefeditor/types";
+import { deleteEditionRequest, archiveEditionRequest } from "store/chiefeditor/actions";
 import ChiefEditorNewEditionModal from "./chiefeditor-new-edition-modal";
+import { getEditionsRequest } from "store/unauthenticated/actions";
+import { Edition } from "store/unauthenticated/types";
 
 interface PropsFromState {
     loading: boolean;
@@ -92,10 +93,10 @@ class ChiefEditorEditionsTable extends React.Component<AllProps, EditionsTableFo
 
 }
 
-const mapStateToProps = ({ chiefEditor }: ApplicationState) => ({
-    loading: chiefEditor.getEditionsState.loading,
-    error: chiefEditor.getEditionsState.error,
-    editions: chiefEditor.getEditionsState.editions,
+const mapStateToProps = ({ unauthenticated }: ApplicationState) => ({
+    loading: unauthenticated.getEditionsState.loading,
+    error: unauthenticated.getEditionsState.error,
+    editions: unauthenticated.getEditionsState.editions,
 });
 
 const mapDispatchToProps = {
