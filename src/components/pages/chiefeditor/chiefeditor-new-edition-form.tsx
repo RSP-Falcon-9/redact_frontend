@@ -3,6 +3,7 @@ import { Alert, Button, Col, Container, Form, Row, Spinner } from "react-bootstr
 import { connect } from "react-redux";
 import { ApplicationState } from "store/root";
 import { createEditionRequest } from "store/chiefeditor/actions";
+import { dateToFormDate } from "utils/time";
 
 interface PropsFromState {
     loading: boolean;
@@ -102,6 +103,7 @@ class ChiefEditorNewEditionForm extends React.Component<AllProps, ChiefEditorNew
                                     required
                                     type="date"
                                     placeholder="Uzavírka"
+                                    defaultValue={dateToFormDate(this.state.deadline)}
                                     onChange={this.handleChange} />
                             </Form.Group>
                         </Form.Row>

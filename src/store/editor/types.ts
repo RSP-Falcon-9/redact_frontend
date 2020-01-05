@@ -43,7 +43,7 @@ export interface EditorArticle {
     name: string;
     authorId: string;
     versions: ArticleVersion[];
-    edition: number;
+    edition?: number;
 }
 
 export interface Reviewer {
@@ -63,6 +63,7 @@ export interface GetEditorArticleDetailRequest {
 
 export interface GetEditorArticleDetailResponse {
     name: string;
+    edition?: number;
     reviews: EditorArticleReview[];
 }
 
@@ -100,7 +101,7 @@ export interface ChangeArticleStatusResponse extends BaseResponse {
 
 export interface SetArticleEditionResponse extends BaseResponse {
     articleId: string;
-    editionNumber: number;
+    editionNumber?: number;
 }
 
 // states
@@ -145,6 +146,7 @@ export interface GetEditorArticleDetailState {
     readonly message: string;
     readonly error?: string;
     readonly name: string;
+    readonly edition?: number;
     readonly reviews: EditorArticleReviewState[];
 }
 
@@ -209,5 +211,5 @@ export const denyArticleEndpoint = (articleId: string, articleVersion: number): 
     `/deny/${articleId}/${articleVersion}`;
 export const reviewVisibilityEndpoint = (reviewId: string, visibility: boolean): string =>
     `/review/${reviewId}?visibility=${visibility}`;
-export const articleEditionEndpoint = (articleId: string, editionNumber: number): string =>
+export const articleEditionEndpoint = (articleId: string, editionNumber?: number): string =>
     `/set-article-edition/${articleId}?editionNumber=${editionNumber}`;

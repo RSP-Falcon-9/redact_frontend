@@ -24,7 +24,7 @@ type AllProps = PropsFromState & PropsFromDispatch;
 
 interface NewArticleFormState {
     articleName: string;
-    selectedEdition: number;
+    selectedEdition?: number;
     file: File;
 }
 
@@ -64,6 +64,7 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
                     <Form.Label>Výběr vydání:</Form.Label>
                     <Form.Control as="select" onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) =>
                         this.setState({ selectedEdition: parseInt(changeEvent.currentTarget.value, 10) })}>
+                            <option value={-1}>Žádné číslo vydání</option>;
                             {this.props.editions.map((edition, index) => {
                                 return <option key={index} value={edition.id}>{edition.id} ({edition.deadline}) - {edition.description}</option>;
                             })}
@@ -88,7 +89,9 @@ class AuthorNewArticle extends React.Component<AllProps, NewArticleFormState> {
     }
 
     onUploadNewArticleClick() {
-        this.props.createArticleRequest({ name: this.state.articleName, file: this.state.file });
+        this.props.createArticleRequest({ name: this.state.articleName,
+            edition: this.state.selectedEdition,
+            file: this.state.file });
     }
 
     render() {

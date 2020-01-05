@@ -3,6 +3,7 @@ import { Alert, Spinner, ListGroup } from "react-bootstrap";
 import { connect } from "react-redux";
 import { ApplicationState } from "store/root";
 import { getArchivesRequest } from "store/unauthenticated/actions";
+import { archiveDownloadEndpoint } from "store/unauthenticated/types";
 
 interface PropsFromState {
     loading: boolean;
@@ -30,8 +31,8 @@ class ArchivesList extends React.Component<AllProps> {
         }
 
         return <ListGroup>
-            {this.props.archives.map(archive => {
-                return <ListGroup.Item>{archive}</ListGroup.Item>;
+            {this.props.archives.map((archive, index) => {
+                return <ListGroup.Item key={index}><a href={archiveDownloadEndpoint(archive)}>Vydání {archive}</a></ListGroup.Item>;
             })}
         </ListGroup>;
     }

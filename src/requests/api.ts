@@ -3,7 +3,8 @@ import { logout } from "store/auth/actions";
 import { ApplicationState } from "store/root";
 import { UNAUTHENTICATED_ENDPOINT } from "store/unauthenticated/types";
 import { BACKEND_URL } from "utils/constants";
-import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, CHIEF_EDITOR_URL, EDITOR_URL, REVIEWER_URL } from "utils/navigation";
+import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "utils/navigation";
+import { CHIEF_EDITOR_ENDPOINT } from "store/chiefeditor/types";
 
 export enum Method {
     Get = "get",
@@ -88,7 +89,7 @@ export async function callReviewerApi(method: string, path: string, authToken?: 
 }
 
 export async function callChiefEditorApi(method: string, path: string, authToken?: string, data?: any) {
-    return callApi(method, CHIEF_EDITOR_URL + path, authToken, data);
+    return callApi(method, CHIEF_EDITOR_ENDPOINT + path, authToken, data);
 }
 
 export async function callUnauthenticatedApi(method: string, path: string, authToken?: string, data?: any) {

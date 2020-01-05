@@ -1,4 +1,5 @@
 import { BaseResponse } from "requests/base-response";
+import { BACKEND_URL } from "utils/constants";
 
 export enum UnauthenticatedAction {
     GET_EDITIONS = "@@unauthenticated/getEditions",
@@ -54,3 +55,6 @@ export const getEditionsEndpoint = (): string =>
     `/editions`;
 export const getArchivesEndpoint = (): string =>
     `/archives`;
+// this one is used directly by view as download url
+export const archiveDownloadEndpoint = (archive: string): string =>
+    `${BACKEND_URL}${UNAUTHENTICATED_ENDPOINT}/archive/${archive}`;

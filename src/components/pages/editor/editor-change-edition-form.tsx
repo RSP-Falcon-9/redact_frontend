@@ -1,14 +1,14 @@
 import * as React from "react";
-import { Button, Form } from "react-bootstrap";
+import { Button, Form, Col, Row } from "react-bootstrap";
 import { connect } from "react-redux";
 import { setArticleEditionRequest } from "store/editor/actions";
 import { ApplicationState } from "store/root";
 import { getEditionsRequest } from "store/unauthenticated/actions";
 import { Edition } from "store/unauthenticated/types";
-import { EditorArticle } from "store/editor/types";
 
 interface EditorChangeEditionFormProps {
-    article: EditorArticle;
+    articleId: string;
+    articleEdition?: number;
 }
 
 interface PropsFromState {
@@ -25,7 +25,7 @@ interface PropsFromDispatch {
 type AllProps = EditorChangeEditionFormProps & PropsFromState & PropsFromDispatch;
 
 interface EditorSendToReviewerState {
-    selectedEditionNumber: number;
+    selectedEditionNumber?: number;
 }
 
 class EditorChangeEditionForm extends React.Component<AllProps, EditorSendToReviewerState> {
@@ -45,16 +45,21 @@ class EditorChangeEditionForm extends React.Component<AllProps, EditorSendToRevi
                     return;
                 }
 
-                this.props.setArticleEditionRequest(this.props.article.id, this.state.selectedEditionNumber);
+                this.props.setArticleEditionRequest(this.props.articleId, this.state.selectedEditionNumber);
             }}>
-                <Form.Group controlId="articleEdition.change">
-                    <Form.Label>Výběr edice:</Form.Label>
-                    <Form.Control as="select" value={this.props.article.edition.toString(10)} onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) =>
-                        this.setState({ selectedEditionNumber: parseInt(changeEvent.currentTarget.value, 10) })}>
-                            {this.props.editions.map((edition, index) => {
-                                return <option key={index} value={edition.id}>{edition.id} - {edition.description}</option>;
-                            })}
-                    </Form.Control>
+                <span>Současné číslo vydání: {this.props.articleEdition}</span>
+                <Form.Group as={Row} controlId="articleEdition.change">
+                    <Form.Label column sm={2}>Změna čísla vydání:</Form.Label>
+                    <Col sm={6}>
+                        <Form.Control as="select"
+                            onChange={(changeEvent: React.ChangeEvent<HTMLInputElement>) =>
+                                this.setState({ selectedEditionNumber: parseInt(changeEvent.currentTarget.value, 10) })}>
+                                    <option value={-1}>Žádné číslo vydání</option>;
+                                    {this.props.editions.map((edition, index) => {
+                                        return <option key={index} value={edition.id}>{edition.id} - {edition.description}</option>;
+                                    })}
+                        </Form.Control>
+                    </Col>
                 </Form.Group>
                 <Button variant="primary" type="submit">
                     Změnit

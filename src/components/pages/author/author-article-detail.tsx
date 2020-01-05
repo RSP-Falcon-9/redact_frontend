@@ -23,6 +23,7 @@ interface PropsFromState {
     name: string;
     fileUrl?: string;
     reviews: AuthorArticleReview[];
+    edition?: number;
 }
 
 interface PropsFromDispatch {
@@ -70,6 +71,8 @@ class AuthorArticleDetail extends React.Component<AllProps<RouteProps>, AuthorAr
 
         return <>
             <h2>{this.props.name}</h2>
+
+            <p>Číslo vydání: {this.props.edition}</p>
 
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
@@ -120,6 +123,7 @@ const mapStateToProps = ({ author, articles }: ApplicationState) => ({
     loading: author.getArticleDetail.loading,
     error: author.getArticleDetail.error,
     name: author.getArticleDetail.name,
+    edition: author.getArticleDetail.edition,
     fileUrl: articles.getArticleFile.fileUrl,
     reviews: author.getArticleDetail.reviews,
 });

@@ -7,6 +7,7 @@ import { deleteEditionRequest, archiveEditionRequest } from "store/chiefeditor/a
 import ChiefEditorNewEditionModal from "./chiefeditor-new-edition-modal";
 import { getEditionsRequest } from "store/unauthenticated/actions";
 import { Edition } from "store/unauthenticated/types";
+import { dateToFormDate } from "utils/time";
 
 interface PropsFromState {
     loading: boolean;
@@ -67,16 +68,16 @@ class ChiefEditorEditionsTable extends React.Component<AllProps, EditionsTableFo
                         return <tr key={index}>
                             <td>{edition.id}</td>
                             <td>{edition.description}</td>
-                            <td>{edition.deadline}</td>
+                            <td>{dateToFormDate(edition.deadline)}</td>
                             <td>
                                 <Badge variant="info">
                                     {edition.archived ? <FontAwesomeIcon icon="check" /> : <FontAwesomeIcon icon="times" />}
                                 </Badge>
                             </td>
                             <td>
-                                <Button variant="info" className="mr-3 mb-3">
+                                {!edition.archived && <Button variant="info" className="mr-3" onClick={() => this.props.archiveEditionRequest(edition.id)}>
                                     <FontAwesomeIcon icon="archive" />
-                                </Button>
+                                </Button>}
 
                                 <Button variant="danger" onClick={() => this.props.deleteEditionRequest(edition.id)}>
                                     <FontAwesomeIcon icon="trash" />

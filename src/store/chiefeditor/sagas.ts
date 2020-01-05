@@ -26,7 +26,7 @@ function* handleCreateEdition(action: ReturnType<typeof createEditionRequest>) {
 
 function* handleDeleteEdition(action: ReturnType<typeof deleteEditionRequest>) {
     try {
-        const response = yield call(callChiefEditorApi, Method.Post, deleteEditionEndpoint(action.payload),
+        const response = yield call(callChiefEditorApi, Method.Get, deleteEditionEndpoint(action.payload),
             yield getAuthToken());
 
         if (response.error) {
@@ -47,7 +47,7 @@ function* handleDeleteEdition(action: ReturnType<typeof deleteEditionRequest>) {
 
 function* handleArchiveEdition(action: ReturnType<typeof archiveEditionRequest>) {
     try {
-        const response = yield call(callChiefEditorApi, Method.Post, archiveEditionEndpoint(action.payload),
+        const response = yield call(callChiefEditorApi, Method.Get, archiveEditionEndpoint(action.payload),
             yield getAuthToken());
 
         if (response.error) {

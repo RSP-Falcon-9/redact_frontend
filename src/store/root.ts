@@ -14,9 +14,9 @@ import { AuthState } from "./auth/types";
 import { appealReviewStateReducer, createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
-import { archiveEditionStateReducer, createEditionStateReducer, deleteEditionStateReducer, getEditionsStateReducer } from "./chiefeditor/reducers";
+import { archiveEditionStateReducer, createEditionStateReducer, deleteEditionStateReducer } from "./chiefeditor/reducers";
 import { ChiefEditorState } from "./chiefeditor/types";
-import { acceptArticleReducer, denyArticleReducer, getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, setReviewVisibilityReducer } from "./editor/reducers";
+import { acceptArticleReducer, denyArticleReducer, getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, setReviewVisibilityReducer, setArticleEditionStateReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
@@ -24,7 +24,7 @@ import { NavigationState } from "./navigation/types";
 import { getReviewerArticleDetailStateReducer, getReviewerArticlesStateReducer, reviewArticleStateReducer } from "./reviewer/reducers";
 import reviewerSaga from "./reviewer/sagas";
 import { ReviewerState } from "./reviewer/types";
-import { getArchivesStateReducer } from "./unauthenticated/reducers";
+import { getArchivesStateReducer, getEditionsStateReducer } from "./unauthenticated/reducers";
 import unauthenticatedSaga from "./unauthenticated/sagas";
 import { UnauthenticatedState } from "./unauthenticated/types";
 import chiefEditorSaga from "./chiefeditor/sagas";
@@ -73,6 +73,7 @@ export const createRootReducer = (history: History) =>
            acceptArticle: acceptArticleReducer,
            denyArticle: denyArticleReducer,
            setReviewVisibility: setReviewVisibilityReducer,
+           setArticleEdition: setArticleEditionStateReducer,
         }),
         reviewer: combineReducers<ReviewerState>({
             getReviewerArticles: getReviewerArticlesStateReducer,
@@ -81,9 +82,9 @@ export const createRootReducer = (history: History) =>
         }),
         unauthenticated: combineReducers<UnauthenticatedState>({
             archivesState: getArchivesStateReducer,
+            getEditionsState: getEditionsStateReducer,
         }),
         chiefEditor: combineReducers<ChiefEditorState>({
-            getEditionsState: getEditionsStateReducer,
             createEditionState: createEditionStateReducer,
             deleteEditionState: deleteEditionStateReducer,
             archiveEditionState: archiveEditionStateReducer,

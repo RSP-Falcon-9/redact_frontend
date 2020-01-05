@@ -1,7 +1,7 @@
 import { Reducer } from "redux";
 import { ErrorBaseResponse } from "requests/base-response";
-import { ArchivesState, GetArchivesResponse, UnauthenticatedAction, GetEditionsResponse } from "./types";
-import { ChiefEditorActions, GetEditionsState, CreateEditionResponse, DeleteEditionResponse, ArchiveEditionResponse } from "store/chiefeditor/types";
+import { ArchivesState, GetArchivesResponse, UnauthenticatedAction, GetEditionsResponse, GetEditionsState } from "./types";
+import { ChiefEditorActions, CreateEditionResponse, DeleteEditionResponse, ArchiveEditionResponse } from "store/chiefeditor/types";
 
 const initialGetEditionsState: GetEditionsState = {
     loading: false,

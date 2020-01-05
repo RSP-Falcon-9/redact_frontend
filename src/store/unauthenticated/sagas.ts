@@ -5,7 +5,7 @@ import { getArchivesEndpoint, UnauthenticatedAction, getEditionsEndpoint } from 
 
 function* handleGetEditions() {
     try {
-        const response = yield call(callUnauthenticatedApi, Method.Post, getEditionsEndpoint());
+        const response = yield call(callUnauthenticatedApi, Method.Get, getEditionsEndpoint());
 
         if (response.error) {
             console.error("There was error with get editions: " + response.error);
@@ -25,7 +25,7 @@ function* handleGetEditions() {
 
 function* handleGetArchives() {
     try {
-        const response = yield call(callUnauthenticatedApi, Method.Post, getArchivesEndpoint());
+        const response = yield call(callUnauthenticatedApi, Method.Get, getArchivesEndpoint());
 
         if (response.error) {
             console.error("There was error with get archives: " + response.error);

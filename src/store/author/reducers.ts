@@ -187,6 +187,7 @@ const initialGetArticleDetailState: GetArticleDetailState = {
     message: "",
     error: undefined,
     name: "",
+    edition: undefined,
     reviews: [],
 };
 
@@ -223,6 +224,7 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
                 message: detailResponse.message,
                 error: undefined,
                 name: detailResponse.name,
+                edition: detailResponse.edition,
                 reviews: transformedReviews,
             };
         }

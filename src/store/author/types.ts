@@ -41,6 +41,7 @@ export interface Article {
     id: string;
     name: string;
     versions: ArticleVersion[];
+    edition: number;
 }
 
 export interface AuthorArticleVersion {
@@ -54,6 +55,7 @@ export interface AuthorArticle {
     id: string;
     name: string;
     versions: AuthorArticleVersion[];
+    edition: number;
 }
 
 export interface AuthorArticleReview {
@@ -86,6 +88,7 @@ export interface GetArticlesResponse extends BaseResponse {
 
 export interface CreateArticleRequest {
     name: string;
+    edition?: number;
     file: File;
 }
 
@@ -101,6 +104,7 @@ export interface GetArticleDetailRequest {
 
 export interface GetArticleDetailResponse extends BaseResponse {
     name: string;
+    edition: number;
     reviews: AuthorArticleResponse[];
 }
 
@@ -134,6 +138,7 @@ export interface GetArticleDetailState {
     readonly message: string;
     readonly error?: string;
     readonly name: string;
+    readonly edition?: number;
     readonly reviews: AuthorArticleReview[];
 }
 

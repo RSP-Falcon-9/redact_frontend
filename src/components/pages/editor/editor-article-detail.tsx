@@ -10,6 +10,7 @@ import { EditorReviewForm } from "./editor-review-form";
 import { EditorArticleReview } from "store/editor/types";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { ArticleReviewStatus } from "store/reviewer/types";
+import EditorChangeEditionForm from "./editor-change-edition-form";
 
 interface RouteProps {
     id: string;
@@ -20,6 +21,7 @@ interface PropsFromState {
     loading: boolean;
     error?: string;
     name: string;
+    edition?: number;
     fileUrl?: string;
     reviews: EditorArticleReview[];
 }
@@ -56,6 +58,10 @@ class EditorArticleDetail extends React.Component<AllProps<RouteProps>> {
 
         return <>
             <h2>{this.props.name}</h2>
+
+            <div className="mb-3">
+                <EditorChangeEditionForm articleId={this.props.match.params.id} articleEdition={this.props.edition} />
+            </div>
 
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
@@ -96,6 +102,7 @@ const mapStateToProps = ({ editor, articles }: ApplicationState) => ({
     loading: editor.getEditorArticleDetail.loading,
     error: editor.getEditorArticleDetail.error,
     name: editor.getEditorArticleDetail.name,
+    edition: editor.getEditorArticleDetail.edition,
     fileUrl: articles.getArticleFile.fileUrl,
     reviews: editor.getEditorArticleDetail.reviews,
 });
