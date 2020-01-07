@@ -146,7 +146,7 @@ class AdminAddNewUserForm extends React.Component<AllProps, AdminAddNewUserFormS
                                     })}
                                 </Form.Group>
                             </Form.Row>
-                            <Button variant="primary" type="submit" className="mb-3 float-right">Přidat nového uživatele</Button>
+                            <Button variant="success" type="submit" className="mb-3 float-right">Přidat nového uživatele</Button>
                             {loading && (<Spinner animation="border" variant="primary" />)}
                             {errors && (<Alert variant="danger">Momentálně nelze přidat uživatele.</Alert>)}
                         </Form>

@@ -107,7 +107,7 @@ class ChiefEditorNewEditionForm extends React.Component<AllProps, ChiefEditorNew
                                     onChange={this.handleChange} />
                             </Form.Group>
                         </Form.Row>
-                        <Button variant="primary" type="submit" className="mb-3 float-right">Přidat nové vydání</Button>
+                        <Button variant="success" type="submit" className="mb-3 float-right">Přidat nové vydání</Button>
                         {loading && (<Spinner animation="border" variant="primary" />)}
                         {errors && (<Alert variant="danger">Momentálně nelze přidat nové vydání.</Alert>)}
                     </Form>

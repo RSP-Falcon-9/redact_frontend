@@ -39,7 +39,7 @@ class AuthorUpdateArticle extends React.Component<AllProps, NewArticleFormState>
                         }
                     }} />
                 </Form.Group>
-                <Button variant="primary" className="mt-3 mb-3" onClick={() => this.onUploadNewArticleClick()}>
+                <Button variant="success" className="mt-3 mb-3" onClick={() => this.onUploadNewArticleClick()}>
                     Nahrát &amp; požádat o recenzi
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}

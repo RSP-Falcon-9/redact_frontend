@@ -125,7 +125,7 @@ class AuthorArticlesTable extends React.Component<AllProps, AuthorArticlesTableS
                     </Dropdown.Menu>
                 </Dropdown>
                 {sortedVersions[0].status === ArticleVersionStatus.DENIED && (
-                    <Button variant="primary" className="ml-3" onClick={() => this.setState({
+                    <Button variant="success" className="ml-3" onClick={() => this.setState({
                         showModal: true,
                         articleId: article.id,
                         articleName: article.name,

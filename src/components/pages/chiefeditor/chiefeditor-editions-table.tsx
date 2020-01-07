@@ -49,7 +49,7 @@ class ChiefEditorEditionsTable extends React.Component<AllProps, EditionsTableFo
         }
 
         return <>
-            <Button variant="primary" className="mt-3 mb-3"
+            <Button variant="success" className="mt-3 mb-3"
                 onClick={() => this.setState({ addEditionModalActive: true })}>
                 <FontAwesomeIcon icon="plus" className="mr-1" /> Přidat nové vydání
             </Button>

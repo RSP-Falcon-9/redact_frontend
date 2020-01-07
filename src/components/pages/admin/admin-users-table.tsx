@@ -53,8 +53,8 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
         }
 
         return <>
-            <Button variant="primary" className="mt-3 mb-3" onClick={() => this.setState({ addUserModalActive: true })}>
-                <FontAwesomeIcon icon="plus" />
+            <Button variant="success" className="mt-3 mb-3" onClick={() => this.setState({ addUserModalActive: true })}>
+                <FontAwesomeIcon icon="plus" /> Přidat nového uživatele
             </Button>
             <Table striped bordered hover>
                 <thead>

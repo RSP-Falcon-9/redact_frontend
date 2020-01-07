@@ -60,7 +60,7 @@ class ArticleDetail extends React.Component<AllProps<RouteProps>> {
 
             {this.props.fileUrl && <embed src={this.props.fileUrl} type="application/pdf" width="100%" height="600px" />}
 
-            <Button variant="primary" className="mt-3 mb-3" onClick={() => this.onDownloadClick()}>
+            <Button variant="success" className="mt-3 mb-3" onClick={() => this.onDownloadClick()}>
                 Stáhnout poslední verzi (DATUM)
             </Button>
             <br />

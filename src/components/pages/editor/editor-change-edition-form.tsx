@@ -61,7 +61,7 @@ class EditorChangeEditionForm extends React.Component<AllProps, EditorSendToRevi
                         </Form.Control>
                     </Col>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="success" type="submit">
                     Změnit
                 </Button>
             </Form>

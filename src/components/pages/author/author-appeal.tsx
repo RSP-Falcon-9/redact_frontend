@@ -38,7 +38,7 @@ class AuthorAppeal extends React.Component<AllProps, NewArticleFormState> {
                             });
                         }} />
                 </Form.Group>
-                <Button variant="primary" className="mt-3 mb-3" onClick={() => this.onAppealClick()}>
+                <Button variant="success" className="mt-3 mb-3" onClick={() => this.onAppealClick()}>
                     Odeslat námitku
                 </Button>
             </Form>

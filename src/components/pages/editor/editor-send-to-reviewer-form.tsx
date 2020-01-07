@@ -74,7 +74,7 @@ class EditorSendToReviewer extends React.Component<AllProps, EditorSendToReviewe
                             })}
                     </Form.Control>
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="success" type="submit">
                     Odeslat
                 </Button>
             </Form>

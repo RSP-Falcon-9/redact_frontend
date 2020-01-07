@@ -89,7 +89,7 @@ class ReviewerReviewForm extends React.Component<AllProps, ReviewerReviewFormSta
                             });
                         }} />
                 </Form.Group>
-                <Button variant="primary" type="submit">
+                <Button variant="success" type="submit">
                     Odeslat recenzi
                 </Button>
                 {loading && (<Spinner animation="border" variant="primary" />)}

@@ -1,5 +1,5 @@
 import * as React from "react";
-import { Button, Col, Container, Image, Modal, Row } from "react-bootstrap";
+import { Button, Col, Container, Modal, Row } from "react-bootstrap";
 import { User } from "store/admin/types";
 import { RolesMapping } from "utils/constants";
 
@@ -25,15 +25,12 @@ export default class AdminUserInfoModal extends React.Component<AdminUserInfoMod
                 onHide={this.props.onModalClose}>
                 <Modal.Header closeButton>
                     <Modal.Title>
-                        Uživatel {this.props.user.userName}
+                        Uživatel <b>{this.props.user.userName}</b>
                     </Modal.Title>
                 </Modal.Header>
                 <Modal.Body>
                     <Container>
                         <Row>
-                            <Col>
-                                <Image src={process.env.PUBLIC_URL + "/images/defaultAvatar.png"} width="250" height="250" rounded />
-                            </Col>
                             <Col>
                                 <h3>Práva</h3>
                                 <ul>
