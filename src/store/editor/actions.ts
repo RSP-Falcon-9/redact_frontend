@@ -7,7 +7,8 @@ import {
     GetReviewersResponse,
     SetReviewerToArticleRequest,
     SetReviewVisibilityResponse,
-    ChangeArticleStatusResponse} from "./types";
+    ChangeArticleStatusResponse,
+    SetArticleEditionResponse} from "./types";
 import { ErrorBaseResponse } from "requests/base-response";
 
 export const getEditorArticlesRequest = () => action(EditorAction.GET_ARTICLES);
@@ -37,3 +38,7 @@ export const denyArticleError = (errorResponse: ErrorBaseResponse) => action(Edi
 export const setReviewVisibilityRequest = (reviewId: string, visibility: boolean) => action(EditorAction.SET_REVIEW_VISIBILITY, {reviewId, visibility});
 export const setReviewVisibilitySuccess = (response: SetReviewVisibilityResponse) => action(EditorAction.SET_REVIEW_VISIBILITY_SUCCESS, response);
 export const setReviewVisibilityError = (errorResponse: ErrorBaseResponse) => action(EditorAction.SET_REVIEW_VISIBILITY_ERROR, errorResponse);
+
+export const setArticleEditionRequest = (articleId: string, editionNumber?: number) => action(EditorAction.SET_ARTICLE_EDITION, {articleId, editionNumber});
+export const setArticleEditionSuccess = (response: SetArticleEditionResponse) => action(EditorAction.SET_ARTICLE_EDITION_SUCCESS, response);
+export const setArticleEditionError = (errorResponse: ErrorBaseResponse) => action(EditorAction.SET_ARTICLE_EDITION_ERROR, errorResponse);

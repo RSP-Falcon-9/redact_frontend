@@ -133,6 +133,10 @@ export const createArticleStateReducer: Reducer<CreateArticleState> =
                 error: createArticleError.error,
             };
         }
+        // Probably workaround to fix strange behaviour.
+        case AuthorAction.GET_ARTICLES: {
+            return initialCreateArticleState;
+        }
         default: {
             return state;
         }
@@ -187,6 +191,7 @@ const initialGetArticleDetailState: GetArticleDetailState = {
     message: "",
     error: undefined,
     name: "",
+    edition: undefined,
     reviews: [],
 };
 
@@ -223,6 +228,7 @@ export const getAuthorArticleDetailStateReducer: Reducer<GetArticleDetailState> 
                 message: detailResponse.message,
                 error: undefined,
                 name: detailResponse.name,
+                edition: detailResponse.edition,
                 reviews: transformedReviews,
             };
         }

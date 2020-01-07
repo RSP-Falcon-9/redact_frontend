@@ -1,8 +1,10 @@
-import { select, put } from "redux-saga/effects";
+import { put, select } from "redux-saga/effects";
+import { logout } from "store/auth/actions";
 import { ApplicationState } from "store/root";
+import { UNAUTHENTICATED_ENDPOINT } from "store/unauthenticated/types";
 import { BACKEND_URL } from "utils/constants";
 import { ADMIN_URL, ARTICLE_URL, AUTHOR_URL, EDITOR_URL, REVIEWER_URL } from "utils/navigation";
-import { logout } from "store/auth/actions";
+import { CHIEF_EDITOR_ENDPOINT } from "store/chiefeditor/types";
 
 export enum Method {
     Get = "get",
@@ -86,17 +88,13 @@ export async function callReviewerApi(method: string, path: string, authToken?: 
     return callApi(method, REVIEWER_URL + path, authToken, data);
 }
 
-/*export async function callAdminApiMultipart(method: string, path: string, data: any, authToken?: string) {
-    return callApiMultipart(method, ADMIN_URL + path, data, authToken);
+export async function callChiefEditorApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, CHIEF_EDITOR_ENDPOINT + path, authToken, data);
 }
 
-export async function callClientApi(method: string, path: string, authToken?: string, data?: any) {
-    return callApi(method, CLIENT_URL + path, authToken, data);
+export async function callUnauthenticatedApi(method: string, path: string, authToken?: string, data?: any) {
+    return callApi(method, UNAUTHENTICATED_ENDPOINT + path, authToken, data);
 }
-
-export async function callClientApiRaw(method: string, path: string, authToken?: string, data?: any) {
-    return callApiBlob(method, CLIENT_URL + path, authToken, data);
-}*/
 
 // TODO: Invalidate token upon expiration.
 export function* getAuthTokenTEST() {

@@ -14,7 +14,9 @@ import {
     EditorArticleReviewState,
     SetReviewVisibilityResponse,
     EditorArticleState,
-    ChangeArticleStatusResponse} from "./types";
+    ChangeArticleStatusResponse,
+    SetArticleEditionState,
+    SetArticleEditionResponse} from "./types";
 import { BaseResponse, ErrorBaseResponse } from "requests/base-response";
 import { ArticleReviewStatus } from "store/reviewer/types";
 import { ArticleVersionStatus } from "store/author/types";
@@ -185,6 +187,7 @@ export const getEditorArticleDetailStateReducer: Reducer<GetEditorArticleDetailS
                 message: action.payload.message,
                 error: undefined,
                 name: detailResponse.name,
+                edition: detailResponse.edition,
                 reviews: transformedReviews,
             };
         }
@@ -403,7 +406,7 @@ export const setReviewVisibilityReducer: Reducer<SetReviewVisibilityState> =
             };
         }
         case EditorAction.SET_REVIEW_VISIBILITY_SUCCESS: {
-            const setVisibilitySuccess = action.payload as BaseResponse;
+            const setVisibilitySuccess = action.payload as SetReviewVisibilityResponse;
 
             return {
                 ...state,
@@ -420,6 +423,48 @@ export const setReviewVisibilityReducer: Reducer<SetReviewVisibilityState> =
                 loading: false,
                 message: setVisibilityError.message,
                 error: setVisibilityError.error,
+            };
+        }
+        default: {
+            return state;
+        }
+    }
+};
+
+const initialSetArticleEditionState: SetArticleEditionState = {
+    loading: false,
+    message: "",
+    error: undefined,
+};
+
+export const setArticleEditionStateReducer: Reducer<SetArticleEditionState> =
+    (state = initialSetArticleEditionState, action): SetArticleEditionState => {
+    switch (action.type) {
+        case EditorAction.SET_ARTICLE_EDITION: {
+            return {
+                ...state,
+                loading: true,
+                error: undefined,
+            };
+        }
+        case EditorAction.SET_ARTICLE_EDITION_SUCCESS: {
+            const success = action.payload as SetArticleEditionResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: success.message,
+                error: undefined,
+            };
+        }
+        case EditorAction.SET_ARTICLE_EDITION_ERROR: {
+            const error = action.payload as ErrorBaseResponse;
+
+            return {
+                ...state,
+                loading: false,
+                message: error.message,
+                error: error.error,
             };
         }
         default: {

@@ -1,5 +1,6 @@
-import * as React from "react";
 import { TemplatePage } from "components/pages/template/template-page";
+import * as React from "react";
+import { ListGroup } from "react-bootstrap";
 
 export class HomePage extends React.Component<{}> {
 
@@ -32,28 +33,28 @@ export class HomePage extends React.Component<{}> {
             </p>
 
             <h2>Šéfredaktor</h2>
-            <ul className="list-group mb-3">
-                <li className="list-group-item">doc. Ing. Zdeněk Horák, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
-            </ul>
+            <ListGroup className="mb-3">
+                <ListGroup.Item>doc. Ing. Zdeněk Horák, Ph.D. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+            </ListGroup>
 
             <h2>Redakční rada</h2>
-            <ul className="list-group mb-3">
-                <li className="list-group-item">prof. PhDr. RNDr. Martin Boltižiar, PhD. (Univerzita Konštantína Filozofa v Nitre)</li>
-                <li className="list-group-item">prof. RNDr. Helena Brožová, CSc. (Česká zemědělská univerzita v Praze)</li>
-                <li className="list-group-item">doc. PhDr. Lada Cetlová, PhD. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">prof. Mgr. Ing. Martin Dlouhý, Dr. MSc. (Vysoká škola ekonomická v Praze)</li>
-                <li className="list-group-item">prof. Ing. Tomáš Dostál, DrSc. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">doc. Ing. Jiří Dušek, Ph.D. (Vysoká škola evropských a regionálních studií)</li>
-                <li className="list-group-item">doc. RNDr. Petr Gurka, CSc. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">Ing. Veronika Hedija, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">doc. Ing. Zdeněk Horák, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">Ing. Ivica Linderová, PhD. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">prof. MUDr. Aleš Roztočil, CSc. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">doc. PhDr. David Urban, Ph.D. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">doc. Dr. Ing. Jan Voráček, CSc. (Vysoká škola polytechnická Jihlava)</li>
-                <li className="list-group-item">RNDr. PaedDr. Ján Veselovský, PhD. (Univerzita Konštantína Filozofa v Nitre)</li>
-                <li className="list-group-item">doc. Ing. Libor Žídek, Ph.D. (Masarykova univerzita Brno)</li>
-            </ul>
+            <ListGroup className="mb-3">
+                <ListGroup.Item>prof. PhDr. RNDr. Martin Boltižiar, PhD. (Univerzita Konštantína Filozofa v Nitre)</ListGroup.Item>
+                <ListGroup.Item>prof. RNDr. Helena Brožová, CSc. (Česká zemědělská univerzita v Praze)</ListGroup.Item>
+                <ListGroup.Item>doc. PhDr. Lada Cetlová, PhD. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>prof. Mgr. Ing. Martin Dlouhý, Dr. MSc. (Vysoká škola ekonomická v Praze)</ListGroup.Item>
+                <ListGroup.Item>prof. Ing. Tomáš Dostál, DrSc. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>doc. Ing. Jiří Dušek, Ph.D. (Vysoká škola evropských a regionálních studií)</ListGroup.Item>
+                <ListGroup.Item>doc. RNDr. Petr Gurka, CSc. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>Ing. Veronika Hedija, Ph.D. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>doc. Ing. Zdeněk Horák, Ph.D. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>Ing. Ivica Linderová, PhD. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>prof. MUDr. Aleš Roztočil, CSc. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>doc. PhDr. David Urban, Ph.D. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>doc. Dr. Ing. Jan Voráček, CSc. (Vysoká škola polytechnická Jihlava)</ListGroup.Item>
+                <ListGroup.Item>RNDr. PaedDr. Ján Veselovský, PhD. (Univerzita Konštantína Filozofa v Nitre)</ListGroup.Item>
+                <ListGroup.Item>doc. Ing. Libor Žídek, Ph.D. (Masarykova univerzita Brno)</ListGroup.Item>
+            </ListGroup>
 
             <h2>O systému Redact</h2>
             <p>

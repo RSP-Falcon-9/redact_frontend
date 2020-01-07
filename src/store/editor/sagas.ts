@@ -19,7 +19,10 @@ import {
     getEditorArticleDetailSuccess,
     setReviewVisibilityRequest,
     setReviewVisibilityError,
-    setReviewVisibilitySuccess} from "./actions";
+    setReviewVisibilitySuccess,
+    setArticleEditionRequest,
+    setArticleEditionError,
+    setArticleEditionSuccess} from "./actions";
 import {
     EditorAction,
     GET_ARTICLES_URL,
@@ -27,7 +30,8 @@ import {
     assignReviewerEndpoint,
     acceptArticleEndpoint,
     denyArticleEndpoint,
-    reviewVisibilityEndpoint} from "./types";
+    reviewVisibilityEndpoint,
+    articleEditionEndpoint} from "./types";
 import { editorArticleDetailEndpoint } from "store/editor/types";
 
 // requests
@@ -177,6 +181,30 @@ function* handleSetReviewVisibility(action: ReturnType<typeof setReviewVisibilit
     }
 }
 
+function* handleSetArticleEdition(action: ReturnType<typeof setArticleEditionRequest>) {
+    try {
+        const response = yield call(callEditorApi, Method.Get,
+            articleEditionEndpoint(action.payload.articleId, action.payload.editionNumber), yield getAuthToken());
+
+        if (response.error) {
+            console.error(`There was error setting article edition: ${response.error}`);
+            yield put(setArticleEditionError(response));
+        } else {
+            yield put(setArticleEditionSuccess({
+                articleId: action.payload.articleId,
+                editionNumber: action.payload.editionNumber,
+                message: response.message }));
+        }
+    } catch (error) {
+        if (error instanceof Error) {
+            console.error(`There was error setting article edition: ${error.stack}`);
+            yield put(setArticleEditionError({ error: error.name, message: error.message }));
+        } else {
+            yield put(setArticleEditionError({ error: "There was an unknown error.", message: "" }));
+        }
+    }
+}
+
 // watchers
 
 function* watchGetArticlesRequest() {
@@ -207,6 +235,10 @@ function* watchSetReviewVisibility() {
     yield takeLatest(EditorAction.SET_REVIEW_VISIBILITY, handleSetReviewVisibility);
 }
 
+function* watchSetArticleEdition() {
+    yield takeLatest(EditorAction.SET_ARTICLE_EDITION, handleSetArticleEdition);
+}
+
 // merge
 
 function* editorSaga() {
@@ -218,6 +250,7 @@ function* editorSaga() {
         fork(watchHandleAcceptArticle),
         fork(watchHandleDenyArticle),
         fork(watchSetReviewVisibility),
+        fork(watchSetArticleEdition),
     ]);
 }
 

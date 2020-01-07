@@ -72,12 +72,12 @@ class AdminUsersTable extends React.Component<AllProps, AdminUsersFormState> {
                                         userInfoModalActive: true,
                                         selectedUser: user,
                                 })}>
-                                    <FontAwesomeIcon icon="info" />
+                                    <FontAwesomeIcon icon="info" className="mr-1" /> Informace
                                 </Button>
 
                                 <Button variant="danger" disabled={user.userName === this.props.currentUserName}
                                     onClick={() => this.props.deleteUserRequest(user.userName)}>
-                                    <FontAwesomeIcon icon="trash" />
+                                    <FontAwesomeIcon icon="trash" className="mr-1" /> Smazat
                                 </Button>
                             </td>
                         </tr>;

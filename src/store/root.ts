@@ -11,10 +11,12 @@ import { ArticleState } from "./articles/types";
 import { authReducer } from "./auth/reducers";
 import authSaga from "./auth/sagas";
 import { AuthState } from "./auth/types";
-import { createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer, appealReviewStateReducer } from "./author/reducers";
+import { appealReviewStateReducer, createArticleStateReducer, getAuthorArticleDetailStateReducer, getAuthorArticlesStateReducer, updateArticleStateReducer } from "./author/reducers";
 import authorSaga from "./author/sagas";
 import { AuthorState } from "./author/types";
-import { getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, acceptArticleReducer, denyArticleReducer, setReviewVisibilityReducer } from "./editor/reducers";
+import { archiveEditionStateReducer, createEditionStateReducer, deleteEditionStateReducer } from "./chiefeditor/reducers";
+import { ChiefEditorState } from "./chiefeditor/types";
+import { acceptArticleReducer, denyArticleReducer, getEditorArticleDetailStateReducer, getEditorArticlesStateReducer, getReviewersStateReducer, setReviewerToArticleStateReducer, setReviewVisibilityReducer, setArticleEditionStateReducer } from "./editor/reducers";
 import editorSaga from "./editor/sagas";
 import { EditorState } from "./editor/types";
 import { navigationReducer } from "./navigation/reducers";
@@ -22,6 +24,10 @@ import { NavigationState } from "./navigation/types";
 import { getReviewerArticleDetailStateReducer, getReviewerArticlesStateReducer, reviewArticleStateReducer } from "./reviewer/reducers";
 import reviewerSaga from "./reviewer/sagas";
 import { ReviewerState } from "./reviewer/types";
+import { getArchivesStateReducer, getEditionsStateReducer } from "./unauthenticated/reducers";
+import unauthenticatedSaga from "./unauthenticated/sagas";
+import { UnauthenticatedState } from "./unauthenticated/types";
+import chiefEditorSaga from "./chiefeditor/sagas";
 
 export interface ApplicationState {
     readonly auth: AuthState;
@@ -31,6 +37,8 @@ export interface ApplicationState {
     readonly author: AuthorState;
     readonly editor: EditorState;
     readonly reviewer: ReviewerState;
+    readonly unauthenticated: UnauthenticatedState;
+    readonly chiefEditor: ChiefEditorState;
     readonly router: any;
 }
 
@@ -65,11 +73,21 @@ export const createRootReducer = (history: History) =>
            acceptArticle: acceptArticleReducer,
            denyArticle: denyArticleReducer,
            setReviewVisibility: setReviewVisibilityReducer,
+           setArticleEdition: setArticleEditionStateReducer,
         }),
         reviewer: combineReducers<ReviewerState>({
             getReviewerArticles: getReviewerArticlesStateReducer,
             getReviewerArticleDetail: getReviewerArticleDetailStateReducer,
             reviewArticle: reviewArticleStateReducer,
+        }),
+        unauthenticated: combineReducers<UnauthenticatedState>({
+            archivesState: getArchivesStateReducer,
+            getEditionsState: getEditionsStateReducer,
+        }),
+        chiefEditor: combineReducers<ChiefEditorState>({
+            createEditionState: createEditionStateReducer,
+            deleteEditionState: deleteEditionStateReducer,
+            archiveEditionState: archiveEditionStateReducer,
         }),
         router: connectRouter(history),
     });
@@ -82,5 +100,7 @@ export function* rootSaga() {
         fork(authorSaga),
         fork(editorSaga),
         fork(reviewerSaga),
+        fork(unauthenticatedSaga),
+        fork(chiefEditorSaga),
     ]);
 }
