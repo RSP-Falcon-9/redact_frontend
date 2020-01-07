@@ -19,7 +19,8 @@ import * as React from "react";
 import { Provider } from "react-redux";
 import { Route, Switch } from "react-router-dom";
 import { PersistGate } from "redux-persist/integration/react";
-import Navigation, { ARCHIVES_URL, HOME_URL } from "utils/navigation";
+import Navigation, { ARCHIVES_URL, HOME_URL, MANUAL_URL } from "utils/navigation";
+import { ManualPage } from 'components/pages/unauthorized/manual-page';
 
 interface ReduxWindow extends Window {
     initialReduxState: any;
@@ -60,6 +61,7 @@ function App() {
                     <Switch>
                         <Route exact path={HOME_URL} component={HomePage} />
                         <Route exact path={ARCHIVES_URL} component={ArchivePage} />
+                        <Route exact path={MANUAL_URL} component={ManualPage} />
 
                         {navigation.rolePaths.map((rolePath, index) => {
                             return <PrivilegedRoute key={"privileged_route_" + index} exact path={rolePath.path} component={rolePath.component} role={rolePath.role} />;

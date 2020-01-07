@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { Path } from "store/navigation/types";
 import { ApplicationState } from "store/root";
 import { RolesMapping } from "utils/constants";
-import { HOME_URL, ARCHIVES_URL } from "utils/navigation";
+import { HOME_URL, ARCHIVES_URL, MANUAL_URL } from "utils/navigation";
 
 interface PropsFromState {
     authRoles: string[];
@@ -33,6 +33,7 @@ class TemplateNavbar extends React.Component<PropsFromState> {
                                 })}
                             </NavDropdown>;
                         })}
+                        <Nav.Link href={MANUAL_URL}>Návod k obsluze</Nav.Link>
                     </Nav>
                 </Navbar.Collapse>
             </Navbar>

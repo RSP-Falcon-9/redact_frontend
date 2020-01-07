@@ -4,6 +4,7 @@ import { navigationAddUrl } from "store/navigation/actions";
 
 export const HOME_URL = "/";
 export const ARCHIVES_URL = "/archives";
+export const MANUAL_URL = "/manual";
 export const AUTH_URL = "/login";
 export const ARTICLE_URL = "/article";
 export const ADMIN_URL = "/admin";
