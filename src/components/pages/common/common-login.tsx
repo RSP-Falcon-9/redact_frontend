@@ -79,7 +79,7 @@ class Login extends React.Component<AllProps, LoginState> {
                 </Row>
             </Form>) : (
                 <div className="text-right" >
-                    <span className="mr-3">Vítejte, {this.props.userName}</span>
+                    <span className="mr-3">Přihlášen jako <b>{this.props.userName}</b></span>
                     <Button variant="primary" size="sm" onClick={() => {
                             this.props.logout();
                         }}>

@@ -51,7 +51,7 @@ class ChiefEditorEditionsTable extends React.Component<AllProps, EditionsTableFo
         return <>
             <Button variant="primary" className="mt-3 mb-3"
                 onClick={() => this.setState({ addEditionModalActive: true })}>
-                <FontAwesomeIcon icon="plus" />
+                <FontAwesomeIcon icon="plus" className="mr-1" /> Přidat nové vydání
             </Button>
             <Table striped bordered hover>
                 <thead>
@@ -76,11 +76,11 @@ class ChiefEditorEditionsTable extends React.Component<AllProps, EditionsTableFo
                             </td>
                             <td>
                                 {!edition.archived && <Button variant="info" className="mr-3" onClick={() => this.props.archiveEditionRequest(edition.id)}>
-                                    <FontAwesomeIcon icon="archive" />
+                                    <FontAwesomeIcon icon="archive" className="mr-1" /> Archivovat
                                 </Button>}
 
                                 <Button variant="danger" onClick={() => this.props.deleteEditionRequest(edition.id)}>
-                                    <FontAwesomeIcon icon="trash" />
+                                    <FontAwesomeIcon icon="trash" className="mr-1" /> Smazat
                                 </Button>
                             </td>
                         </tr>;

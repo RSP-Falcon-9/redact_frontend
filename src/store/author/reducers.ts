@@ -133,6 +133,10 @@ export const createArticleStateReducer: Reducer<CreateArticleState> =
                 error: createArticleError.error,
             };
         }
+        // Probably workaround to fix strange behaviour.
+        case AuthorAction.GET_ARTICLES: {
+            return initialCreateArticleState;
+        }
         default: {
             return state;
         }

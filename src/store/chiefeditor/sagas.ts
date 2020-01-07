@@ -26,14 +26,14 @@ function* handleCreateEdition(action: ReturnType<typeof createEditionRequest>) {
 
 function* handleDeleteEdition(action: ReturnType<typeof deleteEditionRequest>) {
     try {
-        const response = yield call(callChiefEditorApi, Method.Get, deleteEditionEndpoint(action.payload),
+        const response = yield call(callChiefEditorApi, Method.Delete, deleteEditionEndpoint(action.payload),
             yield getAuthToken());
 
         if (response.error) {
             console.error("There was error with delete edition: " + response.error);
             yield put(deleteEditionError(response.error));
         } else {
-            yield put(deleteEditionSuccess(response));
+            yield put(deleteEditionSuccess({editionId: action.payload, message: response.message}));
         }
     } catch (error) {
         if (error instanceof Error) {
@@ -54,7 +54,7 @@ function* handleArchiveEdition(action: ReturnType<typeof archiveEditionRequest>)
             console.error("There was error with archive edition: " + response.error);
             yield put(archiveEditionError(response.error));
         } else {
-            yield put(archiveEditionSuccess(response));
+            yield put(archiveEditionSuccess({editionId: action.payload, message: response.message}));
         }
     } catch (error) {
         if (error instanceof Error) {
