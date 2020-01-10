@@ -100,7 +100,7 @@ přidáte vydání do kterého mohou autoři přidávat nové články. V tabulc
 zobrazuje přehled vydání s názvy sloupců <i>Číslo, Popis, Datum, Archivováno? a Akce.</i> <i>Číslo</i> označuje vydání a 
 generuje se automaticky. <i>Popis</i> se nedá změnit. <i>Datum</i> je nastaven podle uzavírky vydání. <i>Archivováno</i> 
 nám ukazuje, zda je vydání v archivu či ne pomocí znaku "křížku a fajfky". Sloupec <i>Akce</i> umožňuje archivovat vydání
-či smazat vydání pomocí tlačítek <i><b>"Archivovat a Smazat"</b></i>.
+    či smazat vydání pomocí tlačítek <i><b>"Archivovat a Smazat"</b></i>.</p>
         </>;
     }
 
